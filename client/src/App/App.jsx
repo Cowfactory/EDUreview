@@ -6,8 +6,9 @@ import {
 } from 'react-router-dom';
 import TestPage from '../pages/TestPage/TestPage';
 import HomePage from '../pages/HomePage/HomePage';
-import './App.css';
 import FormPage from '../pages/FormPage/FormPage';
+import ReviewsPage from '../pages/ReviewsPage/ReviewsPage';
+import './App.css';
 
 class App extends Component {
     render() {
@@ -17,7 +18,8 @@ class App extends Component {
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route path="/test/" component={TestPage} />
-                        <Route path="/page/" component={FormPage} />
+                        <Route path="/form/" component={FormPage} />
+                        <Route path="/reviews/" component={ReviewsPage} />
                         {/* <Route path="/*" component={404Page} */}
                     </Switch>
                 </Router>

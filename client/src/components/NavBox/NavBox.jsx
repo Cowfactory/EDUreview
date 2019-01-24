@@ -12,6 +12,12 @@ function NavBox(props) {
                 <li>
                     <Link to="/test">Test Page</Link>
                 </li>
+                <li>
+                    <Link to="/form">The Form Page</Link>
+                </li>
+                <li>
+                    <Link to="/reviews">The Reviews Page</Link>
+                </li>
             </ul>
         </div>
     )
