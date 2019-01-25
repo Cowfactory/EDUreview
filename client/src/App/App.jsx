@@ -24,15 +24,15 @@ class App extends Component {
         return (
             <div className="App">
                 <Router>
-                    <Switch>
-                        <AppProvider value={this.state}>    
+                    <AppProvider value={this.state}>    
+                        <Switch>
                             <Route exact path="/" component={HomePage} />
                             <Route path="/test/" component={TestPage} />
                             <Route path="/form/" component={FormPage} />
                             <Route path="/reviews/" component={ReviewsPage} />
-                            {/* <Route component={PageNotFoundPage} />   */}
-                        </AppProvider>
-                    </Switch>
+                            <Route component={PageNotFoundPage} />  
+                        </Switch>
+                    </AppProvider>
                 </Router>
             </div>
         );
