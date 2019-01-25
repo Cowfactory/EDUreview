@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NavBox from '../../components/NavBox/NavBox';
+import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
 class FormPage extends Component {
     constructor(props) {
@@ -36,8 +36,7 @@ class FormPage extends Component {
 
     render() {
         return (
-            <div>
-                <NavBox />
+            <PageTemplate>
                 <form onSubmit={this.handleSubmit}>
                     <input type="text" 
                         value={this.state.textValue}
@@ -45,7 +44,7 @@ class FormPage extends Component {
                     </input>
                     <input type="submit" value="Submit" />
                 </form>
-            </div>
+            </PageTemplate>
         )
     }
 }

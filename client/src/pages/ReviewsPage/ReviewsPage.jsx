@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NavBox from '../../components/NavBox/NavBox';
+import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
 class ReviewsPage extends Component {
 
@@ -15,7 +15,7 @@ class ReviewsPage extends Component {
         fetch('/api/reviews')
         .then(response => response.json())
         .then((data) => {
-            console.log(data);
+            // console.log(data);
             this.setState({ 
                 reviewsList: data
             })
@@ -24,12 +24,11 @@ class ReviewsPage extends Component {
 
     render() {
         return (
-            <div>
-                <NavBox />
+            <PageTemplate>
                 <ul>
                     { this.state.reviewsList.map((review, idx) => <li key={idx}>{ review.review }</li>) }
                 </ul>
-            </div>
+            </PageTemplate>
         )
     }
 }

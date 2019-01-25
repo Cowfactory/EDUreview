@@ -1,12 +1,11 @@
 import React from 'react';
-import NavBox from '../../components/NavBox/NavBox';
+import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
 function HomePage(props) {
     return (
-        <div>
-            <NavBox/>
+        <PageTemplate >
             <h1>Home Page</h1>
-        </div>
+        </PageTemplate>
     )
 }
 

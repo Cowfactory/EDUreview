@@ -1,5 +1,5 @@
 import React from 'react';
-import NavBox from '../../components/NavBox/NavBox';
+import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
 class TestPage extends React.Component {
     constructor(props) {
@@ -11,11 +11,10 @@ class TestPage extends React.Component {
     
     render() {
         return (
-            <>
-                <NavBox/>
+            <PageTemplate>
                 <h1>Test Page</h1>
                 <p>formerly {this.state.name}'s page</p>
-            </>
+            </PageTemplate>
         )
     }
 }

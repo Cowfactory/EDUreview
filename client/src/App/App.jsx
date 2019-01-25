@@ -4,23 +4,34 @@ import {
     Switch,
     Route,
 } from 'react-router-dom';
+import './App.css';
 import TestPage from '../pages/TestPage/TestPage';
 import HomePage from '../pages/HomePage/HomePage';
 import FormPage from '../pages/FormPage/FormPage';
 import ReviewsPage from '../pages/ReviewsPage/ReviewsPage';
-import './App.css';
+import PageNotFoundPage from '../pages/PageNotFoundPage/PageNotFoundPage';
+import { AppProvider } from './AppContext';
 
 class App extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            isUserLoggedIn: false
+        }
+    }
+
     render() {
         return (
             <div className="App">
                 <Router>
                     <Switch>
-                        <Route exact path="/" component={HomePage} />
-                        <Route path="/test/" component={TestPage} />
-                        <Route path="/form/" component={FormPage} />
-                        <Route path="/reviews/" component={ReviewsPage} />
-                        {/* <Route path="/*" component={404Page} */}
+                        <AppProvider value={this.state}>    
+                            <Route exact path="/" component={HomePage} />
+                            <Route path="/test/" component={TestPage} />
+                            <Route path="/form/" component={FormPage} />
+                            <Route path="/reviews/" component={ReviewsPage} />
+                            {/* <Route component={PageNotFoundPage} />   */}
+                        </AppProvider>
                     </Switch>
                 </Router>
             </div>
