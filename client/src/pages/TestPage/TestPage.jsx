@@ -12,9 +12,9 @@ class TestPage extends React.Component {
     render() {
         return (
             <>
+                <NavBox/>
                 <h1>Test Page</h1>
                 <p>formerly {this.state.name}'s page</p>
-                <NavBox/>
             </>
         )
     }
