@@ -11,6 +11,10 @@ import FormPage from '../pages/FormPage/FormPage';
 import ReviewsPage from '../pages/ReviewsPage/ReviewsPage';
 import PageNotFoundPage from '../pages/PageNotFoundPage/PageNotFoundPage';
 import { AppProvider } from './AppContext';
+import AddProgramPage from '../pages/AddProgramPage/AddProgramPage';
+import AddInstitutionPage from '../pages/AddInstitutionPage/AddInstitution';
+import BrowseProgramsPage from '../pages/BrowseProgramsPage/BrowseProgramsPage';
+import BrowseInstitutionsPage from '../pages/BrowseInstitutionsPage/BrowseInstitutionsPage';
 
 class App extends Component {
     constructor(props) {
@@ -30,6 +34,10 @@ class App extends Component {
                             <Route path="/test/" component={TestPage} />
                             <Route path="/form/" component={FormPage} />
                             <Route path="/reviews/" component={ReviewsPage} />
+                            <Route path="/add-program" component={AddProgramPage} />
+                            <Route path="/add-institution" component={AddInstitutionPage} />
+                            <Route path="/programs" component={BrowseProgramsPage} />
+                            <Route path="/institutions" component={BrowseInstitutionsPage} />
                             <Route component={PageNotFoundPage} />  
                         </Switch>
                     </AppProvider>
