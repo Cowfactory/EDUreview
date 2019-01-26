@@ -8,16 +8,28 @@ function NavBar(props) {
         <div className="NavBar">
             <ul>
                 <li>
-                    <Link to="/">Home Page</Link>
+                    <Link to="/">Home</Link>
                 </li>
                 <li>
-                    <Link to="/test">Test Page</Link>
+                    <Link to="/test">Test</Link>
                 </li>
                 <li>
                     <Link to="/form">The Form Page</Link>
                 </li>
                 <li>
                     <Link to="/reviews">The Reviews Page</Link>
+                </li>
+                <li>
+                    <Link to="/add-program">Add A Program</Link>
+                </li>
+                <li>
+                    <Link to="/add-institution">Add an Institution</Link>
+                </li>
+                <li>
+                    <Link to="/programs">Browse Programs</Link>
+                </li>
+                <li>
+                    <Link to="/institutions">Browse Insitutions</Link>
                 </li>
             </ul>
             <ul>

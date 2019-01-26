@@ -3,6 +3,9 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 
+// Get env variables
+require('dotenv').config()
+
 // Init db connection
 require('./config/db');
 
@@ -24,7 +27,6 @@ app.use(express.static(path.join(__dirname, 'client', 'build')));
 // const router = express.Router();
 
 // TODO - abstract db logic to separate files
-var mongoose = require('mongoose');
 var Review = require('./models/Review');
 
 // TODO #2 : add api endpoint
