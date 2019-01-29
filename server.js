@@ -23,32 +23,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(favicon(path.join(__dirname, 'client', 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-// Initialize Express Route
-// const router = express.Router();
-
-// TODO - abstract db logic to separate files
-var Review = require('./models/Review');
-
-// TODO #2 : add api endpoint
-app.post('/api/reviews', (req, res) => {
-    console.log("we're at the reviews endpoint");
-    console.log(req.body.textValue);
-
-    // Add a new review to the db
-    let review = new Review({
-        review: req.body.textValue
-    })
-    review.save();
-    res.send("ok");
-});
-
-app.get('/api/reviews', (req, res) => {
-    let allReviews;
-    Review.find({}, function(err, result){
-        allReviews = result;
-        res.send(JSON.stringify(allReviews));
-    });  
-});
+// Mount API routes
+app.use('/api/reviews', require('/routes/api/reviews'));
+app.use('/api/programs', require('/routes/api/programs'));
+app.use('/api/institutions', require('/routes/api/institutions'));
 
 // Catch-all route - Send react app
 app.get('/*', (req, res) => {
