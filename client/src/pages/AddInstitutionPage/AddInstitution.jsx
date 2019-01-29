@@ -9,9 +9,9 @@ class AddInstitutionPage extends React.Component {
             name: '',
             websiteURL: ''
         }
-        handleURLChange = this.handleURLChange.bind(this)
-        handleNameChange = this.handleNameChange.bind(this)
-        handleSubmit = this.handleSubmit.bind(this)
+        this.handleURLChange = this.handleURLChange.bind(this)
+        this.handleNameChange = this.handleNameChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleURLChange = (evt) => {
