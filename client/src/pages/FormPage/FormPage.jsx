@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
+import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
 class FormPage extends Component {
     constructor(props) {
@@ -36,12 +37,15 @@ class FormPage extends Component {
 
     render() {
         return (
-            <FormTemplate onSubmit={this.handleSubmit}>
-                <input type="text" 
-                    value={this.state.textValue}
-                    onChange={this.handleChange} >
-                </input>
-            </FormTemplate>
+            <PageTemplate>
+                <h1>This is page</h1>
+                <FormTemplate onSubmit={this.handleSubmit}>
+                    <input type="text" 
+                        value={this.state.textValue}
+                        onChange={this.handleChange} >
+                    </input>
+                </FormTemplate>
+            </PageTemplate>
         )
     }
 }
