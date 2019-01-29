@@ -3,7 +3,7 @@ import './FormTemplate.css';
 
 function FormTemplate(props) {
     return (
-        <form className="FormTemplate" {...props.children} >
+        <form className="FormTemplate" {...props} >
             {props.children}
             <input type="submit" value="Submit" />
         </form>

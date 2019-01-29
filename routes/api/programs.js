@@ -1,4 +1,4 @@
-const router = express.Router();
+const router = require('express').Router();
 const Program = require('../../models/Program');
 
 /* --- Adds a new program to db -- */
