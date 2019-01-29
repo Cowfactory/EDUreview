@@ -1,4 +1,8 @@
 import React from 'react';
+import { 
+    Link,
+    Redirect
+} from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 
@@ -7,7 +11,8 @@ class AddInstitutionPage extends React.Component {
         super(props)
         this.state = {
             name: '',
-            websiteURL: ''
+            websiteURL: '',
+            redirect: false
         }
         this.handleURLChange = this.handleURLChange.bind(this)
         this.handleNameChange = this.handleNameChange.bind(this)
@@ -28,12 +33,30 @@ class AddInstitutionPage extends React.Component {
 
     handleSubmit = (evt) => {
         evt.preventDefault()
+        fetch('/api/institutions', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: this.state.name,
+                websiteURL: this.state.websiteURL
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then( _ => {
+            this.setState({
+                redirect: true
+            })
+        })
     }
 
     render() {
+        const redirect = this.state.redirect;
+        if(redirect) return <Redirect to="/institutions"></Redirect>
         return (
             <PageTemplate>
                 <h1>Add New Institution to EDUreview</h1>
+                <Link to="/institutions">Browse all institutions</Link>
                 <FormTemplate onSubmit={this.handleSubmit}>
                     <label>
                         Institution Name:
