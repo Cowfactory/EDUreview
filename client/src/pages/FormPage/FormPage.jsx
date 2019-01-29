@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import PageTemplate from '../../templates/PageTemplate/PageTemplate';
+import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 
 class FormPage extends Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             textValue: "this is the initial text"
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange = function(event) {
@@ -36,15 +36,12 @@ class FormPage extends Component {
 
     render() {
         return (
-            <PageTemplate>
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text" 
-                        value={this.state.textValue}
-                        onChange={this.handleChange} >
-                    </input>
-                    <input type="submit" value="Submit" />
-                </form>
-            </PageTemplate>
+            <FormTemplate onSubmit={this.handleSubmit}>
+                <input type="text" 
+                    value={this.state.textValue}
+                    onChange={this.handleChange} >
+                </input>
+            </FormTemplate>
         )
     }
 }

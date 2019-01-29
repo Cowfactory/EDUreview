@@ -1,0 +1,11 @@
+.FormTemplate {
+    display: flex;
+    flex-direction: column;
+
+    border: 1px dotted black;
+
+}
+
+.FormTemplate input {
+    width: 10%;
+}
