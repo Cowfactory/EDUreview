@@ -10,7 +10,7 @@ router.post('/', (req, res) => {
     res.send("ok");
 });
 
-/* --- Adds a new review to db -- */
+/* --- Gets all reviews from db -- */
 router.get('/', (req, res) => {
     let allReviews;
     Review.find({}, function(err, result){
