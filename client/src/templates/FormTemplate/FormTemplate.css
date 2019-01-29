@@ -1,11 +1,16 @@
 .FormTemplate {
+    width: 50%;
+    margin: 0 auto;
+    padding: 0.5%;
+    box-shadow: 10px 5px 2px grey;
     display: flex;
-    flex-direction: column;
-
-    border: 1px dotted black;
+    flex-direction: column; 
+    border: 1px solid black;
 
 }
 
 .FormTemplate input {
-    width: 10%;
+    width: 25%;
+    margin: 0 auto;
+    margin-bottom: 0.5%;
 }
