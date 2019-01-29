@@ -15,19 +15,19 @@ class AddInstitutionPage extends React.Component {
     }
 
     handleURLChange = (evt) => {
-        this.changeState({
+        this.setState({
             websiteURL: evt.target.value
         })
     }
 
     handleNameChange = (evt) => {
-        this.changeState({
+        this.setState({
             name: evt.target.value
         })
     }
 
     handleSubmit = (evt) => {
-        //
+        evt.preventDefault()
     }
 
     render() {
