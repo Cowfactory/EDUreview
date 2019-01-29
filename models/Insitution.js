@@ -8,6 +8,6 @@ var institutionSchema = new Schema({
     timestamps: true
 });
 
-var Instituion = mongoose.model('Instituion', institutionSchema);
+var Instituion = mongoose.model('Institution', institutionSchema);
 
 module.exports = Instituion;
