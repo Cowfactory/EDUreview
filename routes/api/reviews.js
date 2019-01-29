@@ -1,5 +1,5 @@
-const router = express.Router();
-const Review = require('./models/Review');
+const router = require('express').Router();
+const Review = require('../../models/Review');
 
 /* --- Adds a new review to db -- */
 router.post('/', (req, res) => {

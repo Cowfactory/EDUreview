@@ -1,12 +1,12 @@
 const router = require('express').Router();
-const Program = require('../../models/Program');
+const User = require('../../models/User');
 
-/* --- Adds a new program to db -- */
+/* --- Adds a new user to db -- */
 router.post('/', (req, res) => {
 
 });
 
-/* --- Gets all programs from db -- */
+/* --- Gets all users from db -- */
 router.get('/', (req, res) => {
  
 });

@@ -2,18 +2,26 @@ import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 
-class AddProgramPage extends Component{
+class AddProgramPage extends React.Component{
     constructor(props) {
         super(props)
         this.state = {
+            programInstitutionName: '',
             programName: '',
             programTypes: [],
             programLocations: []
         }
-        this.programName = this.handleProgramNameChange.bind(this)
-        this.programTypes = this.handleProgramTypesChange.bind(this)
-        this.programLocations = this.handleProgramLocationsChange.bind(this)
+        this.handleProgramInstitutionNameChange = this.handleProgramInstitutionNameChange.bind(this)
+        this.handleProgramNameChange = this.handleProgramNameChange.bind(this)
+        this.handleProgramTypesChange = this.handleProgramTypesChange.bind(this)
+        this.handleProgramLocationsChange = this.handleProgramLocationsChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+    handleProgramInstitutionNameChange = function(event) {
+        this.setState({
+            programInstitutionName: event.target.value
+        })
     }
 
     handleProgramNameChange = function(event) {
@@ -29,7 +37,7 @@ class AddProgramPage extends Component{
     }
     handleProgramLocationsChange = function(event) {
         this.setState({
-            programTypes: event.target.value
+            programLocations: event.target.value
         })
     }
 
@@ -57,7 +65,45 @@ class AddProgramPage extends Component{
             <PageTemplate >
                 <h1>Add New Program to EDUreview</h1>
                 <FormTemplate onSubmit = {this.handleSubmit}>
+                <label>
+                    Institution Name:
+                    <input 
+                        type="text"
+                        name="institutionName" 
+                        value={this.state.programInstitutionName}
+                        onChange={this.handleProgramInstitutionNameChange} >
+                    </input>
+                </label>
 
+                <label>
+                    Program Name:
+                    <input 
+                        type="text"
+                        name="programName" 
+                        value={this.state.programName}
+                        onChange={this.handleProgramNameChange} >
+                    </input>
+                </label>
+
+                <label>
+                    Program Types:
+                    <input 
+                        type="text"
+                        name="programTypes" 
+                        value={this.state.programTypes}
+                        onChange={this.handleProgramTypesChange} >
+                    </input>
+                </label>
+
+                <label>
+                    Program Locations:
+                    <input 
+                        type="text"
+                        name="programLocations" 
+                        value={this.state.programLocations}
+                        onChange={this.handleProgramLocationsChange} >
+                    </input>
+                </label>
                 </FormTemplate>
             </PageTemplate>
         )

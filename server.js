@@ -24,9 +24,9 @@ app.use(favicon(path.join(__dirname, 'client', 'build', 'favicon.ico')));
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 // Mount API routes
-app.use('/api/reviews', require('/routes/api/reviews'));
-app.use('/api/programs', require('/routes/api/programs'));
-app.use('/api/institutions', require('/routes/api/institutions'));
+app.use('/api/reviews', require('./routes/api/reviews'));
+app.use('/api/programs/', require('./routes/api/programs'));
+app.use('/api/institutions', require('./routes/api/institutions'));
 
 // Catch-all route - Send react app
 app.get('/*', (req, res) => {
