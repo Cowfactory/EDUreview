@@ -12,7 +12,7 @@ import ReviewsPage from '../pages/ReviewsPage/ReviewsPage';
 import PageNotFoundPage from '../pages/PageNotFoundPage/PageNotFoundPage';
 import { AppProvider } from './AppContext';
 import AddProgramPage from '../pages/AddProgramPage/AddProgramPage';
-import AddInstitutionPage from '../pages/AddInstitutionPage/AddInstitution';
+import AddInstitutionPage from '../pages/AddInstitutionPage/AddInstitutionPage';
 import BrowseProgramsPage from '../pages/BrowseProgramsPage/BrowseProgramsPage';
 import BrowseInstitutionsPage from '../pages/BrowseInstitutionsPage/BrowseInstitutionsPage';
 
