@@ -1,5 +1,6 @@
 import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
+import ProgramDetails from '../../components/ProgramDetails/ProgramDetails';
 
 class BrowseProgramsPage extends React.Component {
     constructor(props) {
@@ -27,12 +28,12 @@ class BrowseProgramsPage extends React.Component {
             <PageTemplate >
                 <h1>Programs Search Results</h1>
                 {this.state.programs.map( (item, idx) => (
-                    <div key={idx}>
-                        <p>INSTITUTION: {item.institutionName}</p>
-                        <p>NAME: {item.name}</p>
-                        <p>TYPES: {item.types}</p>
-                        <p>LOCATIONS: {item.locations}</p>
-                    </div>
+                    <ProgramDetails
+                        institutionName={item.institutionName}
+                        name={item.name}
+                        types={item.types}
+                        locations={item.locations} >
+                    </ProgramDetails>
                 ))}
             </PageTemplate>
         )
