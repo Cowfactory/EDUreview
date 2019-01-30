@@ -11,19 +11,10 @@ function NavBar(props) {
                     <Link to="/">Home</Link>
                 </li>
                 <li>
-                    <Link to="/test">Test</Link>
-                </li>
-                <li>
                     <Link to="/form">The Form Page</Link>
                 </li>
                 <li>
                     <Link to="/reviews">The Reviews Page</Link>
-                </li>
-                <li>
-                    <Link to="/add-program">Add A Program</Link>
-                </li>
-                <li>
-                    <Link to="/add-institution">Add an Institution</Link>
                 </li>
                 <li>
                     <Link to="/programs">Browse Programs</Link>

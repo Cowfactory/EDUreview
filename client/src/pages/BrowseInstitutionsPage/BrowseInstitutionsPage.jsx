@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
 class BrowseInstitutionsPage extends React.Component {
@@ -26,6 +27,7 @@ class BrowseInstitutionsPage extends React.Component {
         return (
             <PageTemplate >
                 <h1>Institution Search Results</h1>
+                <Link to="/add-institution">Add an Institution</Link>
                 {this.state.institutions.map( (item, idx) => (
                     <div key={idx}>
                         <p>NAME: {item.name}</p>

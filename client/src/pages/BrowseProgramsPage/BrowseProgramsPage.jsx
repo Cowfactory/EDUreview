@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import ProgramDetails from '../../components/ProgramDetails/ProgramDetails';
 
@@ -27,6 +28,7 @@ class BrowseProgramsPage extends React.Component {
         return (
             <PageTemplate >
                 <h1>Programs Search Results</h1>
+                <Link to="/add-program">Add a Program</Link>
                 {this.state.programs.map( (item, idx) => (
                     <ProgramDetails
                         institutionName={item.institutionName}
