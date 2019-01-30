@@ -1,4 +1,8 @@
 import React from 'react';
+import { 
+    Link,
+    Redirect
+} from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 
@@ -9,7 +13,8 @@ class AddProgramPage extends React.Component{
             programInstitutionName: '',
             programName: '',
             programTypes: [],
-            programLocations: []
+            programLocations: [],
+            redirect: false
         }
         this.handleProgramInstitutionNameChange = this.handleProgramInstitutionNameChange.bind(this)
         this.handleProgramNameChange = this.handleProgramNameChange.bind(this)
@@ -48,10 +53,20 @@ class AddProgramPage extends React.Component{
 
         fetch('/api/programs', {
             method: 'POST',
-            body: JSON.stringify(this.state),
+            body: JSON.stringify({
+                programInstitutionName: this.state.programInstitutionName,
+                programName: this.state.programName,
+                programTypes: this.state.programTypes,
+                programLocations: this.state.programLocations
+            }),
             headers: {
                 'Content-Type': 'application/json'
             }
+        })
+        .then( _ => {
+            this.setState({
+                redirect: true
+            })
         })
         // .then(res => res.json())
         // .then(response => console.log('Success:', JSON.stringify(response)))
@@ -61,9 +76,12 @@ class AddProgramPage extends React.Component{
 
 
     render(){
+        const redirect = this.state.redirect;
+        if(redirect) return <Redirect to="/programs"></Redirect>
         return (
             <PageTemplate >
                 <h1>Add New Program to EDUreview</h1>
+                <Link to="/programs">Browse all programs</Link>
                 <FormTemplate onSubmit = {this.handleSubmit}>
                 <label>
                     Institution Name:
