@@ -15,7 +15,7 @@ class BrowseInstitutionsPage extends React.Component {
         this.setState({ institutions: data })
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch('/api/institutions')  
         .then(response => response.json())
         .then(data => {

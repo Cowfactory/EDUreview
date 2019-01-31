@@ -5,7 +5,6 @@ import {
     Route,
 } from 'react-router-dom';
 import './App.css';
-import TestPage from '../pages/TestPage/TestPage';
 import HomePage from '../pages/HomePage/HomePage';
 import FormPage from '../pages/FormPage/FormPage';
 import ReviewsPage from '../pages/ReviewsPage/ReviewsPage';
@@ -15,6 +14,7 @@ import AddProgramPage from '../pages/AddProgramPage/AddProgramPage';
 import AddInstitutionPage from '../pages/AddInstitutionPage/AddInstitutionPage';
 import BrowseProgramsPage from '../pages/BrowseProgramsPage/BrowseProgramsPage';
 import BrowseInstitutionsPage from '../pages/BrowseInstitutionsPage/BrowseInstitutionsPage';
+import ProgramDetailsPage from '../pages/ProgramDetailsPage/ProgramDetailsPage';
 
 class App extends Component {
     constructor(props) {
@@ -33,10 +33,12 @@ class App extends Component {
                             <Route exact path="/" component={HomePage} />
                             <Route path="/form/" component={FormPage} />
                             <Route path="/reviews/" component={ReviewsPage} />
+                            <Route exact path="/programs" component={BrowseProgramsPage} />
+                            <Route path="/programs/:id" component={ProgramDetailsPage} />
                             <Route path="/add-program" component={AddProgramPage} />
+                            <Route exact path="/institutions" component={BrowseInstitutionsPage} />
+                            <Route path="/institutions/:id"  />
                             <Route path="/add-institution" component={AddInstitutionPage} />
-                            <Route path="/programs" component={BrowseProgramsPage} />
-                            <Route path="/institutions" component={BrowseInstitutionsPage} />
                             <Route component={PageNotFoundPage} />  
                         </Switch>
                     </AppProvider>

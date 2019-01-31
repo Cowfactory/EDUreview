@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
-import ProgramDetails from '../../components/ProgramDetails/ProgramDetails';
+import ProgramListEntry from '../../components/ProgramListEntry/ProgramListEntry';
 
 class BrowseProgramsPage extends React.Component {
     constructor(props) {
@@ -16,7 +16,7 @@ class BrowseProgramsPage extends React.Component {
         this.setState({ programs: data })
     }
 
-    componentWillMount() {
+    componentDidMount() {
         fetch('/api/programs')  
         .then(response => response.json())
         .then(data => {
@@ -30,12 +30,15 @@ class BrowseProgramsPage extends React.Component {
                 <h1>Programs Search Results</h1>
                 <Link to="/add-program">Add a Program</Link>
                 {this.state.programs.map( (item, idx) => (
-                    <ProgramDetails
+                    <ProgramListEntry
+                        key={idx}
                         institutionName={item.institutionName}
                         name={item.name}
                         types={item.types}
-                        locations={item.locations} >
-                    </ProgramDetails>
+                        locations={item.locations}
+                        programId={item._id} 
+                        >
+                    </ProgramListEntry>
                 ))}
             </PageTemplate>
         )
