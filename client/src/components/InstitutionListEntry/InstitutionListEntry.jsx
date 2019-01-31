@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './InstitutionDetails.css';
+import './InstitutionListEntry.css';
 
-function InstitutionDetails(props) {
+function InstitutionListEntry(props) {
     return (
         <Link to={`/institutions/${props.institutionId}`}>
-            <div className='InstitutionDetails'>
+            <div className='InstitutionListEntry'>
                 <h1>{props.name}</h1>
-                <body>Website: {props.website}</body>
+                <p>Website: {props.website}</p>
             </div>
         </Link>
     )
 }
 
-export default InstitutionDetails;
+export default InstitutionListEntry;

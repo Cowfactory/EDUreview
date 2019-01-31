@@ -15,6 +15,7 @@ import AddInstitutionPage from '../pages/AddInstitutionPage/AddInstitutionPage';
 import BrowseProgramsPage from '../pages/BrowseProgramsPage/BrowseProgramsPage';
 import BrowseInstitutionsPage from '../pages/BrowseInstitutionsPage/BrowseInstitutionsPage';
 import ProgramDetailsPage from '../pages/ProgramDetailsPage/ProgramDetailsPage';
+import InstitutionDetailsPage from '../pages/InstitutionDetailsPage/InstitutionDetailsPage';
 
 class App extends Component {
     constructor(props) {
@@ -37,7 +38,7 @@ class App extends Component {
                             <Route path="/programs/:id" component={ProgramDetailsPage} />
                             <Route path="/add-program" component={AddProgramPage} />
                             <Route exact path="/institutions" component={BrowseInstitutionsPage} />
-                            <Route path="/institutions/:id"  />
+                            <Route path="/institutions/:id" component={InstitutionDetailsPage} />
                             <Route path="/add-institution" component={AddInstitutionPage} />
                             <Route component={PageNotFoundPage} />  
                         </Switch>
