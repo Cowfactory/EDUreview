@@ -5,9 +5,6 @@ var programSchema = new Schema({
     insitutionId: {
         type: Schema.Types.ObjectId, ref: 'Instituion'
     },
-    reviews: [{
-        type: Schema.Types.ObjectId, ref: 'Review'
-    }],
     name: String,
     types: [String],
     locations: [String]
