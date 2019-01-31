@@ -6,8 +6,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import HomePage from '../pages/HomePage/HomePage';
-import FormPage from '../pages/FormPage/FormPage';
-import ReviewsPage from '../pages/ReviewsPage/ReviewsPage';
+import CreateReviewPage from '../pages/CreateReviewPage/CreateReviewPage';
 import PageNotFoundPage from '../pages/PageNotFoundPage/PageNotFoundPage';
 import { AppProvider } from './AppContext';
 import AddProgramPage from '../pages/AddProgramPage/AddProgramPage';
@@ -32,10 +31,9 @@ class App extends Component {
                     <AppProvider value={this.state}>    
                         <Switch>
                             <Route exact path="/" component={HomePage} />
-                            <Route path="/form/" component={FormPage} />
-                            <Route path="/reviews/" component={ReviewsPage} />
                             <Route exact path="/programs" component={BrowseProgramsPage} />
-                            <Route path="/programs/:id" component={ProgramDetailsPage} />
+                            <Route exact path="/programs/:id" component={ProgramDetailsPage} />
+                            <Route path="/programs/:id/createreview" component={CreateReviewPage} />
                             <Route path="/add-program" component={AddProgramPage} />
                             <Route exact path="/institutions" component={BrowseInstitutionsPage} />
                             <Route path="/institutions/:id" component={InstitutionDetailsPage} />

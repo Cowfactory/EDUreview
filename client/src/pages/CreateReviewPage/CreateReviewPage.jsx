@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
-class FormPage extends Component {
+class CreateReviewPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -18,11 +18,9 @@ class FormPage extends Component {
         })
     }
     handleSubmit = function(event) {
-        //AJAX send the form data to our API endpoint on our server
-        //POST some data - ie the data in the form
         event.preventDefault();
 
-        fetch('/api/reviews', {
+        fetch(`/api/reviews/${this.props.match.params.id}`, {
             method: 'POST',
             body: JSON.stringify(this.state),
             headers: {
@@ -50,4 +48,4 @@ class FormPage extends Component {
     }
 }
 
-export default FormPage;
+export default CreateReviewPage;

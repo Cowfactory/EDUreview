@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
 class ProgramDetailsPage extends React.Component {
@@ -25,6 +26,11 @@ class ProgramDetailsPage extends React.Component {
             <PageTemplate>
                 <h1>These are the program details for:</h1>
                 <h2>{ this.state.name }</h2>
+
+                <Link to={`/programs/${this.props.match.params.id}/createreview`}>
+                    Create a review for this program
+                </Link>
+                
                 <p>{ this.state.institutionName }</p>
                 <p>{ this.state.types }</p>
                 <p>{ this.state.locations }</p>
