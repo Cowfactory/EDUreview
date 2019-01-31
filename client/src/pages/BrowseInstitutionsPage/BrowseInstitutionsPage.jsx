@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
-
+import InstitutionDetails from '../../components/InstitutionDetails/InstitutionDetails';
 class BrowseInstitutionsPage extends React.Component {
     constructor(props) {
         super(props)
@@ -29,10 +29,12 @@ class BrowseInstitutionsPage extends React.Component {
                 <h1>Institution Search Results</h1>
                 <Link to="/add-institution">Add an Institution</Link>
                 {this.state.institutions.map( (item, idx) => (
-                    <div key={idx}>
-                        <p>NAME: {item.name}</p>
-                        <p>WEBSITE: {item.website}</p>
-                    </div>
+                    <InstitutionDetails 
+                        key={idx} 
+                        name={item.name} 
+                        website={item.website}
+                        institutionId={item._id}> 
+                    </InstitutionDetails>
                 ))}
             </PageTemplate>
         )
