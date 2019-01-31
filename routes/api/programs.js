@@ -30,4 +30,17 @@ router.get('/', (req, res) => {
     });  
 });
 
+/* --- Gets one program from db --- */
+router.get('/:id', (req, res) => {
+    Program.findById(req.params.id).exec((err, result) => {
+        if(err) {
+            res.status(500).send({
+                msg: "Internal Error"
+            })
+            return err;
+        }
+        res.status(200).send(JSON.stringify(result));
+    });  
+});
+
 module.exports = router;

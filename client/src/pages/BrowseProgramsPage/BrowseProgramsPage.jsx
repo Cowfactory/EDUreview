@@ -36,8 +36,7 @@ class BrowseProgramsPage extends React.Component {
                         name={item.name}
                         types={item.types}
                         locations={item.locations}
-                        programId={item._id} 
-                        >
+                        programId={item._id} >
                     </ProgramListEntry>
                 ))}
             </PageTemplate>
