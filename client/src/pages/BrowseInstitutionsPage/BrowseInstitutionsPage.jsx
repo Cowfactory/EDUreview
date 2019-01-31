@@ -1,6 +1,6 @@
 import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
-
+import InstitutionDetails from '../../components/InstitutionDetails/InstitutionDetails';
 class BrowseInstitutionsPage extends React.Component {
     constructor(props) {
         super(props)
@@ -27,10 +27,12 @@ class BrowseInstitutionsPage extends React.Component {
             <PageTemplate >
                 <h1>Institution Search Results</h1>
                 {this.state.institutions.map( (item, idx) => (
-                    <div key={idx}>
-                        <p>NAME: {item.name}</p>
-                        <p>WEBSITE: {item.website}</p>
-                    </div>
+                    <InstitutionDetails 
+                        key={idx} 
+                        name={item.name} 
+                        website={item.website}
+                        institutionId={item._id}> 
+                    </InstitutionDetails>
                 ))}
             </PageTemplate>
         )
