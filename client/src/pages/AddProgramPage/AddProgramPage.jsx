@@ -10,17 +10,42 @@ class AddProgramPage extends React.Component{
     constructor(props) {
         super(props)
         this.state = {
-            programInstitutionName: '', // ToDo: change institution name string to a selectable dropdown for institution ID
+            institutionsList: [],
+            selectedInstitutionId: '',
             programName: '',
             programTypes: [],
             programLocations: [],
             redirect: false
         }
         this.handleProgramInstitutionNameChange = this.handleProgramInstitutionNameChange.bind(this)
+        this.handleSelectedInstitutionIdChange = this.handleSelectedInstitutionIdChange.bind(this)
         this.handleProgramNameChange = this.handleProgramNameChange.bind(this)
         this.handleProgramTypesChange = this.handleProgramTypesChange.bind(this)
         this.handleProgramLocationsChange = this.handleProgramLocationsChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+    componentDidMount() {
+        fetch('/api/institutions')  
+        .then(response => response.json())
+        .then(data => {
+            let reducedArr = data.map( item => {
+                return {
+                    id: item._id,
+                    name: item.name
+                }
+            })
+            this.setState({
+                institutionsList: reducedArr,
+                selectedInstitutionId: reducedArr[0].name   
+            });
+        })
+    }
+
+    handleSelectedInstitutionIdChange = function(event) {
+        this.setState({
+            selectedInstitutionId: event.target.value
+        })
     }
 
     handleProgramInstitutionNameChange = function(event) {
@@ -54,6 +79,7 @@ class AddProgramPage extends React.Component{
         fetch('/api/programs', {
             method: 'POST',
             body: JSON.stringify({
+                selectedInstitutionId: this.state.selectedInstitutionId,
                 programName: this.state.programName,
                 programTypes: this.state.programTypes,
                 programLocations: this.state.programLocations
@@ -83,13 +109,12 @@ class AddProgramPage extends React.Component{
                 <Link to="/programs">Browse all programs</Link>
                 <FormTemplate onSubmit = {this.handleSubmit}>
                 <label>
-                    Institution Name:
-                    <input 
-                        type="text"
-                        name="institutionName" 
-                        value={this.state.programInstitutionName}
-                        onChange={this.handleProgramInstitutionNameChange} >
-                    </input>
+                    Institution:
+                    <select value={this.state.selectedInstitutionId} onChange={this.handleSelectedInstitutionIdChange}>
+                        {this.state.institutionsList.map((inst, idx) =>
+                            <option key={idx} value={inst.id}>{inst.name}</option>
+                        )};
+                    </select>
                 </label>
 
                 <label>
