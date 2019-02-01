@@ -36,6 +36,15 @@ programSchema.methods.addReview = function(review) {
     this.reviews.push(newReview);
 }
 
+const Institution = require('./Institution')
+programSchema.methods.updateCorrespondingInstitution = function(institutionId, programId) {
+    Institution.findById(institutionId, (err, institution) => {
+        console.log(this);
+        // institution.programs.push(this)
+    })
+}
+
+
 var Program = mongoose.model('Program', programSchema);
 
 module.exports = Program;
