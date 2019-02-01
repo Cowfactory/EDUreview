@@ -9,7 +9,8 @@ class ProgramDetailsPage extends React.Component {
             name: '',
             institutionName: '',
             types: [],
-            locations: []
+            locations: [],
+            reviews: []
         }
     }
 
@@ -35,6 +36,13 @@ class ProgramDetailsPage extends React.Component {
                 <p>{ this.state.types }</p>
                 <p>{ this.state.locations }</p>
                 {/* All reviews down here */}
+                {/* {this.state.reviews.map((review, idx) => {
+                    <p key={idx}>{review.review}</p>
+                })} */}
+
+                {
+                    this.state.reviews.map( review => <p> {review.review} </p>)
+                }
             </PageTemplate>
         )
     }

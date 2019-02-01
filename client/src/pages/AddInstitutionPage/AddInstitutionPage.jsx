@@ -51,8 +51,7 @@ class AddInstitutionPage extends React.Component {
     }
 
     render() {
-        const redirect = this.state.redirect;
-        if(redirect) return <Redirect to="/institutions"></Redirect>
+        if(this.state.redirect) return <Redirect to="/institutions"></Redirect>
         return (
             <PageTemplate>
                 <h1>Add New Institution to EDUreview</h1>

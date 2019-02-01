@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 var institutionSchema = new Schema({
     name: String,
-    website: String
+    website: String,
+    programs: []
 }, {
     timestamps: true
 });

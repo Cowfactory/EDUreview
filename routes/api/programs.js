@@ -4,7 +4,7 @@ const Program = require('../../models/Program');
 /* --- Adds a new program to db --- */
 router.post('/', (req, res) => {
     let program = new Program({
-        institutionName: req.body.programInstitutionName,
+        reviews: [],
         name: req.body.programName,
         types: req.body.programTypes,
         locations: req.body.programLocations
@@ -32,15 +32,42 @@ router.get('/', (req, res) => {
 
 /* --- Gets one program from db --- */
 router.get('/:id', (req, res) => {
-    Program.findById(req.params.id).exec((err, result) => {
-        if(err) {
-            res.status(500).send({
-                msg: "Internal Error"
-            })
-            return err;
-        }
-        res.status(200).send(JSON.stringify(result));
-    });  
+    Program.findById(req.params.id).populate('reviews')
+        .exec((err, program) => {
+            if(err) {
+                res.status(500).send({
+                    msg: "Internal Error"
+                })
+                return err;
+            }
+            res.status(200).send(JSON.stringify(program));
+        });
 });
 
+/* --- Add a review to a program in db --- */
+router.post('/:id/reviews', (req, res) => {
+    Program.findById(req.params.id)
+        .populate()
+        .exec((err, program) => {  
+            program.addReview(req.body.review);
+            // console.log(program.reviews);  
+
+            // let arr = program.reviews;
+            // arr.push(req.body.review);  
+            // program.reviews = arr;
+
+            // console.log(program.reviews);  
+
+            program.save(err => {
+                res.status(200).send(JSON.stringify(program));
+            })
+        })  
+})
+
+// if(err) {
+//     res.status(500).send({
+//         msg: "Internal Error"
+//     })
+//     return err;
+// }
 module.exports = router;

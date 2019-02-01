@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
@@ -6,6 +7,7 @@ class CreateReviewPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            redirect: false,
             textValue: "this is the initial text"
         }
         this.handleChange = this.handleChange.bind(this)
@@ -19,14 +21,24 @@ class CreateReviewPage extends Component {
     }
     handleSubmit = function(event) {
         event.preventDefault();
+        
+        let payload = {
+            // programId: this.props.match.params.id,
+            userId: null, //ToDo: implement user ID ref,
+            review: this.state.textValue
+        }
 
-        fetch(`/api/reviews/${this.props.match.params.id}`, {
+        fetch(`/api/programs/${this.props.match.params.id}/reviews`, {
             method: 'POST',
-            body: JSON.stringify(this.state),
+            body: JSON.stringify(payload),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
+        .then( _ => {
+            this.setState({ redirect: true });
+        })
+
         // .then(res => res.json())
         // .then(response => console.log('Success:', JSON.stringify(response)))
         //.catch(error => console.error('Error:', error));
@@ -34,6 +46,7 @@ class CreateReviewPage extends Component {
     }
 
     render() {
+        if(this.state.redirect) return <Redirect to={`/programs/${this.props.match.params.id}`}></Redirect>
         return (
             <PageTemplate>
                 <h1>This is page</h1>

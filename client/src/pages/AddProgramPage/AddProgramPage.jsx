@@ -10,7 +10,7 @@ class AddProgramPage extends React.Component{
     constructor(props) {
         super(props)
         this.state = {
-            programInstitutionName: '',
+            programInstitutionName: '', // ToDo: change institution name string to a selectable dropdown for institution ID
             programName: '',
             programTypes: [],
             programLocations: [],
@@ -54,7 +54,6 @@ class AddProgramPage extends React.Component{
         fetch('/api/programs', {
             method: 'POST',
             body: JSON.stringify({
-                programInstitutionName: this.state.programInstitutionName,
                 programName: this.state.programName,
                 programTypes: this.state.programTypes,
                 programLocations: this.state.programLocations
