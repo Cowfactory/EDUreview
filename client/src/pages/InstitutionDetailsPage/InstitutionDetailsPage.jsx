@@ -25,6 +25,15 @@ class InstitutionDetailsPage extends React.Component {
                 <p>{ this.state.website }</p>
 
                 {/* All reviews down here */}
+                {/* {this.state.programs.map( (program, idx) => {
+                    return (
+                        <div key={idx}>
+                            <p>{program.name}</p>
+                            { program.locations.map( (location, idx) => <p key={idx}>{location}</p>) }
+                            { program.types.map( (type, idx) => <p key={idx}>{type}</p>) }
+                        </div>
+                    )
+                })} */}
             </PageTemplate>
         )
     }
