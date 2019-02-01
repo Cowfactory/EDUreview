@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import './App.css';
 import HomePage from '../pages/HomePage/HomePage';
-import CreateReviewPage from '../pages/CreateReviewPage/CreateReviewPage';
+import AddReviewPage from '../pages/AddReviewPage/AddReviewPage';
 import PageNotFoundPage from '../pages/PageNotFoundPage/PageNotFoundPage';
 import { AppProvider } from './AppContext';
 import AddProgramPage from '../pages/AddProgramPage/AddProgramPage';
@@ -33,7 +33,7 @@ class App extends Component {
                             <Route exact path="/" component={HomePage} />
                             <Route exact path="/programs" component={BrowseProgramsPage} />
                             <Route exact path="/programs/:id" component={ProgramDetailsPage} />
-                            <Route path="/programs/:id/createreview" component={CreateReviewPage} />
+                            <Route path="/programs/:id/addreview" component={AddReviewPage} />
                             <Route path="/add-program" component={AddProgramPage} />
                             <Route exact path="/institutions" component={BrowseInstitutionsPage} />
                             <Route path="/institutions/:id" component={InstitutionDetailsPage} />

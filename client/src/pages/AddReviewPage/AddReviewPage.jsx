@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
-class CreateReviewPage extends Component {
+class AddReviewPage extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -61,4 +61,4 @@ class CreateReviewPage extends Component {
     }
 }
 
-export default CreateReviewPage;
+export default AddReviewPage;

@@ -28,7 +28,7 @@ class ProgramDetailsPage extends React.Component {
                 <h1>These are the program details for:</h1>
                 <h2>{ this.state.name }</h2>
 
-                <Link to={`/programs/${this.props.match.params.id}/createreview`}>
+                <Link to={`/programs/${this.props.match.params.id}/addreview`}>
                     Create a review for this program
                 </Link>
                 
