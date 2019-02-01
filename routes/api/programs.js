@@ -4,7 +4,6 @@ const Program = require('../../models/Program');
 /* --- Adds a new program to db --- */
 router.post('/', (req, res) => {
     let program = new Program({
-        reviews: [],
         name: req.body.programName,
         types: req.body.programTypes,
         locations: req.body.programLocations
