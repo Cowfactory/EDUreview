@@ -30,7 +30,7 @@ router.get('/', (req, res) => {
 
 /* --- Gets one institution from db --- */
 router.get('/:id', (req, res) => {
-    Institution.findById(req.params.id).populate()
+    Institution.findById(req.params.id).populate('programs')
         .exec((err, result) => {
             if(err) {
                 res.status(500).send({

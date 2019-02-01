@@ -5,7 +5,9 @@ class InstitutionDetailsPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-
+            name: '',
+            website: '',
+            programs: []
         }
     }
 
@@ -25,7 +27,7 @@ class InstitutionDetailsPage extends React.Component {
                 <p>{ this.state.website }</p>
 
                 {/* All reviews down here */}
-                {/* {this.state.programs.map( (program, idx) => {
+                {this.state.programs.map( (program, idx) => {
                     return (
                         <div key={idx}>
                             <p>{program.name}</p>
@@ -33,7 +35,7 @@ class InstitutionDetailsPage extends React.Component {
                             { program.types.map( (type, idx) => <p key={idx}>{type}</p>) }
                         </div>
                     )
-                })} */}
+                })}
             </PageTemplate>
         )
     }
