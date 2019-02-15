@@ -41,7 +41,9 @@ class ProgramDetailsPage extends React.Component {
                 })} */}
 
                 {
-                    this.state.reviews.map( review => <p> {review.review} </p>)
+                    this.state.reviews.map((review, key) => 
+                        <p key={key}> {review.review} </p>
+                    )
                 }
             </PageTemplate>
         )
