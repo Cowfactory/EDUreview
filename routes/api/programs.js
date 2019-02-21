@@ -20,6 +20,14 @@ router.post('/', (req, res) => {
 
 /* --- Gets all programs from db --- */
 router.get('/', (req, res) => {
+    //if query string do something
+    Program.find({
+        $text: { $search: req.query.search}
+    })
+        .then(results => console.log(results));
+
+
+    //else do this
     Program.find({}, (err, result) => {
         if(err) {
             res.status(500).send({

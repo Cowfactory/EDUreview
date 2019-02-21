@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Institution = require('./Institution')
 
 /* --- Review sub-schema --- */
 var reviewSchema = new Schema({
@@ -25,6 +26,11 @@ var programSchema = new Schema({
     timestamps: true
 });
 
+/* --- Index the 'name' field --- */
+programSchema.index({
+    name: 'text',
+}); 
+
 /* --- Program Schema Methods --- */
 programSchema.methods.addReview = function(review) {
     let newReview = new Review({
@@ -36,7 +42,6 @@ programSchema.methods.addReview = function(review) {
     this.reviews.push(newReview);
 }
 
-const Institution = require('./Institution')
 programSchema.methods.updateCorrespondingInstitution = function(institutionId) {
     Institution.findById(institutionId, (err, institution) => {
         if(err) {
