@@ -37,7 +37,7 @@ class AddProgramPage extends React.Component{
             })
             this.setState({
                 institutionsList: reducedArr,
-                selectedInstitutionId: reducedArr[0].name   
+                selectedInstitutionId: reducedArr[0].id   
             });
         })
     }

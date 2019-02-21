@@ -37,11 +37,16 @@ programSchema.methods.addReview = function(review) {
 }
 
 const Institution = require('./Institution')
-programSchema.methods.updateCorrespondingInstitution = function(institutionId, programId) {
+programSchema.methods.updateCorrespondingInstitution = function(institutionId) {
     Institution.findById(institutionId, (err, institution) => {
-        // console.log(this);
-        institution.programs.push(this)
-        institution.save();
+        if(err) {
+            console.log("Error: Failed to add new Program to Institution");
+            return err;
+        }
+        else {
+            institution.programs.push(this._id)
+            institution.save();
+        }
     })
 }
 

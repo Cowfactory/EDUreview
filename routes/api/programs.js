@@ -3,12 +3,12 @@ const Program = require('../../models/Program');
 
 /* --- Adds a new program to db --- */
 router.post('/', (req, res) => {
-    let program = new Program({
+    var program = new Program({
         name: req.body.programName,
         types: req.body.programTypes,
         locations: req.body.programLocations
     })
-    program.updateCorrespondingInstitution(req.body.selectedInstitutionId, req.body.programName);
+    program.updateCorrespondingInstitution(req.body.selectedInstitutionId);
     
     program.save(err => {
         if(err) return err;
