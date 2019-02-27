@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
+import ReviewsListEntry from '../../components/ReviewsListEntry/ReviewsListEntry';
 
 class ProgramDetailsPage extends React.Component {
     constructor(props) {
@@ -25,24 +26,22 @@ class ProgramDetailsPage extends React.Component {
     render() {
         return (
             <PageTemplate>
-                <h1>These are the program details for:</h1>
-                <h2>{ this.state.name }</h2>
+                <h1>{ this.state.name }</h1>
+                <h2>{ this.state.institutionName }</h2>
+                <h3>Type(s): { this.state.types }</h3>
+                <h3>Location(s): { this.state.locations }</h3>
 
+                <br></br>
                 <Link to={`/programs/${this.props.match.params.id}/addreview`}>
-                    Create a review for this program
+                    Add a review for this program
                 </Link>
-                
-                <p>{ this.state.institutionName }</p>
-                <p>{ this.state.types }</p>
-                <p>{ this.state.locations }</p>
-                {/* All reviews down here */}
-                {/* {this.state.reviews.map((review, idx) => {
-                    <p key={idx}>{review.review}</p>
-                })} */}
-
+                <h2>Reviews: </h2>
                 {
-                    this.state.reviews.map((review, key) => 
-                        <p key={key}> {review.review} </p>
+                    this.state.reviews.map((review, idx) => 
+                        <ReviewsListEntry
+                            key={idx}
+                            review={review.review} >
+                        </ReviewsListEntry>
                     )
                 }
             </PageTemplate>

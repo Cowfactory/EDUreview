@@ -49,7 +49,7 @@ class AddReviewPage extends Component {
         if(this.state.redirect) return <Redirect to={`/programs/${this.props.match.params.id}`}></Redirect>
         return (
             <PageTemplate>
-                <h1>This is page</h1>
+                <h1>Write your review</h1>
                 <FormTemplate onSubmit={this.handleSubmit}>
                     <input type="text" 
                         value={this.state.textValue}
