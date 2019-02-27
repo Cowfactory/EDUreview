@@ -6,30 +6,19 @@ const SEARCH_TYPE = ['programs', 'institutions'];
 const PROGRAM = 0;
 const INSTITUTION = 1;
 
+
 class HomePage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            programSelector: SEARCH_TYPE[PROGRAM]
+            programSelector: SEARCH_TYPE[PROGRAM],
         }
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleSelectionChange = this.handleSelectionChange.bind(this);
     }
 
-    handleChange = (evt) => {
+    handleSelectionChange = (e) => {
         this.setState({
-            programSelector: evt.target.value
-        })
-    }
-   
-    handleSubmit = (e, searchValue) => {
-        e.preventDefault()
-        //e.target.value is the searchbox text
-        fetch(`/api/${this.state.programSelector}?search=${searchValue}`)
-        .then( _ => {
-            this.setState({
-                redirect: true
-            })
+            programSelector: e.target.value
         })
     }
 
@@ -41,14 +30,12 @@ class HomePage extends React.Component {
                 <div>
                     <span>Find me the</span>
                     <br /><br />
-                    <select value={this.state.programSelector} onChange={this.handleChange} >
+                    <select value={this.state.programSelector} onChange={this.handleSelectionChange} >
                         <option value={SEARCH_TYPE[PROGRAM]}>Program</option>
                         <option value={SEARCH_TYPE[INSTITUTION]}>Institution</option>
                     </select>
                     <span>called</span>
-                    <SearchField 
-                        handleSubmit={this.handleSubmit}
-                    />
+                    <SearchField />
                 </div>                
             </PageTemplate>
         )
