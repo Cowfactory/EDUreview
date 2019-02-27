@@ -1,6 +1,6 @@
 import React from 'react';
-import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import queryString from 'query-string';
+import SearchResultsPageTemplate from '../../templates/SearchResultsPageTemplate/SearchResultsPageTemplate';
 
 class SearchResultsPage extends React.Component {
     constructor(props) {
@@ -10,15 +10,10 @@ class SearchResultsPage extends React.Component {
         }
     }
     componentDidMount() {
-        console.log("component did mount - Search results page")
         // Make sure query string is not malformed - type and query must not be null
         let params = queryString.parse(this.props.location.search)
         let {type, q} = params;
-
-        console.log(type, q);
         if(type === undefined || q === undefined) return;
-
-        console.log("before fetch")
 
         fetch(`/api/${type}/search?q=${q}`)
         .then(response => response.json())
@@ -27,15 +22,24 @@ class SearchResultsPage extends React.Component {
                 results: results
             })
         })
-        .then(() => {
-            console.log("state has been set.")
+        .catch(err => {
+            console.log("An error occured fetching search results")
         })
     }
     render() {
+        let resultsList = [];
+        if(this.state.results.length > 0) {
+            resultsList = this.state.results.map((item, key) => (
+                <p key={key}>{item.name}</p>
+            ))
+        } else {
+            resultsList = <p>No Results Found</p>
+        }
+
         return (
-            <PageTemplate>
-                asdfaa
-            </PageTemplate>
+            <SearchResultsPageTemplate>
+                {resultsList}
+            </SearchResultsPageTemplate>
         )
     }
 }

@@ -1,0 +1,12 @@
+.filter_toolbox, .reviews {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1%;
+    margin-left: 1%;
+    width: 75%;
+    border: 1px solid black;
+}
+
+.reviews {
+
+}

@@ -11,6 +11,11 @@ var institutionSchema = new Schema({
     timestamps: true
 });
 
+/* --- Index the 'name' field --- */
+institutionSchema.index({
+    name: 'text',
+}); 
+
 var Instituion = mongoose.model('Institution', institutionSchema);
 
 module.exports = Instituion;

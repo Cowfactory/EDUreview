@@ -24,6 +24,9 @@ router.get('/search', (req, res, next) => {
         })
         .then(results => {
             res.status(200).send(JSON.stringify(results))
+        })
+        .catch(err => {
+            // no op
         });
     }
     // Otherwise, search query is empty -> return nothing
