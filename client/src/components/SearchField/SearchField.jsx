@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from "react-router-dom";
 
-const SEARCH_TYPE = ['programs', 'institutions'];
-const PROGRAM = 0;
-const INSTITUTION = 1;
-
-
 class SearchField extends Component {
     constructor(props) {
         super(props)
@@ -31,8 +26,9 @@ class SearchField extends Component {
     }
 
     render() {
-        if(this.state.redirect) return <Redirect to={`/programs/search-results?search=${this.state.textValue}`}></Redirect>
-
+        if(this.state.redirect) {
+            return <Redirect to={`/search?type=${this.props.searchType}&q=${this.state.textValue}`}></Redirect>
+        }
         return (
             <div>
                 <form onSubmit={this.handleSubmit} >

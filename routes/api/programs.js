@@ -18,16 +18,29 @@ router.post('/', (req, res) => {
     })
 });
 
-/* --- Gets all programs from db --- */
+/* --- GET programs matching query string --- */
+router.get('/search', (req, res, next) => {
+    // If theres a query string, search for matches
+    if(req.query.q !== null) { //q is the key for the query string query
+        Program.find({
+            $text: { $search: req.query.q}
+        })
+        .then(results => {
+            res.status(200).send(JSON.stringify(results))
+        })
+
+    }
+    // Otherwise, search query is empty -> return nothing
+    else {
+        let response = {
+            msg: "bad query"
+        }
+        res.status(400).send(JSON.stringify(response));
+    }
+});
+
+/* --- GET all programs from db --- */
 router.get('/', (req, res) => {
-    //if query string do something
-    Program.find({
-        $text: { $search: req.query.search}
-    })
-        .then(results => console.log(results));
-
-
-    //else do this
     Program.find({}, (err, result) => {
         if(err) {
             res.status(500).send({
@@ -39,7 +52,7 @@ router.get('/', (req, res) => {
     });  
 });
 
-/* --- Gets one program from db --- */
+/* --- GET one program from db --- */
 router.get('/:id', (req, res) => {
     Program.findById(req.params.id).populate('reviews')
         .exec((err, program) => {
@@ -53,7 +66,7 @@ router.get('/:id', (req, res) => {
         });
 });
 
-/* --- Add a review to a program in db --- */
+/* --- POST(add) a review to a program in db --- */
 router.post('/:id/reviews', (req, res) => {
     Program.findById(req.params.id)
         .populate()
@@ -73,10 +86,4 @@ router.post('/:id/reviews', (req, res) => {
         })  
 })
 
-// if(err) {
-//     res.status(500).send({
-//         msg: "Internal Error"
-//     })
-//     return err;
-// }
 module.exports = router;

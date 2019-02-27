@@ -2,10 +2,13 @@ import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import SearchField from '../../components/SearchField/SearchField';
 
+/* 
+ * This Program Selector const helps with being consistent w/ the state management of 
+ * the dropdown selector for the serach box
+*/
 const SEARCH_TYPE = ['programs', 'institutions'];
 const PROGRAM = 0;
 const INSTITUTION = 1;
-
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -35,7 +38,7 @@ class HomePage extends React.Component {
                         <option value={SEARCH_TYPE[INSTITUTION]}>Institution</option>
                     </select>
                     <span>called</span>
-                    <SearchField />
+                    <SearchField searchType={this.state.programSelector}/>
                 </div>                
             </PageTemplate>
         )

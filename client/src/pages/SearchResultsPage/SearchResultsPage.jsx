@@ -1,5 +1,6 @@
-import React from 'react'
+import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
+import queryString from 'query-string';
 
 class SearchResultsPage extends React.Component {
     constructor(props) {
@@ -9,19 +10,31 @@ class SearchResultsPage extends React.Component {
         }
     }
     componentDidMount() {
-        if(this.props.location.search){
-            fetch(`/api/${this.state.programSelector}?search=${this.props.location.search}`)
-            .then( results => {
-                this.setState({
-                    results: results
-                })
+        console.log("component did mount - Search results page")
+        // Make sure query string is not malformed - type and query must not be null
+        let params = queryString.parse(this.props.location.search)
+        let {type, q} = params;
+
+        console.log(type, q);
+        if(type === undefined || q === undefined) return;
+
+        console.log("before fetch")
+
+        fetch(`/api/${type}/search?q=${q}`)
+        .then(response => response.json())
+        .then(results => {
+            this.setState({
+                results: results
             })
-        }
+        })
+        .then(() => {
+            console.log("state has been set.")
+        })
     }
     render() {
         return (
             <PageTemplate>
-                asdf
+                asdfaa
             </PageTemplate>
         )
     }

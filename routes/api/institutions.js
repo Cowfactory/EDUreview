@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const Institution = require('../../models/Institution');
 
-/* --- Adds a new institution to db --- */
+/* --- POST(add) a new institution to db --- */
 router.post('/', (req, res) => {
     let institution = new Institution({
         name: req.body.name,
@@ -15,7 +15,28 @@ router.post('/', (req, res) => {
     })
 });
 
-/* --- Gets all institutions from db --- */
+/* --- GET institutions matching query string --- */
+router.get('/search', (req, res, next) => {
+    // If theres a query string, search for matches
+    if(req.query.q !== null) { //q is the key for the query string query
+        Institution.find({
+            $text: { $search: req.query.q}
+        })
+        .then(results => {
+            res.status(200).send(JSON.stringify(results))
+        });
+    }
+    // Otherwise, search query is empty -> return nothing
+    else {
+        let response = {
+            msg: "bad query"
+        }
+        res.status(400).send(JSON.stringify(response));
+    }
+});
+
+
+/* --- GET all institutions from db --- */
 router.get('/', (req, res) => {
     Institution.find({}, (err, result) => {
         if(err) {
@@ -28,7 +49,7 @@ router.get('/', (req, res) => {
     });  
 });
 
-/* --- Gets one institution from db --- */
+/* --- GET one institution from db --- */
 router.get('/:id', (req, res) => {
     Institution.findById(req.params.id).populate('programs')
         .exec((err, result) => {

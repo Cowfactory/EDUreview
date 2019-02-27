@@ -32,7 +32,7 @@ class App extends Component {
                     <AppProvider value={this.state}>    
                         <Switch>
                             <Route exact path="/" component={HomePage} />
-                            <Route path="/search-results" component={SearchResultsPage} />
+                            <Route path="/search" component={SearchResultsPage} />
                             <Route exact path="/programs" component={BrowseProgramsPage} />
                             <Route exact path="/programs/:id" component={ProgramDetailsPage} />
                             <Route path="/programs/:id/addreview" component={AddReviewPage} />
