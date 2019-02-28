@@ -1,0 +1,7 @@
+.ProgramSearchResultsEntry {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    margin: 1px;
+    border: 1px solid black;
+}
