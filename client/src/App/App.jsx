@@ -19,9 +19,18 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isUserLoggedIn: false
+            isUserLoggedIn: false,
+            toggleIsUserLoggedIn: this.toggleIsUserLoggedIn
         };
+        this.toggleIsUserLoggedIn = this.toggleIsUserLoggedIn.bind(this);
     }
+
+    toggleIsUserLoggedIn = () => {
+        this.setState(state => ({
+            isUserLoggedIn: !state.isUserLoggedIn
+        }));
+        console.log('toggled user state');
+    };
 
     render() {
         return (

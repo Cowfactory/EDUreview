@@ -1,24 +1,44 @@
 import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
+import { AppConsumer } from '../../App/AppContext';
 
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
             email: '',
-            password: ''
+            password: '',
+            errorMsg: '',
+            redirect: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
     }
 
-    handleSubmit(e) {}
-    handleUsernameChange(e) {
-        this.setState({ username: e.target.value });
+    handleSubmit(e, toggleIsUserLoggedIn) {
+        e.preventDefault();
+        fetch('/api/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: this.state.email,
+                password: this.state.password
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(response => {
+                if (response.error) {
+                    this.setState({ errorMsg: response.error });
+                } else {
+                    localStorage.setItem('jwtToken', response.token);
+                    toggleIsUserLoggedIn();
+                }
+            });
     }
+
     handleEmailChange(e) {
         this.setState({ email: e.target.value });
     }
@@ -28,39 +48,39 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <PageTemplate>
-                <div>
-                    <form onSubmit={this.handleSubmit}>
-                        <div>
-                            <label htmlFor="username">Username:</label>
-                            <input
-                                name="username"
-                                type="text"
-                                value={this.state.username}
-                                onChange={this.handleUsernameChange}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="email">Email:</label>
-                            <input
-                                name="email"
-                                type="email"
-                                value={this.state.email}
-                                onChange={this.handleEmailChange}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="password">Password:</label>
-                            <input
-                                name="password"
-                                type="password"
-                                value={this.state.password}
-                                onChange={this.handlePasswordChange}
-                            />
-                        </div>
-                    </form>
-                </div>
-            </PageTemplate>
+            <AppConsumer>
+                {({ toggleIsUserLoggedIn }) => {
+                    return (
+                        <PageTemplate>
+                            <div>
+                                {/* Extraordinarily strange way of passing AppConsumer's toggle func to handleSubmit() */}
+                                <form onSubmit={e => this.handleSubmit(e, toggleIsUserLoggedIn)}>
+                                    <div>
+                                        <label htmlFor="email">Email:</label>
+                                        <input
+                                            name="email"
+                                            type="email"
+                                            value={this.state.email}
+                                            onChange={this.handleEmailChange}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="password">Password:</label>
+                                        <input
+                                            name="password"
+                                            type="password"
+                                            value={this.state.password}
+                                            onChange={this.handlePasswordChange}
+                                        />
+                                        <input type="submit" />
+                                    </div>
+                                    <div />
+                                </form>
+                            </div>
+                        </PageTemplate>
+                    );
+                }}
+            </AppConsumer>
         );
     }
 }

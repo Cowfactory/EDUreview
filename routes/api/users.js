@@ -14,6 +14,8 @@ router.post('/', (req, res, next) => {
         res.status(422).json({ message: 'Password field is required' });
     }
 
+    console.log(req.body);
+
     // See if the email is already in the DB
     User.findOne({ email: req.body.email }, (err, user) => {
         if (user) {
