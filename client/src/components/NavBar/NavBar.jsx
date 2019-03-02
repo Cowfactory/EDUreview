@@ -19,30 +19,31 @@ function NavBar(props) {
             </ul>
             <ul>
                 <AppConsumer>
-                    {context => (
-                        context.isUserLoggedIn ?
-                        <>
-                            <li>
-                                <Link to="/">Profile</Link>
-                            </li>
-                            <li>
-                                <Link to="/">Log out</Link>
-                            </li>
-                        </>
-                        :
-                        <>
-                            <li>
-                                <Link to="/">Sign Up</Link>
-                            </li>
-                            <li>
-                                <Link to="/">Log in</Link>
-                            </li>
-                        </>
-                    )}
+                    {context =>
+                        context.isUserLoggedIn ? (
+                            <>
+                                <li>
+                                    <Link to="/profile">Profile</Link>
+                                </li>
+                                <li>
+                                    <Link to="/">Log out</Link>
+                                </li>
+                            </>
+                        ) : (
+                            <>
+                                <li>
+                                    <Link to="/signup">Sign Up</Link>
+                                </li>
+                                <li>
+                                    <Link to="/login">Log in</Link>
+                                </li>
+                            </>
+                        )
+                    }
                 </AppConsumer>
             </ul>
         </div>
-    )
+    );
 }
 
 export default NavBar;
