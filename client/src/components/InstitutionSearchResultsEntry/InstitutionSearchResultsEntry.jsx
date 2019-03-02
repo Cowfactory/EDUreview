@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "./InstitutionSearchResultsEntry.css";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './InstitutionSearchResultsEntry.css';
 
 function InstitutionSearchResultsEntry(props) {
     let { name, id } = props;

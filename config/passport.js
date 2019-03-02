@@ -1,10 +1,12 @@
-const passport = require("passport");
-const User = require("../models/User");
-const LocalStrategy = require("passport-local").Strategy;
-const passportJWT = require("passport-jwt");
-const JWTStrategy = passportJWT.Strategy;
+const passport = require('passport');
+const passportJWT = require('passport-jwt');
+
 const ExtractJWT = passportJWT.ExtractJwt;
-require("dotenv").config();
+const JWTStrategy = passportJWT.Strategy;
+const LocalStrategy = require('passport-local').Strategy;
+
+const User = require('../models/User');
+require('dotenv').config();
 
 /*
  * passport-local
@@ -12,15 +14,15 @@ require("dotenv").config();
 passport.use(
     new LocalStrategy(
         {
-            usernameField: "email",
-            passwordField: "password"
+            usernameField: 'email',
+            passwordField: 'password'
         },
-        function(email, password, cb) {
+        (email, password, cb) => {
             return User.findOne({ email, password })
                 .then(user => {
                     if (!user) {
                         return cb(null, false, {
-                            message: "Email or password is invalid."
+                            message: 'Email or password is invalid.'
                         });
                     }
                     return cb(null, user, {
@@ -42,8 +44,7 @@ passport.use(
             jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
             secretOrKey: process.env.JWT_SECRET
         },
-        function(jwtPayload, cb) {
-            //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
+        (jwtPayload, cb) => {
             return User.findOneById(jwtPayload.id)
                 .then(user => {
                     return cb(null, user);

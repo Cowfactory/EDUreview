@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 import HomePage from '../pages/HomePage/HomePage';
 import AddReviewPage from '../pages/AddReviewPage/AddReviewPage';
@@ -16,20 +12,22 @@ import BrowseInstitutionsPage from '../pages/BrowseInstitutionsPage/BrowseInstit
 import ProgramDetailsPage from '../pages/ProgramDetailsPage/ProgramDetailsPage';
 import InstitutionDetailsPage from '../pages/InstitutionDetailsPage/InstitutionDetailsPage';
 import SearchResultsPage from '../pages/SearchResultsPage/SearchResultsPage';
+import LoginPage from '../pages/LoginPage/LoginPage';
+import SignupPage from '../pages/SignupPage/SignupPage';
 
 class App extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             isUserLoggedIn: false
-        }
+        };
     }
 
     render() {
         return (
             <div className="App">
                 <Router>
-                    <AppProvider value={this.state}>    
+                    <AppProvider value={this.state}>
                         <Switch>
                             <Route exact path="/" component={HomePage} />
                             <Route path="/search" component={SearchResultsPage} />
@@ -40,7 +38,9 @@ class App extends Component {
                             <Route exact path="/institutions" component={BrowseInstitutionsPage} />
                             <Route path="/institutions/:id" component={InstitutionDetailsPage} />
                             <Route path="/add-institution" component={AddInstitutionPage} />
-                            <Route component={PageNotFoundPage} />  
+                            <Route path="/login" component={LoginPage} />
+                            <Route path="/signup" component={SignupPage} />
+                            <Route component={PageNotFoundPage} />
                         </Switch>
                     </AppProvider>
                 </Router>

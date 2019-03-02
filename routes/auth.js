@@ -1,17 +1,17 @@
-const express = require("express");
+const express = require('express');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
+
 const router = express.Router();
-const User = require("../models/User");
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+require('dotenv').config();
 
 /* login route */
-router.post("/login", function(req, res, next) {
-    passport.authenticate("local", { session: false }, (err, user, info) => {
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', { session: false }, (err, user, info) => {
         if (err || !user) {
             return res.status(400).json({
-                message: "Something is not right",
-                user: user
+                message: 'Something is not right',
+                user
             });
         }
         req.login(user, { session: false }, err => {

@@ -3,40 +3,41 @@ const Program = require('../../models/Program');
 
 /* --- Adds a new program to db --- */
 router.post('/', (req, res) => {
-    var program = new Program({
+    const program = new Program({
         name: req.body.programName,
         types: req.body.programTypes,
         locations: req.body.programLocations
-    })
+    });
     program.updateCorrespondingInstitution(req.body.selectedInstitutionId);
-    
+
     program.save(err => {
-        if(err) return err;
-        res.status(201).send({
-            msg: "Program Entry Added"
-        })
-    })
+        if (err) return err;
+        return res.status(201).send({
+            msg: 'Program Entry Added'
+        });
+    });
 });
 
 /* --- GET programs matching query string --- */
 router.get('/search', (req, res, next) => {
     // If theres a query string, search for matches
-    if(req.query.q !== null) { //q is the key for the query string query
+    if (req.query.q !== null) {
+        // q is the key for the query string query
         Program.find({
-            $text: { $search: req.query.q}
+            $text: { $search: req.query.q }
         })
-        .then(results => {
-            res.status(200).send(JSON.stringify(results))
-        })
-        .catch(err => {
-            // no op
-        });
+            .then(results => {
+                res.status(200).send(JSON.stringify(results));
+            })
+            .catch(err => {
+                // no op
+            });
     }
     // Otherwise, search query is empty -> return nothing
     else {
-        let response = {
-            msg: "bad query"
-        }
+        const response = {
+            msg: 'bad query'
+        };
         res.status(400).send(JSON.stringify(response));
     }
 });
@@ -44,27 +45,28 @@ router.get('/search', (req, res, next) => {
 /* --- GET all programs from db --- */
 router.get('/', (req, res) => {
     Program.find({}, (err, result) => {
-        if(err) {
+        if (err) {
             res.status(500).send({
-                msg: "Internal Error"
-            })
+                msg: 'Internal Error'
+            });
             return err;
         }
-        res.status(200).send(JSON.stringify(result));
-    });  
+        return res.status(200).send(JSON.stringify(result));
+    });
 });
 
 /* --- GET one program from db --- */
 router.get('/:id', (req, res) => {
-    Program.findById(req.params.id).populate('reviews')
+    Program.findById(req.params.id)
+        .populate('reviews')
         .exec((err, program) => {
-            if(err) {
+            if (err) {
                 res.status(500).send({
-                    msg: "Internal Error"
-                })
+                    msg: 'Internal Error'
+                });
                 return err;
             }
-            res.status(200).send(JSON.stringify(program));
+            return res.status(200).send(JSON.stringify(program));
         });
 });
 
@@ -72,20 +74,21 @@ router.get('/:id', (req, res) => {
 router.post('/:id/reviews', (req, res) => {
     Program.findById(req.params.id)
         .populate()
-        .exec((err, program) => {  
+        .exec((err, program) => {
             program.addReview(req.body.review);
-            // console.log(program.reviews);  
+            // console.log(program.reviews);
 
             // let arr = program.reviews;
-            // arr.push(req.body.review);  
+            // arr.push(req.body.review);
             // program.reviews = arr;
 
-            // console.log(program.reviews);  
+            // console.log(program.reviews);
 
             program.save(err => {
-                res.status(200).send(JSON.stringify(program));
-            })
-        })  
-})
+                if (err) res.status(422).json({ message: err });
+                return res.status(200).send(JSON.stringify(program));
+            });
+        });
+});
 
 module.exports = router;
