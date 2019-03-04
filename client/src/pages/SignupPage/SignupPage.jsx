@@ -1,6 +1,7 @@
 import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import { AppConsumer } from '../../App/AppContext';
+import { Redirect } from 'react-router-dom';
 
 class SignupPage extends React.Component {
     constructor(props) {
@@ -9,7 +10,8 @@ class SignupPage extends React.Component {
             username: '',
             email: '',
             password: '',
-            errors: []
+            errors: [],
+            redirect: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -32,16 +34,17 @@ class SignupPage extends React.Component {
         })
             .then(res => res.json())
             .then(response => {
-                if (response.err) {
-                    this.setState({ errors: response.err });
+                if (response.errors) {
+                    this.setState({ errors: response.errors });
                 } else {
                     // save the jwt
-                    console.log('logging in this user');
+                    localStorage.setItem('jwtToken', response.token);
                     toggleIsUserLoggedIn();
+                    this.setState({ redirect: true });
                 }
             })
             .catch(err => {
-                this.setState({ errors: 'Error communicating with server' });
+                this.setState({ errors: ['Error communicating with server'] });
             });
     }
     handleUsernameChange(e) {
@@ -55,13 +58,18 @@ class SignupPage extends React.Component {
     }
 
     render() {
-        let err = (
-            <div>
-                {this.state.errors.map((err, key) => (
-                    <p key={key}>Error: {err}</p>
-                ))}
-            </div>
-        );
+        if (this.state.redirect) return <Redirect to="/" />;
+
+        let errMsg = <div />;
+        if (this.state.errors.length) {
+            errMsg = (
+                <div>
+                    {this.state.errors.map((err, key) => (
+                        <p key={key}>Error: {err}</p>
+                    ))}
+                </div>
+            );
+        }
 
         return (
             <AppConsumer>
@@ -97,7 +105,7 @@ class SignupPage extends React.Component {
                                     />
                                     <input type="submit" />
                                 </div>
-                                <div>{err}</div>
+                                <div>{errMsg}</div>
                             </form>
                         </div>
                     </PageTemplate>

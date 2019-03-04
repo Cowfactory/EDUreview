@@ -5,23 +5,23 @@ const User = require('../../models/User');
 /* --- Adds a new user to db --- */
 router.post('/', (req, res, next) => {
     if (!req.body.email) {
-        return res.status(422).json({ err: ['Email field is required'] });
+        return res.status(422).json({ errors: ['Email field is required'] });
     }
     if (!req.body.username) {
-        return res.status(422).json({ err: ['Username field is required'] });
+        return res.status(422).json({ errors: ['Username field is required'] });
     }
     if (!req.body.password) {
-        return res.status(422).json({ err: ['Password field is required'] });
+        return res.status(422).json({ errors: ['Password field is required'] });
     }
 
     // See if the email is already in the DB
     User.findOne({ email: req.body.email }, (err, user) => {
         if (user) {
             // Email is already in the DB. Alert the user.
-            return res.status(422).json({ err: ['Email already in use'] });
+            return res.status(422).json({ errors: ['Email already in use'] });
         }
         if (err) {
-            return res.status(422).json({ err: ['Error in database lookup'] });
+            return res.status(422).json({ errors: ['Error in database lookup'] });
         }
         // Email is available, create the user in the DB
         User.create(
@@ -37,24 +37,19 @@ router.post('/', (req, res, next) => {
                     for (key of Object.keys(err.errors)) {
                         arr.push(err.errors[key].message);
                     }
-                    return res.status(422).json({ err: arr });
+                    return res.status(422).json({ errors: arr });
                 }
                 // Create JWT
-                const userNoPass = user.toObject();
-                const token = jwt.sign(userNoPass, process.env.JWT_SECRET, {
+                const token = jwt.sign(user.toObject(), process.env.JWT_SECRET, {
                     expiresIn: 60 * 60 * 24
                 });
-                // Return user and token
+                // Return token
                 return res.status(201).json({
-                    user: userNoPass,
                     token
                 });
             }
         );
     });
 });
-
-/* --- Gets all users from db --- */
-router.get('/', (req, res) => {});
 
 module.exports = router;

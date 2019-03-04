@@ -36,7 +36,7 @@ userSchema.set('toObject', {
         const userObj = {
             _id: user._id,
             email: user.email,
-            username: user.name
+            username: user.username
         };
         return userObj;
     }
