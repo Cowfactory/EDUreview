@@ -32,7 +32,7 @@ app.use('/api/programs/', require('./routes/api/programs'));
 app.use('/api/institutions', require('./routes/api/institutions'));
 app.use('/api/users', require('./routes/api/users'));
 // Auth routes
-app.use('/api/auth', require('./routes/auth'));
+app.use('/api/auth', require('./routes/api/auth'));
 
 // Protected profile route
 app.use('/profile', passport.authenticate('jwt', { session: false }), require('./routes/profile'));

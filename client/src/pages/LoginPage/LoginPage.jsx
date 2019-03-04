@@ -2,6 +2,7 @@ import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import { AppConsumer } from '../../App/AppContext';
 import { Redirect } from 'react-router-dom';
+import AuthService from '../../services/AuthService';
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -15,32 +16,20 @@ class LoginPage extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.AuthService = new AuthService();
     }
 
     handleSubmit(e, toggleIsUserLoggedIn) {
         e.preventDefault();
-        fetch('/api/auth/login', {
-            method: 'POST',
-            body: JSON.stringify({
-                email: this.state.email,
-                password: this.state.password
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => res.json())
-            .then(response => {
-                if (response.errors) {
-                    this.setState({ errors: response.errors });
-                } else {
-                    localStorage.setItem('jwtToken', response.token);
-                    toggleIsUserLoggedIn();
-                    this.setState({ redirect: true });
-                }
+        this.AuthService.login(this.state.email, this.state.password)
+            .then(res => {
+                toggleIsUserLoggedIn();
+                this.setState({ redirect: true });
             })
             .catch(err => {
-                this.setState({ errors: ['Error communicating with server'] });
+                err.response.json().then(response => {
+                    this.setState({ errors: response.errors });
+                });
             });
     }
 
@@ -50,7 +39,9 @@ class LoginPage extends React.Component {
     handlePasswordChange(e) {
         this.setState({ password: e.target.value });
     }
-
+    componentDidMount() {
+        this.AuthService.logout();
+    }
     render() {
         if (this.state.redirect) return <Redirect to="/" />;
         let errMsg = <div />;

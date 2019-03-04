@@ -5,59 +5,54 @@ import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
 class AddReviewPage extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             redirect: false,
-            textValue: "this is the initial text"
-        }
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+            textValue: 'this is the initial text'
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = function(event) {
         this.setState({
             textValue: event.target.value
-        })
-    }
+        });
+    };
     handleSubmit = function(event) {
         event.preventDefault();
-        
+
         let payload = {
             // programId: this.props.match.params.id,
             userId: null, //ToDo: implement user ID ref,
             review: this.state.textValue
-        }
-
+        };
+        
         fetch(`/api/programs/${this.props.match.params.id}/reviews`, {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
-        .then( _ => {
+        }).then(_ => {
             this.setState({ redirect: true });
-        })
+        });
 
         // .then(res => res.json())
         // .then(response => console.log('Success:', JSON.stringify(response)))
         //.catch(error => console.error('Error:', error));
-
-    }
+    };
 
     render() {
-        if(this.state.redirect) return <Redirect to={`/programs/${this.props.match.params.id}`}></Redirect>
+        if (this.state.redirect) return <Redirect to={`/programs/${this.props.match.params.id}`} />;
         return (
             <PageTemplate>
                 <h1>Write your review</h1>
                 <FormTemplate onSubmit={this.handleSubmit}>
-                    <input type="text" 
-                        value={this.state.textValue}
-                        onChange={this.handleChange} >
-                    </input>
+                    <input type="text" value={this.state.textValue} onChange={this.handleChange} />
                 </FormTemplate>
             </PageTemplate>
-        )
+        );
     }
 }
 

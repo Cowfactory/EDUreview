@@ -53,6 +53,7 @@ router.get('/', (req, res) => {
         }
         return res.status(200).send(JSON.stringify(result));
     });
+    console.log(req);
 });
 
 /* --- GET one program from db --- */
