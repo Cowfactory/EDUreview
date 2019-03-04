@@ -30,12 +30,12 @@ require('./config/passport');
 // API routes
 app.use('/api/programs/', require('./routes/api/programs'));
 app.use('/api/institutions', require('./routes/api/institutions'));
+app.use('/api/users', require('./routes/api/users'));
+// Auth routes
+app.use('/api/auth', require('./routes/auth'));
 
 // Protected profile route
 app.use('/profile', passport.authenticate('jwt', { session: false }), require('./routes/profile'));
-
-// Auth routes
-app.use('/api/auth', require('./routes/auth'));
 
 // Catch-all route - Send react app
 app.get('/*', (req, res) => {

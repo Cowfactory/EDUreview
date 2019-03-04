@@ -8,7 +8,8 @@ class SignupPage extends React.Component {
         this.state = {
             username: '',
             email: '',
-            password: ''
+            password: '',
+            errorMsg: ''
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -16,9 +17,9 @@ class SignupPage extends React.Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
     }
 
-    handleSubmit(e) {
+    handleSubmit(e, toggleIsUserLoggedIn) {
         e.preventDefault();
-        fetch('/api/auth/signup', {
+        fetch('/api/users', {
             method: 'POST',
             body: JSON.stringify({
                 username: this.state.username,
@@ -28,13 +29,20 @@ class SignupPage extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(jwt => {
-            // save the jwt
-            console.log('hi world');
-        });
-        AppConsumer.toggleIsUserLoggedIn();
-        console.log(AppConsumer);
-        console.log(AppConsumer.toggleIsUserLoggedIn);
+        })
+            .then(res => res.json())
+            .then(response => {
+                if (response.error) {
+                    this.setState({ errorMsg: response.error });
+                } else {
+                    // save the jwt
+                    console.log('logging in this user');
+                    toggleIsUserLoggedIn();
+                }
+            })
+            .catch(err => {
+                this.setState({ errorMsg: 'Error communicating with server' });
+            });
     }
     handleUsernameChange(e) {
         this.setState({ username: e.target.value });
@@ -47,12 +55,14 @@ class SignupPage extends React.Component {
     }
 
     render() {
+        let err = this.state.errorMsg ? `Error: ${this.state.errorMsg}` : '';
+
         return (
             <AppConsumer>
-                {toggleIsUserLoggedIn => (
+                {({ toggleIsUserLoggedIn }) => (
                     <PageTemplate>
                         <div>
-                            <form onSubmit={this.handleSubmit}>
+                            <form onSubmit={e => this.handleSubmit(e, toggleIsUserLoggedIn)}>
                                 <div>
                                     <label htmlFor="username">Username:</label>
                                     <input
@@ -81,6 +91,7 @@ class SignupPage extends React.Component {
                                     />
                                     <input type="submit" />
                                 </div>
+                                <div>{err}</div>
                             </form>
                         </div>
                     </PageTemplate>

@@ -36,6 +36,9 @@ class LoginPage extends React.Component {
                     localStorage.setItem('jwtToken', response.token);
                     toggleIsUserLoggedIn();
                 }
+            })
+            .catch(err => {
+                console.log(err);
             });
     }
 
@@ -49,7 +52,7 @@ class LoginPage extends React.Component {
     render() {
         return (
             <AppConsumer>
-                {({ toggleIsUserLoggedIn }) => {
+                {toggleIsUserLoggedIn => {
                     return (
                         <PageTemplate>
                             <div>
