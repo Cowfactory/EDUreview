@@ -2,6 +2,7 @@ import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import { AppConsumer } from '../../App/AppContext';
 import { Redirect } from 'react-router-dom';
+import AuthService from '../../services/AuthService';
 
 class SignupPage extends React.Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class SignupPage extends React.Component {
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.AuthService = new AuthService();
     }
 
     handleSubmit(e, toggleIsUserLoggedIn) {
@@ -38,7 +40,7 @@ class SignupPage extends React.Component {
                     this.setState({ errors: response.errors });
                 } else {
                     // save the jwt
-                    localStorage.setItem('jwtToken', response.token);
+                    AuthService.setToken(response.token);
                     toggleIsUserLoggedIn();
                     this.setState({ redirect: true });
                 }

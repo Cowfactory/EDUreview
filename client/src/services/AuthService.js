@@ -1,15 +1,14 @@
 import decode from 'jwt-decode';
 class AuthService {
-    // Initializing important variables
     constructor() {
-        this.domain = '/api/auth'; // API server domain
-        this.fetch = this.fetch.bind(this); // React binding stuff
+        this.domain = '/api/auth';
+        this.fetch = this.fetch.bind(this);
         this.login = this.login.bind(this);
         this.getProfile = this.getProfile.bind(this);
     }
 
     login(email, password) {
-        // Get a token from api server using the fetch api
+        // Get token from server
         return this.fetch(`${this.domain}/login`, {
             method: 'POST',
             body: JSON.stringify({
@@ -56,15 +55,14 @@ class AuthService {
 
     loggedIn() {
         // Checks if there is a saved token and it's still valid
-        const token = this.getToken(); // GEtting token from localstorage
-        return !!token && !this.isTokenExpired(token); // handwaiving here
+        const token = this.getToken();
+        return !!token && !this.isTokenExpired(token);
     }
 
     isTokenExpired(token) {
         try {
             const decoded = decode(token);
             if (decoded.exp < Date.now() / 1000) {
-                // Checking if token is expired. N
                 return true;
             } else return false;
         } catch (err) {
@@ -72,9 +70,9 @@ class AuthService {
         }
     }
 
-    setToken(idToken) {
+    setToken(token) {
         // Saves user token to localStorage
-        localStorage.setItem('jwt_token', idToken);
+        localStorage.setItem('jwt_token', token);
     }
 
     getToken() {
