@@ -31,7 +31,7 @@ class App extends Component {
         }));
         console.log('toggled user state');
     };
-
+    componentDidMount() {}
     render() {
         return (
             <div className="App">

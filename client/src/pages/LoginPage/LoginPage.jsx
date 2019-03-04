@@ -1,6 +1,7 @@
 import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import { AppConsumer } from '../../App/AppContext';
+import { Redirect } from 'react-router-dom';
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -30,15 +31,16 @@ class LoginPage extends React.Component {
         })
             .then(res => res.json())
             .then(response => {
-                if (response.error) {
-                    this.setState({ errors: response.err });
+                if (response.errors) {
+                    this.setState({ errors: response.errors });
                 } else {
                     localStorage.setItem('jwtToken', response.token);
                     toggleIsUserLoggedIn();
+                    this.setState({ redirect: true });
                 }
             })
             .catch(err => {
-                console.log(err);
+                this.setState({ errors: ['Error communicating with server'] });
             });
     }
 
@@ -50,9 +52,15 @@ class LoginPage extends React.Component {
     }
 
     render() {
+        if (this.state.redirect) return <Redirect to="/" />;
+        let errMsg = <div />;
+        if (this.state.errors.length) {
+            errMsg = this.state.errors.map((err, key) => <p key={key}>Error: {err}</p>);
+        }
+
         return (
             <AppConsumer>
-                {toggleIsUserLoggedIn => {
+                {({ toggleIsUserLoggedIn }) => {
                     return (
                         <PageTemplate>
                             <div>
@@ -79,6 +87,7 @@ class LoginPage extends React.Component {
                                     </div>
                                     <div />
                                 </form>
+                                <div>{errMsg}</div>
                             </div>
                         </PageTemplate>
                     );

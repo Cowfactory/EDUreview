@@ -62,13 +62,7 @@ class SignupPage extends React.Component {
 
         let errMsg = <div />;
         if (this.state.errors.length) {
-            errMsg = (
-                <div>
-                    {this.state.errors.map((err, key) => (
-                        <p key={key}>Error: {err}</p>
-                    ))}
-                </div>
-            );
+            errMsg = this.state.errors.map((err, key) => <p key={key}>Error: {err}</p>);
         }
 
         return (
