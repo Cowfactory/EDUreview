@@ -22,7 +22,7 @@ class SearchField extends Component {
 
     handleSelectionChange(e) {
         this.setState({
-            programSelector: e.targecbt.value
+            programSelector: e.target.value
         });
     }
 
