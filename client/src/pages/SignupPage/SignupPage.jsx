@@ -9,7 +9,7 @@ class SignupPage extends React.Component {
             username: '',
             email: '',
             password: '',
-            errorMsg: ''
+            errors: []
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -32,8 +32,8 @@ class SignupPage extends React.Component {
         })
             .then(res => res.json())
             .then(response => {
-                if (response.error) {
-                    this.setState({ errorMsg: response.error });
+                if (response.err) {
+                    this.setState({ errors: response.err });
                 } else {
                     // save the jwt
                     console.log('logging in this user');
@@ -41,7 +41,7 @@ class SignupPage extends React.Component {
                 }
             })
             .catch(err => {
-                this.setState({ errorMsg: 'Error communicating with server' });
+                this.setState({ errors: 'Error communicating with server' });
             });
     }
     handleUsernameChange(e) {
@@ -55,7 +55,13 @@ class SignupPage extends React.Component {
     }
 
     render() {
-        let err = this.state.errorMsg ? `Error: ${this.state.errorMsg}` : '';
+        let err = (
+            <div>
+                {this.state.errors.map(err => (
+                    <p>Error: {err}</p>
+                ))}
+            </div>
+        );
 
         return (
             <AppConsumer>

@@ -8,7 +8,7 @@ class LoginPage extends React.Component {
         this.state = {
             email: '',
             password: '',
-            errorMsg: '',
+            errors: [],
             redirect: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,7 +31,7 @@ class LoginPage extends React.Component {
             .then(res => res.json())
             .then(response => {
                 if (response.error) {
-                    this.setState({ errorMsg: response.error });
+                    this.setState({ errors: response.err });
                 } else {
                     localStorage.setItem('jwtToken', response.token);
                     toggleIsUserLoggedIn();
