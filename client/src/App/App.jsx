@@ -29,9 +29,18 @@ class App extends Component {
         this.setState(state => ({
             isUserLoggedIn: !state.isUserLoggedIn
         }));
-        console.log('toggled user state');
     };
-    componentDidMount() {}
+
+    componentDidMount() {
+        // Log in user via token if present
+        if (!this.state.isUserLoggedIn) {
+            let jwt = localStorage.getItem('jwtToken');
+            if (jwt) {
+                this.toggleIsUserLoggedIn();
+            }
+        }
+    }
+
     render() {
         return (
             <div className="App">
