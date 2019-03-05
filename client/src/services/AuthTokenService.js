@@ -1,10 +1,8 @@
 import decode from 'jwt-decode';
-class AuthService {
+
+class AuthTokenService {
     constructor() {
         this.domain = '/api/auth';
-        this.fetch = this.fetch.bind(this);
-        this.login = this.login.bind(this);
-        this.getProfile = this.getProfile.bind(this);
     }
 
     login(email, password) {
@@ -17,14 +15,15 @@ class AuthService {
             })
         })
             .then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    // Success status lies between 200 to 300
-                    return response;
+                // Success status lies between 200 to 300
+                if (response.status > 300 || response.status < 200) {
+                    var error = new Error(response.statusText);
+                    error.response = response;
+                    throw error;
                 }
-                var error = new Error(response.statusText);
-                error.response = response;
-                throw error;
+                return response;
             })
+            .then(res => res.json())
             .then(res => {
                 this.setToken(res.token); // Setting the token in localStorage
                 return Promise.resolve(res);
@@ -91,4 +90,4 @@ class AuthService {
     }
 }
 
-export default AuthService;
+export default AuthTokenService;

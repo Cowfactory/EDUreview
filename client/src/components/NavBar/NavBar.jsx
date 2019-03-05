@@ -19,8 +19,8 @@ function NavBar(props) {
             </ul>
             <ul>
                 <AppConsumer>
-                    {({ isUserLoggedIn, toggleIsUserLoggedIn }) =>
-                        isUserLoggedIn ? (
+                    {context =>
+                        context.user ? (
                             <>
                                 <li>
                                     <Link to="/profile">Profile</Link>
@@ -29,8 +29,8 @@ function NavBar(props) {
                                     <Link
                                         to="/"
                                         onClick={() => {
-                                            localStorage.removeItem('jwtToken');
-                                            toggleIsUserLoggedIn();
+                                            console.log(context);
+                                            context.logout();
                                         }}
                                     >
                                         Log out

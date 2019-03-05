@@ -35,7 +35,7 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 
 // Protected profile route
-app.use('/profile', passport.authenticate('jwt', { session: false }), require('./routes/profile'));
+app.use('/profile', passport.authenticate('jwt', { session: false }), require('./routes/profiles'));
 
 // Catch-all route - Send react app
 app.get('/*', (req, res) => {

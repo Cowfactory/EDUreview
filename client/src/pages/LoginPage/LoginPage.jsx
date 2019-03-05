@@ -2,7 +2,6 @@ import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import { AppConsumer } from '../../App/AppContext';
 import { Redirect } from 'react-router-dom';
-import AuthService from '../../services/AuthService';
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -16,14 +15,12 @@ class LoginPage extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.AuthService = new AuthService();
     }
 
-    handleSubmit(e, toggleIsUserLoggedIn) {
+    handleSubmit(e, login) {
         e.preventDefault();
-        this.AuthService.login(this.state.email, this.state.password)
+        login(this.state.email, this.state.password)
             .then(res => {
-                toggleIsUserLoggedIn();
                 this.setState({ redirect: true });
             })
             .catch(err => {
@@ -36,12 +33,11 @@ class LoginPage extends React.Component {
     handleEmailChange(e) {
         this.setState({ email: e.target.value });
     }
+
     handlePasswordChange(e) {
         this.setState({ password: e.target.value });
     }
-    componentDidMount() {
-        this.AuthService.logout();
-    }
+
     render() {
         if (this.state.redirect) return <Redirect to="/" />;
         let errMsg = <div />;
@@ -51,12 +47,12 @@ class LoginPage extends React.Component {
 
         return (
             <AppConsumer>
-                {({ toggleIsUserLoggedIn }) => {
+                {({ login }) => {
                     return (
                         <PageTemplate>
                             <div>
                                 {/* Extraordinarily strange way of passing AppConsumer's toggle func to handleSubmit() */}
-                                <form onSubmit={e => this.handleSubmit(e, toggleIsUserLoggedIn)}>
+                                <form onSubmit={e => this.handleSubmit(e, login)}>
                                     <div>
                                         <label htmlFor="email">Email:</label>
                                         <input

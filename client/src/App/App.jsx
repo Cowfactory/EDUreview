@@ -14,29 +14,59 @@ import InstitutionDetailsPage from '../pages/InstitutionDetailsPage/InstitutionD
 import SearchResultsPage from '../pages/SearchResultsPage/SearchResultsPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import SignupPage from '../pages/SignupPage/SignupPage';
+import ProfilePage from '../pages/ProfilePage/ProfilePage';
+import AuthTokenService from '../services/AuthTokenService';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isUserLoggedIn: false,
-            toggleIsUserLoggedIn: this.toggleIsUserLoggedIn
+            user: null,
+            login: this.login,
+            logout: this.logout,
+            jwtService: this.jwtService
         };
-        this.toggleIsUserLoggedIn = this.toggleIsUserLoggedIn.bind(this);
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
+        this.jwtService = this.jwtService;
     }
-
-    toggleIsUserLoggedIn = () => {
-        this.setState(state => ({
-            isUserLoggedIn: !state.isUserLoggedIn
-        }));
+    jwtService = new AuthTokenService();
+    /**
+     * Logs user in.
+     * Reflects the state change in App's state, and stores JWT in localStorage
+     * Function accessed via the AppProvider Context API.
+     * @param {string} email
+     * @param {string} password
+     */
+    login = async (email, password) => {
+        try {
+            const token = await this.jwtService.login(email, password);
+            this.setState({ user: this.jwtService.getProfile() });
+            return token;
+        } catch (err) {
+            throw err;
+        }
+    };
+    loginFromToken = token => {
+        this.jwtService.setToken(token);
+        this.setState({ user: this.jwtService.getProfile() });
+    };
+    /**
+     * Logs user out.
+     * Reflects the state change in App's state, and removes JWT from localStorage
+     * Function accessed via the AppProvider Context API.
+     */
+    logout = () => {
+        console.log(this);
+        this.jwtService.logout();
+        this.setState({ user: null });
     };
 
     componentDidMount() {
         // Log in user via token if present
-        if (!this.state.isUserLoggedIn) {
-            let jwt = localStorage.getItem('jwtToken');
-            if (jwt) {
-                this.toggleIsUserLoggedIn();
+        if (!this.state.userLoggedIn) {
+            if (this.jwtService.loggedIn()) {
+                this.setState({ user: this.jwtService.getProfile() });
             }
         }
     }
@@ -58,6 +88,7 @@ class App extends Component {
                             <Route path="/add-institution" component={AddInstitutionPage} />
                             <Route path="/login" component={LoginPage} />
                             <Route path="/signup" component={SignupPage} />
+                            <Route path="/profile" component={ProfilePage} />
                             <Route component={PageNotFoundPage} />
                         </Switch>
                     </AppProvider>
