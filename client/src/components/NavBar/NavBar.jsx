@@ -26,12 +26,7 @@ function NavBar(props) {
                                     <Link to="/profile">Profile</Link>
                                 </li>
                                 <li>
-                                    <Link
-                                        to="/"
-                                        onClick={() => {
-                                            context.logout();
-                                        }}
-                                    >
+                                    <Link to="/" onClick={context.logout}>
                                         Log out
                                     </Link>
                                 </li>
