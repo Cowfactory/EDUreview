@@ -29,7 +29,6 @@ function NavBar(props) {
                                     <Link
                                         to="/"
                                         onClick={() => {
-                                            console.log(context);
                                             context.logout();
                                         }}
                                     >

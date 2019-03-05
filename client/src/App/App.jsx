@@ -24,13 +24,17 @@ class App extends Component {
             user: null,
             login: this.login,
             logout: this.logout,
+            loginFromToken: this.loginFromToken,
             jwtService: this.jwtService
         };
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
+        this.loginFromToken = this.loginFromToken.bind(this);
         this.jwtService = this.jwtService;
     }
+
     jwtService = new AuthTokenService();
+
     /**
      * Logs user in.
      * Reflects the state change in App's state, and stores JWT in localStorage
@@ -47,17 +51,18 @@ class App extends Component {
             throw err;
         }
     };
+
     loginFromToken = token => {
         this.jwtService.setToken(token);
         this.setState({ user: this.jwtService.getProfile() });
     };
+
     /**
      * Logs user out.
      * Reflects the state change in App's state, and removes JWT from localStorage
      * Function accessed via the AppProvider Context API.
      */
     logout = () => {
-        console.log(this);
         this.jwtService.logout();
         this.setState({ user: null });
     };

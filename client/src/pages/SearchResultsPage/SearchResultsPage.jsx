@@ -1,8 +1,8 @@
-import React from "react";
-import queryString from "query-string";
-import SearchResultsPageTemplate from "../../templates/SearchResultsPageTemplate/SearchResultsPageTemplate";
-import ProgramSearchResultsEntry from "../../components/ProgramSearchResultsEntry/ProgramSearchResultsEntry";
-import InstitutionSearchResultsEntry from "../../components/InstitutionSearchResultsEntry/InstitutionSearchResultsEntry";
+import React from 'react';
+import queryString from 'query-string';
+import SearchResultsPageTemplate from '../../templates/SearchResultsPageTemplate/SearchResultsPageTemplate';
+import ProgramSearchResultsEntry from '../../components/ProgramSearchResultsEntry/ProgramSearchResultsEntry';
+import InstitutionSearchResultsEntry from '../../components/InstitutionSearchResultsEntry/InstitutionSearchResultsEntry';
 
 class SearchResultsPage extends React.Component {
     constructor(props) {
@@ -24,11 +24,7 @@ class SearchResultsPage extends React.Component {
                 });
             })
             .catch(err => {
-                console.log(
-                    "An error occured fetching search results",
-                    "\n",
-                    err
-                );
+                console.log('An error occured fetching search results');
             });
     }
     render() {
@@ -36,7 +32,7 @@ class SearchResultsPage extends React.Component {
         let type = this.props.location.state.type;
 
         if (this.state.results.length > 0) {
-            if (type === "programs") {
+            if (type === 'programs') {
                 resultsList = this.state.results.map((item, key) => (
                     <ProgramSearchResultsEntry
                         key={key}
@@ -45,21 +41,15 @@ class SearchResultsPage extends React.Component {
                         types={item.types}
                     />
                 ));
-            } else if (type === "institutions") {
+            } else if (type === 'institutions') {
                 resultsList = this.state.results.map((item, key) => (
-                    <InstitutionSearchResultsEntry
-                        key={key}
-                        name={item.name}
-                        id={item._id}
-                    />
+                    <InstitutionSearchResultsEntry key={key} name={item.name} id={item._id} />
                 ));
             }
         } else {
             resultsList = <p>No Results Found</p>;
         }
-        return (
-            <SearchResultsPageTemplate>{resultsList}</SearchResultsPageTemplate>
-        );
+        return <SearchResultsPageTemplate>{resultsList}</SearchResultsPageTemplate>;
     }
 }
 
