@@ -27,7 +27,7 @@ class AddReviewPage extends Component {
             userId: null, //ToDo: implement user ID ref,
             review: this.state.textValue
         };
-        
+
         fetch(`/api/programs/${this.props.match.params.id}/reviews`, {
             method: 'POST',
             body: JSON.stringify(payload),
@@ -35,6 +35,7 @@ class AddReviewPage extends Component {
                 'Content-Type': 'application/json'
             }
         }).then(_ => {
+            console.log(_);
             this.setState({ redirect: true });
         });
 

@@ -53,7 +53,6 @@ router.get('/', (req, res) => {
         }
         return res.status(200).send(JSON.stringify(result));
     });
-    console.log(req);
 });
 
 /* --- GET one program from db --- */
@@ -76,17 +75,14 @@ router.post('/:id/reviews', (req, res) => {
     Program.findById(req.params.id)
         .populate()
         .exec((err, program) => {
+            if (err) {
+                return res.status(422).json({ message: err });
+            }
             program.addReview(req.body.review);
-            // console.log(program.reviews);
-
-            // let arr = program.reviews;
-            // arr.push(req.body.review);
-            // program.reviews = arr;
-
-            // console.log(program.reviews);
-
             program.save(err => {
-                if (err) res.status(422).json({ message: err });
+                if (err) {
+                    return res.status(422).json({ message: err });
+                }
                 return res.status(200).send(JSON.stringify(program));
             });
         });

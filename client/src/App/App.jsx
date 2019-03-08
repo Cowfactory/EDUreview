@@ -93,7 +93,7 @@ class App extends Component {
                             <Route path="/add-institution" component={AddInstitutionPage} />
                             <Route path="/login" component={LoginPage} />
                             <Route path="/signup" component={SignupPage} />
-                            <Route path="/profile" component={ProfilePage} />
+                            <Route path="/profile" component={ProfilePage} user={this.state.user} />
                             <Route component={PageNotFoundPage} />
                         </Switch>
                     </AppProvider>

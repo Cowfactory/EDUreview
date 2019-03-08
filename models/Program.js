@@ -42,7 +42,8 @@ programSchema.index({
 });
 
 /* --- Program Schema Methods --- */
-programSchema.methods.addReview = review => {
+// Do not change the function to arrow function (this binding)
+programSchema.methods.addReview = function(review) {
     const newReview = new Review({
         _id: new mongoose.Types.ObjectId(),
         userId: null,

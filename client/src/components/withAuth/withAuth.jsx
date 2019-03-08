@@ -1,25 +1,20 @@
 import React from 'react';
-import AuthService from '../../services/AuthTokenService';
 
 /**
  * Higher Order Component that represents an Auth protected component
- * @param {*} WrappedComponent 
+ * @param {React.Component} WrappedComponent
  */
-function withAuth(WrappedComponent) {
-    const Auth = new AuthService();
-
+function withAuth(WrappedComponent, user) {
     return class AuthWrapper extends React.Component {
         constructor(props) {
             super(props);
             this.state = {
-                user: null
+                user
             };
-            this.updateUserState = this.updateUserState.bind(this);
-            this.login = this.login.bind(this);
-            this.logout = this.logout.bind(this);
         }
 
         componentWillMount() {
+            console.log(this.state.user);
             // if (!Auth.loggedIn()) {
             //     console.log(this.props);
             //     // this.props.history.replace('/login');
@@ -38,21 +33,6 @@ function withAuth(WrappedComponent) {
             //     this.props.history.replace('/login');
             // }
         }
-        login() {
-            Auth.login();
-            const profile = Auth.getProfile();
-            this.setState({
-                user: profile
-            });
-        }
-        logout() {
-            Auth.logout();
-            this.setState({
-                user: null
-            });
-            this.props.history.replace('/');
-        }
-        updateUserState() {}
 
         render() {
             // if (this.state.user) {
@@ -66,9 +46,6 @@ function withAuth(WrappedComponent) {
                     {...this.props}
                 />
             );
-            // } else {
-            //     return null;
-            // }
         }
     };
 }
