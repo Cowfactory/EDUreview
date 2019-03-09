@@ -8,6 +8,7 @@ router.post('/', (req, res) => {
         types: req.body.programTypes,
         locations: req.body.programLocations
     });
+    console.log(program);
     program.updateCorrespondingInstitution(req.body.selectedInstitutionId);
 
     program.save(err => {
@@ -69,19 +70,18 @@ router.get('/:id', (req, res) => {
             return res.status(200).send(JSON.stringify(program));
         });
 });
-
 /* --- POST(add) a review to a program in db --- */
 router.post('/:id/reviews', (req, res) => {
     Program.findById(req.params.id)
         .populate()
         .exec((err, program) => {
             if (err) {
-                return res.status(422).json({ message: err });
+                return res.status(422).json({ errors: err });
             }
-            program.addReview(req.body.review);
+            program.addReview(req.body.review, req.body.userId);
             program.save(err => {
                 if (err) {
-                    return res.status(422).json({ message: err });
+                    return res.status(422).json({ errors: err });
                 }
                 return res.status(200).send(JSON.stringify(program));
             });

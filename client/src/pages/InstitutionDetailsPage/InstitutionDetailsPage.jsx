@@ -4,32 +4,34 @@ import ProgramListEntry from '../../components/ProgramListEntry/ProgramListEntry
 import { Link } from 'react-router-dom';
 class InstitutionDetailsPage extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             name: '',
             website: '',
             programs: []
-        }
+        };
     }
 
     componentDidMount() {
         fetch(`/api/institutions/${this.props.match.params.id}`)
-        .then(response => response.json())
-        .then(data => {
-            this.setState(data);
-        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                this.setState(data);
+            });
     }
 
     render() {
         return (
             <PageTemplate>
-                <h1>{ this.state.name }</h1>
-                <h3>{ this.state.website }</h3>
-                <br></br>
+                <h1>{this.state.name}</h1>
+                <h3>{this.state.website}</h3>
+                <br />
                 <Link to="/add-program">Add a Program to this Institution</Link>
                 <h2>This Institution's programs:</h2>
                 {/* All programs down here */}
-                {this.state.programs.map( (program, idx) => (
+                {console.log(this.state.programs)}
+                {/* {this.state.programs.map( (program, idx) => (
                     <ProgramListEntry
                         key={idx}
                         institutionName={program.institutionName}
@@ -38,7 +40,7 @@ class InstitutionDetailsPage extends React.Component {
                         locations={program.locations}
                         programId={program._id} >
                     </ProgramListEntry>
-                ))}
+                ))} */}
                 {/*
                 {this.state.programs.map( (program, idx) => {
                     return (
@@ -51,7 +53,7 @@ class InstitutionDetailsPage extends React.Component {
                 })}
             */}
             </PageTemplate>
-        )
+        );
     }
 }
 

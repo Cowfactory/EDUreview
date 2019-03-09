@@ -43,17 +43,19 @@ programSchema.index({
 
 /* --- Program Schema Methods --- */
 // Do not change the function to arrow function (this binding)
-programSchema.methods.addReview = function(review) {
+programSchema.methods.addReview = function(review, userId) {
     const newReview = new Review({
         _id: new mongoose.Types.ObjectId(),
-        userId: null,
         review
     });
+    if (userId) {
+        newReview.userId = userId;
+    }
     newReview.save();
     this.reviews.push(newReview);
 };
 
-programSchema.methods.updateCorrespondingInstitution = institutionId => {
+programSchema.methods.updateCorrespondingInstitution = function(institutionId) {
     Institution.findById(institutionId, (err, institution) => {
         if (err) {
             console.log('Error: Failed to add new Program to Institution');

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import withAuth from '../../components/withAuth/withAuth';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 
@@ -23,10 +24,11 @@ class AddReviewPage extends Component {
         event.preventDefault();
 
         let payload = {
-            // programId: this.props.match.params.id,
-            userId: null, //ToDo: implement user ID ref,
             review: this.state.textValue
         };
+        if (this.props.user) {
+            payload.userId = this.props.user._id;
+        }
 
         fetch(`/api/programs/${this.props.match.params.id}/reviews`, {
             method: 'POST',
@@ -35,13 +37,8 @@ class AddReviewPage extends Component {
                 'Content-Type': 'application/json'
             }
         }).then(_ => {
-            console.log(_);
             this.setState({ redirect: true });
         });
-
-        // .then(res => res.json())
-        // .then(response => console.log('Success:', JSON.stringify(response)))
-        //.catch(error => console.error('Error:', error));
     };
 
     render() {
@@ -57,4 +54,4 @@ class AddReviewPage extends Component {
     }
 }
 
-export default AddReviewPage;
+export default withAuth(AddReviewPage);
