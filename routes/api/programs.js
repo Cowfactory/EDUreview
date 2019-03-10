@@ -8,7 +8,6 @@ router.post('/', (req, res) => {
         types: req.body.programTypes,
         locations: req.body.programLocations
     });
-    console.log(program);
     program.updateCorrespondingInstitution(req.body.selectedInstitutionId);
 
     program.save(err => {
@@ -45,15 +44,17 @@ router.get('/search', (req, res, next) => {
 
 /* --- GET all programs from db --- */
 router.get('/', (req, res) => {
-    Program.find({}, (err, result) => {
-        if (err) {
-            res.status(500).send({
-                msg: 'Internal Error'
-            });
-            return err;
-        }
-        return res.status(200).send(JSON.stringify(result));
-    });
+    Program.find({})
+        .populate()
+        .exec((err, result) => {
+            if (err) {
+                res.status(500).send({
+                    msg: 'Internal Error'
+                });
+                return err;
+            }
+            return res.status(200).send(JSON.stringify(result));
+        });
 });
 
 /* --- GET one program from db --- */
@@ -78,7 +79,7 @@ router.post('/:id/reviews', (req, res) => {
             if (err) {
                 return res.status(422).json({ errors: err });
             }
-            program.addReview(req.body.review, req.body.userId);
+            program.addReview(req.body.review, req.body.user);
             program.save(err => {
                 if (err) {
                     return res.status(422).json({ errors: err });

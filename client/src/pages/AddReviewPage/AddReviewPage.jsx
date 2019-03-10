@@ -27,7 +27,7 @@ class AddReviewPage extends Component {
             review: this.state.textValue
         };
         if (this.props.user) {
-            payload.userId = this.props.user._id;
+            payload.user = this.props.user._id;
         }
 
         fetch(`/api/programs/${this.props.match.params.id}/reviews`, {
@@ -36,7 +36,7 @@ class AddReviewPage extends Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(_ => {
+        }).then(() => {
             this.setState({ redirect: true });
         });
     };

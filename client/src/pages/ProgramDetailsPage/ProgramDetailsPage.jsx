@@ -19,10 +19,35 @@ class ProgramDetailsPage extends React.Component {
         fetch(`/api/programs/${this.props.match.params.id}`)
             .then(response => response.json())
             .then(data => {
-                // console.log(data);
                 this.setState(data);
             });
+        // .then(() => {
+        //     this.state.reviews.forEach(review => {
+        //         this.fetchUserAndPushToState(review.user);
+        //     });
+        // });
     }
+
+    fetchUserAndPushToState = id => {
+        fetch(`/api/users/${id}`)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                console.log(this.state.reviews);
+                // this.setState(({reviews}) => {
+                //     reviews: reviews
+                // })
+            });
+        // fetch(`/api/reviews/${id}`)
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         this.setState(state => {
+        //             let arr = state.reviews || [];
+        //             arr.push(data);
+        //             return { asdf: arr };
+        //         });
+        //     });
+    };
 
     render() {
         return (

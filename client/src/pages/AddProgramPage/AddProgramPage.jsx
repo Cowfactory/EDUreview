@@ -1,14 +1,11 @@
 import React from 'react';
-import { 
-    Link,
-    Redirect
-} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 
-class AddProgramPage extends React.Component{
+class AddProgramPage extends React.Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             institutionsList: [],
             selectedInstitutionId: '',
@@ -16,60 +13,61 @@ class AddProgramPage extends React.Component{
             programTypes: [],
             programLocations: [],
             redirect: false
-        }
-        this.handleProgramInstitutionNameChange = this.handleProgramInstitutionNameChange.bind(this)
-        this.handleSelectedInstitutionIdChange = this.handleSelectedInstitutionIdChange.bind(this)
-        this.handleProgramNameChange = this.handleProgramNameChange.bind(this)
-        this.handleProgramTypesChange = this.handleProgramTypesChange.bind(this)
-        this.handleProgramLocationsChange = this.handleProgramLocationsChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+        };
+        this.handleProgramInstitutionNameChange = this.handleProgramInstitutionNameChange.bind(
+            this
+        );
+        this.handleSelectedInstitutionIdChange = this.handleSelectedInstitutionIdChange.bind(this);
+        this.handleProgramNameChange = this.handleProgramNameChange.bind(this);
+        this.handleProgramTypesChange = this.handleProgramTypesChange.bind(this);
+        this.handleProgramLocationsChange = this.handleProgramLocationsChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        fetch('/api/institutions')  
-        .then(response => response.json())
-        .then(data => {
-            let reducedArr = data.map( item => {
-                return {
-                    id: item._id,
-                    name: item.name
-                }
-            })
-            this.setState({
-                institutionsList: reducedArr,
-                selectedInstitutionId: reducedArr[0].id   
+        fetch('/api/institutions')
+            .then(response => response.json())
+            .then(data => {
+                let reducedArr = data.map(item => {
+                    return {
+                        id: item._id,
+                        name: item.name
+                    };
+                });
+                this.setState({
+                    institutionsList: reducedArr,
+                    selectedInstitutionId: reducedArr[0].id
+                });
             });
-        })
     }
 
     handleSelectedInstitutionIdChange = function(event) {
         this.setState({
             selectedInstitutionId: event.target.value
-        })
-    }
+        });
+    };
 
     handleProgramInstitutionNameChange = function(event) {
         this.setState({
             programInstitutionName: event.target.value
-        })
-    }
+        });
+    };
 
     handleProgramNameChange = function(event) {
         this.setState({
             programName: event.target.value
-        })
-    }
+        });
+    };
     handleProgramTypesChange = function(event) {
         this.setState({
             programTypes: event.target.value
-
-        })
-    }
+        });
+    };
     handleProgramLocationsChange = function(event) {
         this.setState({
             programLocations: event.target.value
-        })
-    }
+        });
+    };
 
     handleSubmit = function(event) {
         //AJAX send the form data to our API endpoint on our server
@@ -87,68 +85,71 @@ class AddProgramPage extends React.Component{
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
-        .then( _ => {
+        }).then(_ => {
             this.setState({
                 redirect: true
-            })
-        })
+            });
+        });
         // .then(res => res.json())
         // .then(response => console.log('Success:', JSON.stringify(response)))
         //.catch(error => console.error('Error:', error));
+    };
 
-    }
-
-
-    render(){
+    render() {
         const redirect = this.state.redirect;
-        if(redirect) return <Redirect to="/programs"></Redirect>
+        if (redirect) return <Redirect to="/programs" />;
         return (
-            <PageTemplate >
+            <PageTemplate>
                 <h1>Add New Program to EDUreview</h1>
                 <Link to="/programs">Browse all programs</Link>
-                <FormTemplate onSubmit = {this.handleSubmit}>
-                <label>
-                    Institution:
-                    <select value={this.state.selectedInstitutionId} onChange={this.handleSelectedInstitutionIdChange}>
-                        {this.state.institutionsList.map((inst, idx) =>
-                            <option key={idx} value={inst.id}>{inst.name}</option>
-                        )};
-                    </select>
-                </label>
+                <FormTemplate onSubmit={this.handleSubmit}>
+                    <label>
+                        Institution:
+                        <select
+                            value={this.state.selectedInstitutionId}
+                            onChange={this.handleSelectedInstitutionIdChange}
+                        >
+                            {this.state.institutionsList.map((inst, idx) => (
+                                <option key={idx} value={inst.id}>
+                                    {inst.name}
+                                </option>
+                            ))}
+                            ;
+                        </select>
+                    </label>
 
-                <label>
-                    Program Name:
-                    <input 
-                        type="text"
-                        name="programName" 
-                        value={this.state.programName}
-                        onChange={this.handleProgramNameChange} >
-                    </input>
-                </label>
+                    <label>
+                        Program Name:
+                        <input
+                            type="text"
+                            name="programName"
+                            value={this.state.programName}
+                            onChange={this.handleProgramNameChange}
+                        />
+                    </label>
 
-                <label>
-                    Program Types:
-                    <input 
-                        type="text"
-                        name="programTypes" 
-                        value={this.state.programTypes}
-                        onChange={this.handleProgramTypesChange} >
-                    </input>
-                </label>
+                    <label>
+                        Program Types:
+                        <input
+                            type="text"
+                            name="programTypes"
+                            value={this.state.programTypes}
+                            onChange={this.handleProgramTypesChange}
+                        />
+                    </label>
 
-                <label>
-                    Program Locations:
-                    <input 
-                        type="text"
-                        name="programLocations" 
-                        value={this.state.programLocations}
-                        onChange={this.handleProgramLocationsChange} >
-                    </input>
-                </label>
+                    <label>
+                        Program Locations:
+                        <input
+                            type="text"
+                            name="programLocations"
+                            value={this.state.programLocations}
+                            onChange={this.handleProgramLocationsChange}
+                        />
+                    </label>
                 </FormTemplate>
             </PageTemplate>
-        )
+        );
     }
 }
 

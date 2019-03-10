@@ -16,7 +16,6 @@ class InstitutionDetailsPage extends React.Component {
         fetch(`/api/institutions/${this.props.match.params.id}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 this.setState(data);
             });
     }
@@ -30,17 +29,16 @@ class InstitutionDetailsPage extends React.Component {
                 <Link to="/add-program">Add a Program to this Institution</Link>
                 <h2>This Institution's programs:</h2>
                 {/* All programs down here */}
-                {console.log(this.state.programs)}
-                {/* {this.state.programs.map( (program, idx) => (
+                {this.state.programs.map((program, idx) => (
                     <ProgramListEntry
                         key={idx}
                         institutionName={program.institutionName}
                         name={program.name}
                         types={program.types}
                         locations={program.locations}
-                        programId={program._id} >
-                    </ProgramListEntry>
-                ))} */}
+                        programId={program._id}
+                    />
+                ))}
                 {/*
                 {this.state.programs.map( (program, idx) => {
                     return (

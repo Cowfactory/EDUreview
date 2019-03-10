@@ -2,6 +2,16 @@ const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
 
+router.get('/:id', (req, res, next) => {
+    User.findById(req.params.id)
+        .then(user => {
+            return res.status(200).json(user.toObject());
+        })
+        .catch(err => {
+            return res.status(422).json({ errors: ['Error searching for user names'] });
+        });
+});
+
 /* --- Adds a new user to db --- */
 router.post('/', (req, res, next) => {
     if (!req.body.email) {
