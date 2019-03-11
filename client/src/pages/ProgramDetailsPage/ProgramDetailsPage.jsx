@@ -20,9 +20,9 @@ class ProgramDetailsPage extends React.Component {
             .then(response => response.json())
             .then(data => {
                 this.setState(data);
-                // data.reviews.forEach(review => {
-                //     // this.fetchUserAndPushToState(review._id);
-                // });
+                data.reviews.forEach(review => {
+                    this.fetchUserAndPushToState(review.userId);
+                });
             });
         // .then(() => {
         //     this.state.reviews.forEach(review => {

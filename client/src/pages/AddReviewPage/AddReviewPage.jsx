@@ -28,7 +28,7 @@ class AddReviewPage extends Component {
             review: this.state.textValue
         };
         if (this.props.user) {
-            payload.user = this.props.user._id;
+            payload.userId = this.props.user._id;
         }
         console.log(`before fetch to /api/programs/${this.props.match.params.id}/reviews`);
         fetch(`/api/programs/${this.props.match.params.id}/reviews`, {

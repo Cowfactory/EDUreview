@@ -84,7 +84,7 @@ router.post('/:id/reviews', (req, res) => {
                 return res.status(422).json({ errors: err });
             }
             console.log('no err in post');
-            program.addReview(req.body.review, req.body.user);
+            program.addReview(req.body.review, req.body.userId);
             program.save(err => {
                 console.log('saving program maybe');
                 if (err) {

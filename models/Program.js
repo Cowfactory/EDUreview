@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 /* --- Review sub-schema --- */
 const reviewSchema = new Schema(
     {
-        user: {
+        userId: {
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
@@ -45,16 +45,17 @@ const User = require('../models/User');
 
 /* --- Program Schema Methods --- */
 // Do not change the function to arrow function (this binding)
-programSchema.methods.addReview = function addReview(review, user) {
-    const newReview = new Review({
-        _id: new mongoose.Types.ObjectId(),
-        review
-    });
-    if (user) {
-        User.findById(user).then(userObj => {
-            newReview.user = userObj;
+programSchema.methods.addReview = function addReview(review, userId) {
+    let newReview;
+    if (userId) {
+        newReview = new Review({
+            userId,
+            review
         });
-        // equivalent to newReview.user = user;
+    } else {
+        newReview = new Review({
+            review
+        });
     }
     newReview.save();
     this.reviews.push(newReview);
