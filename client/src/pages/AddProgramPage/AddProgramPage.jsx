@@ -85,7 +85,7 @@ class AddProgramPage extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(_ => {
+        }).then(() => {
             this.setState({
                 redirect: true
             });

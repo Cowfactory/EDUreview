@@ -51,10 +51,8 @@ programSchema.methods.addReview = function addReview(review, user) {
         review
     });
     if (user) {
-        console.log('user', user);
         User.findById(user).then(userObj => {
             newReview.user = userObj;
-            console.log(userObj);
         });
         // equivalent to newReview.user = user;
     }

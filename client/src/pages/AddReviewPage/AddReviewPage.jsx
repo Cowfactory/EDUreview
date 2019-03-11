@@ -22,6 +22,7 @@ class AddReviewPage extends Component {
     };
     handleSubmit = function(event) {
         event.preventDefault();
+        console.log('Click!');
 
         let payload = {
             review: this.state.textValue
@@ -29,16 +30,23 @@ class AddReviewPage extends Component {
         if (this.props.user) {
             payload.user = this.props.user._id;
         }
-
+        console.log(`before fetch to /api/programs/${this.props.match.params.id}/reviews`);
         fetch(`/api/programs/${this.props.match.params.id}/reviews`, {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(() => {
-            this.setState({ redirect: true });
-        });
+        })
+            .then(_ => {
+                console.log(_);
+                console.log('setting state');
+                this.setState({ redirect: true });
+            })
+            .catch(err => {
+                console.log('failure');
+                console.log(err);
+            });
     };
 
     render() {

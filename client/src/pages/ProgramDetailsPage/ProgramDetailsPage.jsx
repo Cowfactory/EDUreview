@@ -20,6 +20,9 @@ class ProgramDetailsPage extends React.Component {
             .then(response => response.json())
             .then(data => {
                 this.setState(data);
+                // data.reviews.forEach(review => {
+                //     // this.fetchUserAndPushToState(review._id);
+                // });
             });
         // .then(() => {
         //     this.state.reviews.forEach(review => {
@@ -29,14 +32,17 @@ class ProgramDetailsPage extends React.Component {
     }
 
     fetchUserAndPushToState = id => {
-        fetch(`/api/users/${id}`)
-            .then(res => res.json())
+        console.log('fetching review:', id);
+        fetch(`/api/reviews/${id}`)
+            .then(res => res.text())
             .then(data => {
                 console.log(data);
-                console.log(this.state.reviews);
                 // this.setState(({reviews}) => {
                 //     reviews: reviews
                 // })
+            })
+            .catch(err => {
+                console.log(err);
             });
         // fetch(`/api/reviews/${id}`)
         //     .then(res => res.json())
