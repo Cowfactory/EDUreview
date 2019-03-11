@@ -5,7 +5,7 @@ const Review = require('./Review');
 const { Schema } = mongoose;
 
 /* --- Program Schema --- */
-const programSchema = new Schema(
+var programSchema = new Schema(
     {
         reviews: [
             {
@@ -29,20 +29,8 @@ programSchema.index({
 
 /* --- Program Schema Methods --- */
 // Do not change the function to arrow function (this binding)
-programSchema.methods.addReview = function addReview(review, userId) {
-    let newReview;
-    if (userId) {
-        newReview = new Review({
-            userId,
-            review
-        });
-    } else {
-        newReview = new Review({
-            review
-        });
-    }
-    newReview.save();
-    this.reviews.push(newReview);
+programSchema.methods.addReview = function addReview(review) {
+    this.reviews.push(review);
 };
 
 programSchema.methods.updateCorrespondingInstitution = function updateCorrespondingInstitution(

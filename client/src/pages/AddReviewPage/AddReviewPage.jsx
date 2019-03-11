@@ -25,22 +25,21 @@ class AddReviewPage extends Component {
         console.log('Click!');
 
         let payload = {
-            review: this.state.textValue
+            review: this.state.textValue,
+            programId: this.props.match.params.id
         };
         if (this.props.user) {
             payload.userId = this.props.user._id;
         }
         console.log(`before fetch to /api/programs/${this.props.match.params.id}/reviews`);
-        fetch(`/api/programs/${this.props.match.params.id}/reviews`, {
+        fetch('/api/reviews/', {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-            .then(_ => {
-                console.log(_);
-                console.log('setting state');
+            .then(() => {
                 this.setState({ redirect: true });
             })
             .catch(err => {
