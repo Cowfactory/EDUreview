@@ -1,22 +1,8 @@
 const mongoose = require('mongoose');
 const Institution = require('./Institution');
+const Review = require('./Review');
 
 const { Schema } = mongoose;
-
-/* --- Review sub-schema --- */
-const reviewSchema = new Schema(
-    {
-        userId: {
-            type: Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        review: String
-    },
-    {
-        timestamps: true
-    }
-);
-const Review = mongoose.model('Review', reviewSchema);
 
 /* --- Program Schema --- */
 const programSchema = new Schema(
@@ -40,8 +26,6 @@ const programSchema = new Schema(
 programSchema.index({
     name: 'text'
 });
-
-const User = require('../models/User');
 
 /* --- Program Schema Methods --- */
 // Do not change the function to arrow function (this binding)
