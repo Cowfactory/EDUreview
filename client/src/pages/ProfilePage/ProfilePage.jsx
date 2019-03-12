@@ -2,6 +2,7 @@ import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import withAuth from '../../components/withAuth/withAuth';
 import { Redirect } from 'react-router-dom';
+import ReviewsListEntry from '../../components/ReviewsListEntry/ReviewsListEntry';
 
 class ProfilePage extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class ProfilePage extends React.Component {
                 <div>
                     Reviews:
                     {this.state.reviews.map((review, key) => (
-                        <p key={key}>{review.review}</p>
+                        <ReviewsListEntry key={key} review={review}></ReviewsListEntry>
                     ))}
                 </div>
             </PageTemplate>

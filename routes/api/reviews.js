@@ -11,12 +11,12 @@ router.post('/', (req, res) => {
         }
         let newReview = req.body.user
             ? new Review({
-                  user: req.body.user,
-                  review: req.body.review
-              })
+                user: req.body.user,
+                review: req.body.review
+            })
             : new Review({
-                  review: req.body.review
-              });
+                review: req.body.review
+            });
 
         program.addReview(newReview);
         newReview.save(err => {
