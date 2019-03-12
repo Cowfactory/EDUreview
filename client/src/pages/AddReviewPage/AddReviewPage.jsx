@@ -29,7 +29,7 @@ class AddReviewPage extends Component {
             programId: this.props.match.params.id
         };
         if (this.props.user) {
-            payload.userId = this.props.user._id;
+            payload.user = this.props.user._id;
         }
         console.log(`before fetch to /api/programs/${this.props.match.params.id}/reviews`);
         fetch('/api/reviews/', {

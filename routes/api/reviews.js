@@ -9,9 +9,9 @@ router.post('/', (req, res) => {
         if (err) {
             return res.status(422).json({ errors: err });
         }
-        let newReview = req.body.userId
+        let newReview = req.body.user
             ? new Review({
-                  userId: req.body.userId,
+                  user: req.body.user,
                   review: req.body.review
               })
             : new Review({
@@ -33,4 +33,18 @@ router.post('/', (req, res) => {
     });
 });
 
+router.get('/:id', (req, res) => {
+    Review.findById(req.params.id)
+        .populate({
+            path: 'user',
+            select: 'username'
+        })
+        .exec((err, review) => {
+            let reviewNoPass = review.toObject();
+            if (err) {
+                return res.status(422).json({ errors: err });
+            }
+            return res.status(200).json(reviewNoPass);
+        });
+});
 module.exports = router;

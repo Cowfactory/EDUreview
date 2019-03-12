@@ -13,46 +13,42 @@ class ProgramDetailsPage extends React.Component {
             locations: [],
             reviews: []
         };
+        this.fetchUsername = this.fetchUsername.bind(this);
     }
 
     componentDidMount() {
         fetch(`/api/programs/${this.props.match.params.id}`)
-            .then(response => response.json())
+            .then(response => response.json()) // fetch program from API
             .then(data => {
                 this.setState(data);
-                data.reviews.forEach(review => {
-                    this.fetchUserAndPushToState(review.userId);
-                });
-            });
-        // .then(() => {
-        //     this.state.reviews.forEach(review => {
-        //         this.fetchUserAndPushToState(review.user);
-        //     });
-        // });
-    }
-
-    fetchUserAndPushToState = id => {
-        console.log('fetching review:', id);
-        fetch(`/api/reviews/${id}`)
-            .then(res => res.text())
+                return data;
+            })
             .then(data => {
-                console.log(data);
-                // this.setState(({reviews}) => {
-                //     reviews: reviews
-                // })
+                // Acquire username for each review from API
+                return data.reviews.map(review => this.fetchUsername(review._id));
+            })
+            .then(promises => {
+                return Promise.all(promises);
+            })
+            .then(reviews => {
+                this.setState({ reviews });
             })
             .catch(err => {
                 console.log(err);
             });
-        // fetch(`/api/reviews/${id}`)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         this.setState(state => {
-        //             let arr = state.reviews || [];
-        //             arr.push(data);
-        //             return { asdf: arr };
-        //         });
-        //     });
+    }
+
+    fetchUsername = id => {
+        return new Promise((resolve, reject) => {
+            fetch(`/api/reviews/${id}`)
+                .then(res => res.json())
+                .then(review => {
+                    resolve(review);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
     };
 
     render() {
@@ -69,7 +65,7 @@ class ProgramDetailsPage extends React.Component {
                 </Link>
                 <h2>Reviews: </h2>
                 {this.state.reviews.map((review, idx) => (
-                    <ReviewsListEntry key={idx} review={review.review} />
+                    <ReviewsListEntry key={idx} review={review} />
                 ))}
             </PageTemplate>
         );
