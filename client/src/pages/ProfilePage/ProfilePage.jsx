@@ -26,13 +26,12 @@ class ProfilePage extends React.Component {
         if (this.state.redirect) return <Redirect to="/login" />;
         return (
             <PageTemplate>
-                {/* <p>hello, {this.props.user.username}</p> */}
-                {/* <div>
+                <div>
                     Reviews:
                     {this.state.reviews.map((review, key) => (
                         <p key={key}>{review.review}</p>
                     ))}
-                </div> */}
+                </div>
             </PageTemplate>
         );
     }
