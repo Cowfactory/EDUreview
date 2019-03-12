@@ -11,7 +11,10 @@ router.post('/', (req, res) => {
     program.updateCorrespondingInstitution(req.body.selectedInstitutionId);
 
     program.save(err => {
-        if (err) return err;
+        if (err) {
+            return res.status(422).json({ errors: err });
+        }
+
         return res.status(201).send({
             msg: 'Program Entry Added'
         });
@@ -45,7 +48,7 @@ router.get('/search', (req, res, next) => {
 /* --- GET all programs from db --- */
 router.get('/', (req, res) => {
     Program.find({})
-        .populate()
+        .populate('reviews')
         .exec((err, result) => {
             if (err) {
                 res.status(500).send({
@@ -63,29 +66,9 @@ router.get('/:id', (req, res) => {
         .populate('reviews')
         .exec((err, program) => {
             if (err) {
-                res.status(500).send({
-                    msg: 'Internal Error'
-                });
-                return err;
+                return res.status(422).send({ errors: err });
             }
-            return res.status(200).send(JSON.stringify(program));
-        });
-});
-/* --- POST(add) a review to a program in db --- */
-router.post('/:id/reviews', (req, res) => {
-    Program.findById(req.params.id)
-        .populate()
-        .exec((err, program) => {
-            if (err) {
-                return res.status(422).json({ errors: err });
-            }
-            program.addReview(req.body.review, req.body.user);
-            program.save(err => {
-                if (err) {
-                    return res.status(422).json({ errors: err });
-                }
-                return res.status(200).send(JSON.stringify(program));
-            });
+            return res.status(200).json(program);
         });
 });
 

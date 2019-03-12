@@ -22,6 +22,7 @@ function NavBar(props) {
                     {context =>
                         context.user ? (
                             <>
+                                <li>Hello, {context.user.username}</li>
                                 <li>
                                     <Link to="/profile">Profile</Link>
                                 </li>

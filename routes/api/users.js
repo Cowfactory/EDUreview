@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
 
 router.get('/:id', (req, res, next) => {
-    User.findById(req.params.id)
+    console.log('request received for id:', req.params.id);
+    User.findOne({ _id: req.params.id })
         .then(user => {
             return res.status(200).json(user.toObject());
         })

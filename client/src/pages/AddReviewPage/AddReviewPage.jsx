@@ -22,23 +22,30 @@ class AddReviewPage extends Component {
     };
     handleSubmit = function(event) {
         event.preventDefault();
+        console.log('Click!');
 
         let payload = {
-            review: this.state.textValue
+            review: this.state.textValue,
+            programId: this.props.match.params.id
         };
         if (this.props.user) {
-            payload.user = this.props.user._id;
+            payload.userId = this.props.user._id;
         }
-
-        fetch(`/api/programs/${this.props.match.params.id}/reviews`, {
+        console.log(`before fetch to /api/programs/${this.props.match.params.id}/reviews`);
+        fetch('/api/reviews/', {
             method: 'POST',
             body: JSON.stringify(payload),
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(() => {
-            this.setState({ redirect: true });
-        });
+        })
+            .then(() => {
+                this.setState({ redirect: true });
+            })
+            .catch(err => {
+                console.log('failure');
+                console.log(err);
+            });
     };
 
     render() {

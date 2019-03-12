@@ -1,25 +1,11 @@
 const mongoose = require('mongoose');
 const Institution = require('./Institution');
+const Review = require('./Review');
 
 const { Schema } = mongoose;
 
-/* --- Review sub-schema --- */
-const reviewSchema = new Schema(
-    {
-        user: {
-            type: Schema.Types.ObjectId,
-            ref: 'User'
-        },
-        review: String
-    },
-    {
-        timestamps: true
-    }
-);
-const Review = mongoose.model('Review', reviewSchema);
-
 /* --- Program Schema --- */
-const programSchema = new Schema(
+var programSchema = new Schema(
     {
         reviews: [
             {
@@ -41,25 +27,10 @@ programSchema.index({
     name: 'text'
 });
 
-const User = require('../models/User');
-
 /* --- Program Schema Methods --- */
 // Do not change the function to arrow function (this binding)
-programSchema.methods.addReview = function addReview(review, user) {
-    const newReview = new Review({
-        _id: new mongoose.Types.ObjectId(),
-        review
-    });
-    if (user) {
-        console.log('user', user);
-        User.findById(user).then(userObj => {
-            newReview.user = userObj;
-            console.log(userObj);
-        });
-        // equivalent to newReview.user = user;
-    }
-    newReview.save();
-    this.reviews.push(newReview);
+programSchema.methods.addReview = function addReview(review) {
+    this.reviews.push(review);
 };
 
 programSchema.methods.updateCorrespondingInstitution = function updateCorrespondingInstitution(

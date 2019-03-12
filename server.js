@@ -31,6 +31,7 @@ require('./config/passport');
 app.use('/api/programs/', require('./routes/api/programs'));
 app.use('/api/institutions', require('./routes/api/institutions'));
 app.use('/api/users', require('./routes/api/users'));
+app.use('/api/reviews', require('./routes/api/reviews'));
 // Auth routes
 app.use('/api/auth', require('./routes/api/auth'));
 
