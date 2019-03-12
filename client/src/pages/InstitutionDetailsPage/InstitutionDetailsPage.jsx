@@ -26,7 +26,9 @@ class InstitutionDetailsPage extends React.Component {
                 <h1>{this.state.name}</h1>
                 <h3>{this.state.website}</h3>
                 <br />
-                <Link to="/add-program">Add a Program to this Institution</Link>
+                <Link  to={{ pathname: '/add-program', state: { IID: this.state._id, Name: this.state.name } }}>
+                    Add a Program to this Institution
+                </Link>
                 <h2>This Institution's programs:</h2>
                 {/* All programs down here */}
                 {this.state.programs.map((program, idx) => (
