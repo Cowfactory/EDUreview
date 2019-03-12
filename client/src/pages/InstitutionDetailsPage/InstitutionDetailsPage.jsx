@@ -26,7 +26,12 @@ class InstitutionDetailsPage extends React.Component {
                 <h1>{this.state.name}</h1>
                 <h3>{this.state.website}</h3>
                 <br />
-                <Link  to={{ pathname: '/add-program', state: { IID: this.state._id, Name: this.state.name } }}>
+                <Link
+                    to={{
+                        pathname: '/add-program',
+                        state: { IID: this.state._id, Name: this.state.name }
+                    }}
+                >
                     Add a Program to this Institution
                 </Link>
                 <h2>This Institution's programs:</h2>
@@ -41,17 +46,6 @@ class InstitutionDetailsPage extends React.Component {
                         programId={program._id}
                     />
                 ))}
-                {/*
-                {this.state.programs.map( (program, idx) => {
-                    return (
-                        <div key={idx}>
-                            <p>{program.name}</p>
-                            { program.locations.map( (location, idx) => <p key={idx}>{location}</p>) }
-                            { program.types.map( (type, idx) => <p key={idx}>{type}</p>) }
-                        </div>
-                    )
-                })}
-            */}
             </PageTemplate>
         );
     }
