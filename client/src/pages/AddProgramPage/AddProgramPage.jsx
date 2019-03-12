@@ -12,7 +12,8 @@ class AddProgramPage extends React.Component {
             programName: '',
             programTypes: [],
             programLocations: [],
-            redirect: false
+            redirect: false,
+            dropDownDisabled: false,
         };
         this.handleProgramInstitutionNameChange = this.handleProgramInstitutionNameChange.bind(
             this
@@ -25,6 +26,18 @@ class AddProgramPage extends React.Component {
     }
 
     componentDidMount() {
+
+        
+        var IID, IName;  //Institution ID/Name if routed from Institution Details page 
+        try { 
+            IID = this.props.location.state.IID; 
+            IName = this.props.location.state.Name;
+        }
+        catch{ 
+            IID = undefined; 
+            IName = undefined;
+        }
+
         fetch('/api/institutions')
             .then(response => response.json())
             .then(data => {
@@ -34,10 +47,20 @@ class AddProgramPage extends React.Component {
                         name: item.name
                     };
                 });
-                this.setState({
-                    institutionsList: reducedArr,
-                    selectedInstitutionId: reducedArr[0].id
-                });
+                if (IID && IName){
+                    this.setState({
+                        institutionsList: reducedArr,
+                        selectedInstitutionId: IID,
+                        programInstitutionName: IName,
+                        dropDownDisabled: true
+                    });
+                }
+                else{
+                    this.setState({
+                        institutionsList: reducedArr,
+                        selectedInstitutionId: reducedArr[0].id
+                    });
+                }
             });
     }
 
@@ -108,13 +131,12 @@ class AddProgramPage extends React.Component {
                         <select
                             value={this.state.selectedInstitutionId}
                             onChange={this.handleSelectedInstitutionIdChange}
-                        >
+                            disabled={this.state.dropDownDisabled}>
                             {this.state.institutionsList.map((inst, idx) => (
                                 <option key={idx} value={inst.id}>
                                     {inst.name}
                                 </option>
-                            ))}
-                            ;
+                            ))};
                         </select>
                     </label>
 
