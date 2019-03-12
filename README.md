@@ -15,7 +15,7 @@ The place to research into and share the educational experience
 
     * `JWT_SECRET=any_secret_here`
 
-3. Run `npm install` project root
+3. Run `npm install` in project root
 
 
 4. Run `npm run build` in `/client` directory
