@@ -11,6 +11,10 @@ const institutionSchema = new Schema(
             }
         ],
         name: String,
+        address: String,
+        city: String,
+        country: String,
+        telephone: String,
         website: String
     },
     {
