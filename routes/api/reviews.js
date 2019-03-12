@@ -33,6 +33,19 @@ router.post('/', (req, res) => {
     });
 });
 
+router.get('/search', (req, res) => {
+    if (!req.query.uid) {
+        return res.status(400).json({ errors: 'Please specifiy a user ID' });
+    }
+    Review.find({ user: req.query.uid })
+        .then(reviews => {
+            return res.status(200).json(reviews);
+        })
+        .catch(err => {
+            return res.status(422).json({ errors: err });
+        });
+});
+
 router.get('/:id', (req, res) => {
     Review.findById(req.params.id)
         .populate({
