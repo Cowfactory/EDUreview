@@ -5,6 +5,7 @@ import InstitutionSearchResultsEntry from '../../components/InstitutionSearchRes
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import styles from './SearchResultsPage.module.css';
 import { Link } from 'react-router-dom'
+import { RegionDropdown } from 'react-country-region-selector';
 
 const DEFAULT_SHOW = 10;
 const DEFAULT_SKIP = 0;
@@ -14,14 +15,15 @@ class SearchResultsPage extends React.Component {
         results: [],
         show: DEFAULT_SHOW,
         skip: DEFAULT_SKIP,
-        count: 0
+        count: 0,
+        stateFilter: '',
     };
 
     componentDidMount() {
         this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP);
     }
 
-    queryForResults = (show, skip) => {
+    queryForResults = (show, skip, stateFilter) => {
         let { q } = queryString.parse(this.props.location.search);
         let searchType = this.props.location.state.type;
         fetch(`/api/${searchType}/search`, {
@@ -29,7 +31,8 @@ class SearchResultsPage extends React.Component {
             body: JSON.stringify({
                 query: q,
                 skip: Number(skip),
-                show: Number(show)
+                show: Number(show),
+                stateFilter
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -41,13 +44,14 @@ class SearchResultsPage extends React.Component {
                     results: res.results,
                     skip: Number(skip),
                     show: Number(show),
-                    count: res.count
+                    count: res.count,
+                    stateFilter
                 });
             })
     }
 
     handleShowChange = (e) => {
-        this.queryForResults(e.target.value, this.state.skip);
+        this.queryForResults(e.target.value, this.state.skip, this.state.stateFilter);
     }
 
     showPreviousPage = (e) => {
@@ -58,7 +62,7 @@ class SearchResultsPage extends React.Component {
             newSkip = Number(this.state.skip) - Number(this.state.show)
         }
 
-        this.queryForResults(this.state.show, newSkip);
+        this.queryForResults(this.state.show, newSkip, this.state.stateFilter);
     }
 
     showNextPage = (e) => {
@@ -66,13 +70,15 @@ class SearchResultsPage extends React.Component {
             return; //disable button when there are no more results
         }
         let newSkip = Number(this.state.skip) + Number(this.state.show)
-        this.queryForResults(this.state.show, newSkip);
+        this.queryForResults(this.state.show, newSkip, this.state.stateFilter);
     }
 
     resetControls = (e) => {
-        this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP);
+        this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP, this.state.stateFilter);
     }
-
+    selectStateFilter = (e) => {
+        this.queryForResults(this.state.show, this.state.skip, e);
+    }
     render() {
         let resultsList = [];
         let type = this.props.location.state.type;
@@ -99,7 +105,18 @@ class SearchResultsPage extends React.Component {
         return <PageTemplate>
             <div className={styles.filter_toolbox}>
                 Filter Tools:
-                <p>Show only: X, Y, Z [Search]</p>
+                <div>
+                    <p>Show only: X, Y, Z [Search]</p>
+                    <p>By Region:
+                        <RegionDropdown
+                            country={"United States"}
+                            value={this.state.stateFilter}
+                            onChange={this.selectStateFilter}
+                            valueType="short"
+                        />
+                    </p>
+                </div>
+
                 <p>Don't see the result you're looking for?</p>
                 <Link to="add-institution">Add an institution listing here:</Link>
                 <Link to="add-program">Add a program listing here:</Link>
@@ -127,6 +144,22 @@ class SearchResultsPage extends React.Component {
                     {" "}of {this.state.count}
                 </p>
                 {resultsList} {/* List of Reviews go here */}
+            </div>
+            <div className={styles.page_tools}>
+                <div>
+                    Num Results:
+                    <select value={this.state.show} onChange={this.handleShowChange}>
+                        <option value={10}>10</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
+                </div>
+                <div>
+                    <span className={`${styles.page_nav} ${"noselect"}`} onClick={this.showPreviousPage}>{`< Previous ${this.state.show}`}</span>
+                    <span className={`${styles.page_nav} ${"noselect"}`} onClick={this.showNextPage}>{`Next ${this.state.show} >`}</span>
+                    <span className={`${styles.page_nav} ${"noselect"}`} onClick={this.resetControls}>Reset</span>
+                </div>
             </div>
         </PageTemplate >
     }

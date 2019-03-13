@@ -27,7 +27,13 @@ institutionSchema.index({
     name: 'text',
     cities: 'text',
     state: 'text'
-});
+}, {
+        weights: {
+            name: 2,
+            state: 1,
+            cities: 1
+        }
+    });
 
 const Instituion = mongoose.model('Institution', institutionSchema);
 
