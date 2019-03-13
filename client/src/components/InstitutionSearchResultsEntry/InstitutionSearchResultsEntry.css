@@ -1,6 +1,6 @@
 .InstitutionSearchResultsEntry {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 5px;
     margin: 1px;
     border: 1px solid black;

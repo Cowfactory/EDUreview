@@ -90,7 +90,7 @@ class SearchResultsPage extends React.Component {
             ));
         } else if (type === 'institutions' && haveResults) {
             resultsList = this.state.results.map((item, key) => (
-                <InstitutionSearchResultsEntry key={key} name={item.name} id={item._id} />
+                <InstitutionSearchResultsEntry key={key} institution={item} />
             ));
         } else {
             resultsList = <p>No Results Found</p>;
