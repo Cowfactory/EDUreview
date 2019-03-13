@@ -26,12 +26,13 @@ router.post('/search', (req, res, next) => {
         // default limit is 10, unless specified in body
         let limit = req.body.show || 10;
         let stateFilter = req.body.stateFilter || new RegExp('\\.*');
+        let ascending = req.body.ascending || 1
         let countQuery = Institution.countDocuments({ $text: { $search: req.body.query }, state: stateFilter });
         Institution.find({ $text: { $search: req.body.query }, state: stateFilter }, null, {
             limit,
             skip: req.body.skip,
             sort: {
-                name: 1
+                name: ascending
             }
         }, function (err, results) {
             if (err) {

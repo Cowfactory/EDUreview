@@ -17,13 +17,14 @@ class SearchResultsPage extends React.Component {
         skip: DEFAULT_SKIP,
         count: 0,
         stateFilter: '',
+        ascending: 1,
     };
 
     componentDidMount() {
         this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP);
     }
 
-    queryForResults = (show, skip, stateFilter) => {
+    queryForResults = (show, skip, stateFilter, ascending) => {
         let { q } = queryString.parse(this.props.location.search);
         let searchType = this.props.location.state.type;
         fetch(`/api/${searchType}/search`, {
@@ -32,7 +33,8 @@ class SearchResultsPage extends React.Component {
                 query: q,
                 skip: Number(skip),
                 show: Number(show),
-                stateFilter
+                stateFilter,
+                ascending: ascending
             }),
             headers: {
                 'Content-Type': 'application/json'
@@ -45,13 +47,14 @@ class SearchResultsPage extends React.Component {
                     skip: Number(skip),
                     show: Number(show),
                     count: res.count,
-                    stateFilter
+                    stateFilter,
+                    ascending
                 });
             })
     }
 
     handleShowChange = (e) => {
-        this.queryForResults(e.target.value, this.state.skip, this.state.stateFilter);
+        this.queryForResults(e.target.value, this.state.skip, this.state.stateFilter, this.state.ascending);
     }
 
     showPreviousPage = (e) => {
@@ -62,7 +65,7 @@ class SearchResultsPage extends React.Component {
             newSkip = Number(this.state.skip) - Number(this.state.show)
         }
 
-        this.queryForResults(this.state.show, newSkip, this.state.stateFilter);
+        this.queryForResults(this.state.show, newSkip, this.state.stateFilter, this.state.ascending);
     }
 
     showNextPage = (e) => {
@@ -70,14 +73,17 @@ class SearchResultsPage extends React.Component {
             return; //disable button when there are no more results
         }
         let newSkip = Number(this.state.skip) + Number(this.state.show)
-        this.queryForResults(this.state.show, newSkip, this.state.stateFilter);
+        this.queryForResults(this.state.show, newSkip, this.state.stateFilter, this.state.ascending);
     }
 
     resetControls = (e) => {
-        this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP, this.state.stateFilter);
+        this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP, this.state.stateFilter, this.state.ascending);
     }
     selectStateFilter = (e) => {
-        this.queryForResults(this.state.show, this.state.skip, e);
+        this.queryForResults(this.state.show, DEFAULT_SKIP, e, this.state.ascending);
+    }
+    handleSortChange = (e) => {
+        this.queryForResults(this.state.show, this.state.skip, this.state.stateFilter, e.target.value);
     }
     render() {
         let resultsList = [];
@@ -106,8 +112,7 @@ class SearchResultsPage extends React.Component {
             <div className={styles.filter_toolbox}>
                 Filter Tools:
                 <div>
-                    <p>Show only: X, Y, Z [Search]</p>
-                    <p>By Region:
+                    <p>Show Only:
                         <RegionDropdown
                             country={"United States"}
                             value={this.state.stateFilter}
@@ -116,10 +121,18 @@ class SearchResultsPage extends React.Component {
                         />
                     </p>
                 </div>
-
+                <div>
+                    <p>
+                        Sort Names By:
+                        <select onChange={this.handleSortChange}>
+                            <option value={1}>Ascending</option>
+                            <option value={-1}>Descending</option>
+                        </select>
+                    </p>
+                </div>
                 <p>Don't see the result you're looking for?</p>
-                <Link to="add-institution">Add an institution listing here:</Link>
-                <Link to="add-program">Add a program listing here:</Link>
+                <Link to="add-institution">Add an institution listing here</Link>
+                <Link to="add-program">Add a program listing here</Link>
             </div>
             <div className={styles.page_tools}>
                 <div>
