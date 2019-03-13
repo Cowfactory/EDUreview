@@ -25,20 +25,28 @@ router.post('/search', (req, res, next) => {
     if (req.body.query !== null) {
         // default limit is 10, unless specified in body
         let limit = req.body.show || 10;
-        // q is the key for the query string query
+        let countQuery = Institution.countDocuments({ $text: { $search: req.body.query } });
         Institution.find({ $text: { $search: req.body.query } }, null, {
             limit,
             skip: req.body.skip,
             sort: {
                 name: 1
             }
-        })
-            .then(results => {
-                res.status(200).send(JSON.stringify(results));
+        }, function (err, results) {
+            if (err) {
+                res.status(422).send(err);
+            }
+            countQuery.exec(function (err, count) {
+                if (err) {
+                    res.status(422).send(err);
+                }
+                let obj = {
+                    results,
+                    count
+                }
+                res.status(200).send(JSON.stringify(obj));
             })
-            .catch(err => {
-                res.status(422).send(JSON.stringify(err))
-            });
+        })
     }
     // Otherwise, search query is empty -> return nothing
     else {

@@ -13,7 +13,8 @@ class SearchResultsPage extends React.Component {
     state = {
         results: [],
         show: DEFAULT_SHOW,
-        skip: DEFAULT_SKIP
+        skip: DEFAULT_SKIP,
+        count: 0
     };
 
     componentDidMount() {
@@ -35,11 +36,12 @@ class SearchResultsPage extends React.Component {
             }
         })
             .then(response => response.json())
-            .then(results => {
+            .then(res => {
                 this.setState({
-                    results: results,
+                    results: res.results,
                     skip: Number(skip),
-                    show: Number(show)
+                    show: Number(show),
+                    count: res.count
                 });
             })
     }
@@ -75,6 +77,7 @@ class SearchResultsPage extends React.Component {
         let resultsList = [];
         let type = this.props.location.state.type;
         let haveResults = this.state.results.length > 0 ? true : false;
+        let { q } = queryString.parse(this.props.location.search);
 
         if (type === 'programs' && haveResults) {
             resultsList = this.state.results.map((item, key) => (
@@ -118,7 +121,11 @@ class SearchResultsPage extends React.Component {
                 </div>
             </div>
             <div className={styles.reviews}>
-                <p>Showing results {`${this.state.skip + 1} - ${Number(this.state.skip) + Number(this.state.show) + 1}`}</p>
+                <p>Querying {this.props.location.state.type} for: "{q}"</p>
+                <p>Showing results
+                    {` ${this.state.skip + 1} - ${Number(this.state.skip) + Number(this.state.show) + 1}`}
+                    {" "}of {this.state.count}
+                </p>
                 {resultsList} {/* List of Reviews go here */}
             </div>
         </PageTemplate >
