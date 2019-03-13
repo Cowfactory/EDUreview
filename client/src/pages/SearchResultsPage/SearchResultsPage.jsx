@@ -6,15 +6,18 @@ import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import styles from './SearchResultsPage.module.css';
 import { Link } from 'react-router-dom'
 
+const DEFAULT_SHOW = 10;
+const DEFAULT_SKIP = 0;
+
 class SearchResultsPage extends React.Component {
     state = {
         results: [],
-        show: 10,
-        skip: 0
+        show: DEFAULT_SHOW,
+        skip: DEFAULT_SKIP
     };
 
     componentDidMount() {
-        this.queryForResults(10, 0);
+        this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP);
     }
 
     queryForResults = (show, skip) => {
@@ -57,8 +60,15 @@ class SearchResultsPage extends React.Component {
     }
 
     showNextPage = (e) => {
+        if (this.state.results.length === 0) {
+            return; //disable button when there are no more results
+        }
         let newSkip = Number(this.state.skip) + Number(this.state.show)
         this.queryForResults(this.state.show, newSkip);
+    }
+
+    resetControls = (e) => {
+        this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP);
     }
 
     render() {
