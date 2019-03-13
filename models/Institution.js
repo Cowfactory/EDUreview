@@ -12,8 +12,8 @@ const institutionSchema = new Schema(
         ],
         name: String,
         address: String,
-        city: String,
-        country: String,
+        cities: [String],
+        state: String,
         telephone: String,
         website: String
     },
@@ -24,7 +24,9 @@ const institutionSchema = new Schema(
 
 /* --- Index the 'name' field --- */
 institutionSchema.index({
-    name: 'text'
+    name: 'text',
+    cities: 'text',
+    state: 'text'
 });
 
 const Instituion = mongoose.model('Institution', institutionSchema);

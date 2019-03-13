@@ -5,7 +5,11 @@ const Institution = require('../../models/Institution');
 router.post('/', (req, res) => {
     const institution = new Institution({
         name: req.body.name,
-        website: req.body.websiteURL
+        address: req.body.address,
+        cities: req.body.cities,
+        state: req.body.state,
+        telephone: req.body.telephone,
+        website: req.body.websiteURL,
     });
     institution.save(err => {
         if (err) return err;
@@ -15,19 +19,20 @@ router.post('/', (req, res) => {
     });
 });
 
-/* --- GET institutions matching query string --- */
-router.get('/search', (req, res, next) => {
-    // If theres a query string, search for matches
-    if (req.query.q !== null) {
+/* --- Find institutions matching query string --- */
+router.post('/search', (req, res, next) => {
+    // If theres a query, search for matches
+    if (req.body.query !== null) {
         // q is the key for the query string query
-        Institution.find({
-            $text: { $search: req.query.q }
+        Institution.find({ $text: { $search: req.body.query } }, null, {
+            limit: 10,
+            skip: req.body.skip
         })
             .then(results => {
                 res.status(200).send(JSON.stringify(results));
             })
             .catch(err => {
-                // no op
+                res.status(422).send(JSON.stringify(err))
             });
     }
     // Otherwise, search query is empty -> return nothing
@@ -41,7 +46,13 @@ router.get('/search', (req, res, next) => {
 
 /* --- GET all institutions from db --- */
 router.get('/', (req, res) => {
-    Institution.find({}, (err, result) => {
+    Institution.find({}, null, {
+        limit: 10,
+        skip: req.body.skip,
+        sort: {
+            name: 1
+        }
+    }, (err, result) => {
         if (err) {
             res.status(500).send({
                 msg: 'Internal Error'

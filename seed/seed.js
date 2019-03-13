@@ -17,6 +17,7 @@ db.once('open', function seed() {
                 name: data[1],
                 address: data[2],
                 city: data[3],
+                state: data[4],
                 country: data[6],
                 telephone: data[8],
                 website: data[11]

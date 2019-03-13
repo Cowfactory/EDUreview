@@ -8,7 +8,8 @@ class SearchResultsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            results: []
+            results: [],
+            skip: 0
         };
     }
     componentDidMount() {
@@ -16,7 +17,16 @@ class SearchResultsPage extends React.Component {
         let { q } = queryString.parse(this.props.location.search);
         let searchType = this.props.location.state.type;
 
-        fetch(`/api/${searchType}/search?q=${q}`)
+        fetch(`/api/${searchType}/search`, {
+            method: 'POST',
+            body: JSON.stringify({
+                query: q,
+                skip: this.state.skip
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
             .then(response => response.json())
             .then(results => {
                 this.setState({

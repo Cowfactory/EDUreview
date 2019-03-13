@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
     Link,
     Redirect
 } from 'react-router-dom';
@@ -7,51 +7,65 @@ import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 
 class AddInstitutionPage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            name: '',
-            websiteURL: '',
-            redirect: false
-        }
-        this.handleURLChange = this.handleURLChange.bind(this)
-        this.handleNameChange = this.handleNameChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+    state = {
+        name: '',
+        address: '',
+        city: '',
+        cities: [],
+        state: '',
+        telephone: '',
+        websiteURL: '',
+        redirect: false
     }
 
-    handleURLChange = (evt) => {
-        this.setState({
-            websiteURL: evt.target.value
+    handleNameChange = (e) => {
+        this.setState({ name: e.target.value })
+    }
+    handleAddressChange = (e) => {
+        this.setState({ address: e.target.value })
+    }
+    handleCityChange = (e) => {
+        this.setState({ city: e.target.value })
+    }
+    handleStateChange = (e) => {
+        this.setState({ state: e.target.value })
+    }
+    handleTelephoneChange = (e) => {
+        this.setState({ telephone: e.target.value })
+    }
+    handleURLChange = (e) => {
+        this.setState({ websiteURL: e.target.value })
+    }
+    addCity = (e) => {
+        this.setState(({ cities }) => {
+            this.setState(cities.push(e.target.value))
         })
     }
-
-    handleNameChange = (evt) => {
-        this.setState({
-            name: evt.target.value
-        })
-    }
-
-    handleSubmit = (evt) => {
-        evt.preventDefault()
+    handleSubmit = (e) => {
+        e.preventDefault()
         fetch('/api/institutions', {
             method: 'POST',
             body: JSON.stringify({
                 name: this.state.name,
-                websiteURL: this.state.websiteURL
+                address: this.state.address,
+                city: this.state.city,
+                telephone: this.state.telephone,
+                website: this.state.websiteURL,
+                skip: 0
             }),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-        .then( _ => {
-            this.setState({
-                redirect: true
+            .then(_ => {
+                this.setState({
+                    redirect: true
+                })
             })
-        })
     }
 
     render() {
-        if(this.state.redirect) return <Redirect to="/institutions"></Redirect>
+        if (this.state.redirect) return <Redirect to="/institutions"></Redirect>
         return (
             <PageTemplate>
                 <h1>Add New Institution to EDUreview</h1>
@@ -59,19 +73,56 @@ class AddInstitutionPage extends React.Component {
                 <FormTemplate onSubmit={this.handleSubmit}>
                     <label>
                         Institution Name:
-                        <input 
+                        <input
                             type="text"
-                            name="name" 
+                            name="name"
                             value={this.state.name}
                             onChange={this.handleNameChange} >
                         </input>
                     </label>
                     <label>
-                        Website:
-                        <input 
+                        Address:
+                        <input
                             type="text"
-                            name="website" 
-                            value={this.state.websiteURL} 
+                            name="address"
+                            value={this.state.address}
+                            onChange={this.handleAddressChange} >
+                        </input>
+                    </label>
+                    <label>
+                        City:
+                        <input
+                            type="text"
+                            name="city"
+                            value={this.state.city}
+                            onChange={this.handleCityChange} >
+                            {/* // onSubmit={this.addCity}>  */}
+                        </input>
+                    </label>
+                    <label>
+                        State:
+                        <input
+                            type="text"
+                            name="city"
+                            value={this.state.state}
+                            onChange={this.handleStateChange}>
+                        </input>
+                    </label>
+                    <label>
+                        Telephone:
+                        <input
+                            type="text"
+                            name="telephone"
+                            value={this.state.telephone}
+                            onChange={this.handleTelephoneChange} >
+                        </input>
+                    </label>
+                    <label>
+                        Website:
+                        <input
+                            type="text"
+                            name="website"
+                            value={this.state.websiteURL}
                             onChange={this.handleURLChange} >
                         </input>
                     </label>
