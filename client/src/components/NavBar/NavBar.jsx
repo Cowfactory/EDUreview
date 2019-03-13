@@ -5,7 +5,7 @@ import './NavBar.css';
 
 function NavBar(props) {
     return (
-        <div className="NavBar">
+        <header className="NavBar">
             <ul>
                 <li>
                     <Link to="/">Home</Link>
@@ -33,19 +33,19 @@ function NavBar(props) {
                                 </li>
                             </>
                         ) : (
-                            <>
-                                <li>
-                                    <Link to="/signup">Sign Up</Link>
-                                </li>
-                                <li>
-                                    <Link to="/login">Log in</Link>
-                                </li>
-                            </>
-                        )
+                                <>
+                                    <li>
+                                        <Link to="/signup">Sign Up</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/login">Log in</Link>
+                                    </li>
+                                </>
+                            )
                     }
                 </AppConsumer>
             </ul>
-        </div>
+        </header>
     );
 }
 

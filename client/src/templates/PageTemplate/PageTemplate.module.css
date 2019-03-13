@@ -1,0 +1,23 @@
+.PageTemplate {
+    min-height:100%;
+    position:relative;
+}
+
+header {
+    padding:10px;
+}
+
+main {
+    padding: 10px;
+    padding-bottom: 60px;
+}
+
+footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:40px;   /* Height of the footer */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

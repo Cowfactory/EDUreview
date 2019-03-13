@@ -28,7 +28,10 @@ router.post('/search', (req, res, next) => {
         // q is the key for the query string query
         Institution.find({ $text: { $search: req.body.query } }, null, {
             limit,
-            skip: req.body.skip
+            skip: req.body.skip,
+            sort: {
+                name: 1
+            }
         })
             .then(results => {
                 res.status(200).send(JSON.stringify(results));
