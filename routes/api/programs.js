@@ -21,19 +21,19 @@ router.post('/', (req, res) => {
     });
 });
 
-/* --- GET programs matching query string --- */
-router.get('/search', (req, res, next) => {
+/* --- Find programs matching query string --- */
+router.post('/search', (req, res, next) => {
     // If theres a query string, search for matches
-    if (req.query.q !== null) {
+    if (req.body.query !== null) {
         // q is the key for the query string query
         Program.find({
-            $text: { $search: req.query.q }
+            $text: { $search: req.body.query }
         })
             .then(results => {
                 res.status(200).send(JSON.stringify(results));
             })
             .catch(err => {
-                // no op
+                res.status(422).send(JSON.stringify(err));
             });
     }
     // Otherwise, search query is empty -> return nothing

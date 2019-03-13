@@ -1,0 +1,21 @@
+.filter_toolbox, .reviews, .page_tools {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1%;
+    margin-left: 1%;
+    width: 75%;
+    border: 1px solid black;
+}
+
+.page_tools {
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.page_nav {
+    border: 1px solid black;
+}
+
+.page_nav:active {
+    background-color: grey
+}

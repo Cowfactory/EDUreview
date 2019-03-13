@@ -23,9 +23,11 @@ router.post('/', (req, res) => {
 router.post('/search', (req, res, next) => {
     // If theres a query, search for matches
     if (req.body.query !== null) {
+        // default limit is 10, unless specified in body
+        let limit = req.body.show || 10;
         // q is the key for the query string query
         Institution.find({ $text: { $search: req.body.query } }, null, {
-            limit: 10,
+            limit,
             skip: req.body.skip
         })
             .then(results => {
