@@ -43,7 +43,7 @@ class SearchResultsPage extends React.Component {
             .then(response => response.json())
             .then(res => {
                 this.setState({
-                    results: res.results,
+                    results: res.results || [],
                     skip: Number(skip),
                     show: Number(show),
                     count: res.count,
@@ -123,7 +123,7 @@ class SearchResultsPage extends React.Component {
                 </div>
                 <div>
                     <p>
-                        Sort Names By:
+                        Sort By Names:
                         <select onChange={this.handleSortChange}>
                             <option value={1}>Ascending</option>
                             <option value={-1}>Descending</option>
