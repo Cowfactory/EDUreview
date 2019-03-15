@@ -47,29 +47,24 @@ institutionSchema.index(
  * @description
  * Query helper function with default options for find()
  * @param {Object}  options
- * @param {String}  options.filter  The find() query filter
- * @param {String}  options.limit   Num results to show
- * @param {String}  options.skip    First {skip} results to skip
- * @param {Number}  options.sort    1: Ascending, -1: Descending
- * @param {Function}    cb  Callback Function
+ * @param {String}  options.filter  The find() query filter. Default finds all
+ * @param {String}  options.limit   Num results to show. Default shows 10
+ * @param {String}  options.skip    First {skip} results to skip. Default skips 0
+ * @param {Number}  options.sort    Returns results in: 1: Ascending -1: Descending order. Default Ascending
+ * @param {Number}  options.selectFields    Select which fields to return. Default only returns name
  */
 institutionSchema.query.query = function query(options) {
-    const { filter } = options || {};
-    const { limit } = options || DEFAULT_LIMIT;
-    const { skip } = options || DEFAULT_SKIP;
-    const { sort } = options || ASCENDING;
+    const filter = options.filter || {};
+    const limit = options.limit || DEFAULT_LIMIT;
+    const skip = options.skip || DEFAULT_SKIP;
+    const sort = options.sort || ASCENDING;
+    const selectFields = options.selectFields || 'name';
 
-    return this.find(
-        filter,
-        null,
-        {
-            limit,
-            skip,
-            sort: {
-                name: sort
-            }
-        }
-    );
+    return this.find(filter)
+        .select(selectFields)
+        .limit(limit)
+        .sort({ name: sort })
+        .skip(skip);
 };
 const Institution = mongoose.model('Institution', institutionSchema);
 

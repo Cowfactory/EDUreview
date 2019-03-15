@@ -38,7 +38,7 @@ router.post('/search', (req, res, next) => {
             limit: req.body.show,
             skip: req.body.skip,
             sort: req.body.ascending,
-        }).exec(function (err, results) {
+        }).exec((err, results) => {
             if (err) {
                 return res.status(422).send({ errors: err });
             }
@@ -54,14 +54,12 @@ router.post('/search', (req, res, next) => {
 
 /* --- GET all institutions from db --- */
 router.get('/', (req, res) => {
-    Institution.find().query({
-        skip: req.body.skip
-    }).exec((err, institutions) => {
-        if (err) {
+    Institution.find().query({})
+        .then(institutions => {
+            return res.status(200).send(JSON.stringify(institutions));
+        }).catch(err => {
             return res.status(500).send({ errors: err });
-        }
-        return res.status(200).send(JSON.stringify(institutions));
-    });
+        });
 });
 
 /* --- GET one institution from db --- */
