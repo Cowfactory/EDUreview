@@ -21,42 +21,32 @@ router.post('/', (req, res) => {
 
 /* --- Find institutions matching query string --- */
 router.post('/search', (req, res, next) => {
-    // If theres a query, search for matches
-    if (req.body.query !== null) {
-        // default limit is 10, unless specified in body
-        let limit = req.body.show || 10;
-        let stateFilter = req.body.stateFilter || new RegExp('\\.*');
-        let ascending = req.body.ascending || 1
-        let countQuery = Institution.countDocuments({ $text: { $search: req.body.query }, state: stateFilter });
-        Institution.find({ $text: { $search: req.body.query }, state: stateFilter }, null, {
-            limit,
+    // Construct filter string w/ appropriate keys
+    let q;
+    if (req.body.stateFilter) {
+        q = { $text: { $search: req.body.query }, state: req.body.stateFilter };
+    } else {
+        q = { $text: { $search: req.body.query } };
+    }
+
+    Institution.countDocuments(q, (err, count) => {
+        Institution.find().query({
+            filter: q,
+            limit: req.body.show,
             skip: req.body.skip,
-            sort: {
-                name: ascending
-            }
-        }, function (err, results) {
+            sort: req.body.ascending,
+        }).exec(function (err, results) {
             if (err) {
-                res.status(422).send(err);
+                return res.status(422).send({ errors: err });
             }
-            countQuery.exec(function (err, count) {
-                if (err) {
-                    res.status(422).send(err);
-                }
-                let obj = {
-                    results,
-                    count
-                }
-                res.status(200).send(JSON.stringify(obj));
-            })
+            return res.status(200).send(JSON.stringify({
+                results,
+                count
+            }))
         })
-    }
-    // Otherwise, search query is empty -> return nothing
-    else {
-        const response = {
-            msg: 'bad query'
-        };
-        res.status(400).send(JSON.stringify(response));
-    }
+    })
+
+
 });
 
 /* --- GET all institutions from db --- */

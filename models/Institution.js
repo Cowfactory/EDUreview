@@ -23,18 +23,49 @@ const institutionSchema = new Schema(
 );
 
 /* --- Index the 'name' field --- */
-institutionSchema.index({
-    name: 'text',
-    cities: 'text',
-    state: 'text'
-}, {
+institutionSchema.index(
+    {
+        name: 'text',
+        cities: 'text',
+        state: 'text'
+    },
+    {
         weights: {
             name: 2,
             state: 1,
             cities: 1
         }
-    });
+    }
+);
 
-const Instituion = mongoose.model('Institution', institutionSchema);
+/**
+ * @description
+ * Query helper function combining mongoose countDocuments() and find()
+ * @param {Object}  options
+ * @param {String}  options.filter  The find() query filter
+ * @param {String}  options.limit   Num results to show
+ * @param {String}  options.skip    First {skip} results to skip
+ * @param {Number}  options.sort    1: Ascending, -1: Descending
+ * @param {Function}    cb  Callback Function
+ */
+institutionSchema.query.query = function query(options) {
+    const { filter } = options;
+    const { limit } = options || 10;
+    const { skip } = options || 0;
+    const { sort } = options || 1;
 
-module.exports = Instituion;
+    return this.find(
+        filter,
+        null,
+        {
+            limit,
+            skip,
+            sort: {
+                name: sort
+            }
+        }
+    );
+};
+const Institution = mongoose.model('Institution', institutionSchema);
+
+module.exports = Institution;
