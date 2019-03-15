@@ -4,7 +4,6 @@ const { Schema } = mongoose;
 
 const DEFAULT_LIMIT = 10;
 const ASCENDING = 1;
-const DESCENDING = -1;
 const DEFAULT_SKIP = 0;
 
 const institutionSchema = new Schema(
