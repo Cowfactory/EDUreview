@@ -86,6 +86,7 @@ router.post('/search', (req, res, next) => {
 /**
  * @description
  * Returns all institutions from db
+ * TODO - come back and implement queryString count+skip
  */
 router.get('/', (req, res) => {
     Institution.find().query({})

@@ -59,11 +59,11 @@ institutionSchema.query.query = function query(options) {
     const skip = options.skip || DEFAULT_SKIP;
     const sort = options.sort || ASCENDING;
     const selectFields = options.selectFields || 'name';
-    const stateCode = options.stateCode || [null, /.*/];
+    const stateCodeFilter = options.stateCode || [null, /.*/];
 
     return this.find(filter)
         .select(selectFields)
-        .where('state').in(stateCode)
+        .where('state').in(stateCodeFilter)
         .limit(limit)
         .sort({ name: sort })
         .skip(skip);
