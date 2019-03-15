@@ -120,8 +120,9 @@ class AddInstitutionPage extends React.Component {
                     <label>
                         Website:
                         <input
-                            type="text"
+                            type="url"
                             name="website"
+                            placeholder="https://example.com"
                             value={this.state.websiteURL}
                             onChange={this.handleURLChange} >
                         </input>
