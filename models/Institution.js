@@ -44,13 +44,14 @@ institutionSchema.index(
 
 /**
  * @description
- * Query helper function with default options for find()
+ * Query helper function with default options for find().
  * @param {Object}  options
- * @param {String}  options.filter  The find() query filter. Default finds all
- * @param {String}  options.limit   Num results to show. Default shows 10
- * @param {String}  options.skip    First {skip} results to skip. Default skips 0
- * @param {Number}  options.sort    Returns results in: 1: Ascending -1: Descending order. Default Ascending
- * @param {Number}  options.selectFields    Select which fields to return. Default only returns name
+ * @param {String}  options.filter  The find() query filter. Default finds all.
+ * @param {String}  options.limit   Num results to show. Default shows 10.
+ * @param {String}  options.skip    First {skip} results to skip. Default skips 0.
+ * @param {Number}  options.sort    Returns results in: 1: Ascending -1: Descending order. Default Ascending.
+ * @param {Number}  options.selectFields    Select which fields to return. Default only returns name.
+ * @param {String}  options.stateCode   Filter results by stateCode.
  */
 institutionSchema.query.query = function query(options) {
     const filter = options.filter || {};
@@ -58,9 +59,11 @@ institutionSchema.query.query = function query(options) {
     const skip = options.skip || DEFAULT_SKIP;
     const sort = options.sort || ASCENDING;
     const selectFields = options.selectFields || 'name';
+    const stateCode = options.stateCode || [null, /.*/];
 
     return this.find(filter)
         .select(selectFields)
+        .where('state').in(stateCode)
         .limit(limit)
         .sort({ name: sort })
         .skip(skip);

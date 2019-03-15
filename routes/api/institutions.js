@@ -22,21 +22,14 @@ router.post('/', (req, res) => {
 
 /* --- Find institutions matching query string --- */
 router.post('/search', (req, res, next) => {
-    // Construct filter string w/ appropriate keys
-    let q;
-    if (req.body.stateFilter) {
-        q = { $text: { $search: req.body.query }, state: req.body.stateFilter };
-    } else {
-        q = { $text: { $search: req.body.query } };
-    }
-
     // Also sending back the total matching document as count
     Institution.countDocuments(q, (err, count) => {
         Institution.find().query({
-            filter: q,
+            filter: req.body.query,
             limit: req.body.show,
             skip: req.body.skip,
             sort: req.body.ascending,
+            stateCode: req.body.stateFilter
         })
             .then(results => {
                 return res.status(200).send(JSON.stringify({
