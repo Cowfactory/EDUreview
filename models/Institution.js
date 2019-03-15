@@ -46,7 +46,7 @@ institutionSchema.index(
  * @description
  * Query helper function with default options for find().
  * @param {Object}  options
- * @param {String}  options.filter  The find() query filter. Default finds all.
+ * @param {String}  options.filter  The find() query string. Default finds all.
  * @param {String}  options.limit   Num results to show. Default shows 10.
  * @param {String}  options.skip    First {skip} results to skip. Default skips 0.
  * @param {Number}  options.sort    Returns results in: 1: Ascending -1: Descending order. Default Ascending.

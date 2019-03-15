@@ -16,7 +16,7 @@ class SearchResultsPage extends React.Component {
         show: DEFAULT_SHOW,
         skip: DEFAULT_SKIP,
         count: 0,
-        stateFilter: '',
+        stateCode: '',
         ascending: 1,
     };
 
@@ -24,7 +24,7 @@ class SearchResultsPage extends React.Component {
         this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP);
     }
 
-    queryForResults = (show, skip, stateFilter, ascending) => {
+    queryForResults = (show, skip, stateCode, ascending) => {
         let { q } = queryString.parse(this.props.location.search);
         let searchType = this.props.location.state.type;
         fetch(`/api/${searchType}/search`, {
@@ -33,7 +33,7 @@ class SearchResultsPage extends React.Component {
                 query: q,
                 skip: Number(skip),
                 show: Number(show),
-                stateFilter,
+                stateCode,
                 ascending: ascending
             }),
             headers: {
@@ -47,14 +47,14 @@ class SearchResultsPage extends React.Component {
                     skip: Number(skip),
                     show: Number(show),
                     count: res.count,
-                    stateFilter,
+                    stateCode,
                     ascending
                 });
             })
     }
 
     handleShowChange = (e) => {
-        this.queryForResults(e.target.value, this.state.skip, this.state.stateFilter, this.state.ascending);
+        this.queryForResults(e.target.value, this.state.skip, this.state.stateCode, this.state.ascending);
     }
 
     showPreviousPage = (e) => {
@@ -65,7 +65,7 @@ class SearchResultsPage extends React.Component {
             newSkip = Number(this.state.skip) - Number(this.state.show)
         }
 
-        this.queryForResults(this.state.show, newSkip, this.state.stateFilter, this.state.ascending);
+        this.queryForResults(this.state.show, newSkip, this.state.stateCode, this.state.ascending);
     }
 
     showNextPage = (e) => {
@@ -73,17 +73,17 @@ class SearchResultsPage extends React.Component {
             return; //disable button when there are no more results
         }
         let newSkip = Number(this.state.skip) + Number(this.state.show)
-        this.queryForResults(this.state.show, newSkip, this.state.stateFilter, this.state.ascending);
+        this.queryForResults(this.state.show, newSkip, this.state.stateCode, this.state.ascending);
     }
 
     resetControls = (e) => {
-        this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP, this.state.stateFilter, this.state.ascending);
+        this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP, this.state.stateCode, this.state.ascending);
     }
-    selectStateFilter = (e) => {
+    selectstateCode = (e) => {
         this.queryForResults(this.state.show, DEFAULT_SKIP, e, this.state.ascending);
     }
     handleSortChange = (e) => {
-        this.queryForResults(this.state.show, this.state.skip, this.state.stateFilter, e.target.value);
+        this.queryForResults(this.state.show, this.state.skip, this.state.stateCode, e.target.value);
     }
     render() {
         let resultsList = [];
@@ -115,8 +115,8 @@ class SearchResultsPage extends React.Component {
                     <p>Show Only:
                         <RegionDropdown
                             country={"United States"}
-                            value={this.state.stateFilter}
-                            onChange={this.selectStateFilter}
+                            value={this.state.stateCode}
+                            onChange={this.selectstateCode}
                             valueType="short"
                         />
                     </p>
