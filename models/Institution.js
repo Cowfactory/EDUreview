@@ -46,12 +46,12 @@ institutionSchema.index(
  * @description
  * Query helper function with default options for find().
  * @param {Object}  options
- * @param {String}  options.filter  The find() query string. Default finds all.
- * @param {String}  options.limit   Num results to show. Default shows 10.
- * @param {String}  options.skip    First {skip} results to skip. Default skips 0.
- * @param {Number}  options.sort    Returns results in: 1: Ascending -1: Descending order. Default Ascending.
- * @param {Number}  options.selectFields    Select which fields to return. Default only returns name.
- * @param {String}  options.stateCode   Filter results by stateCode.
+ * @param {String}  options.filter  The find() query string. Default finds all
+ * @param {String}  options.limit   Num results to show. Default shows 10
+ * @param {String}  options.skip    First {skip} results to skip. Default skips 0
+ * @param {Number}  options.sort    Returns results in: 1: Ascending -1: Descending order. Default Ascending
+ * @param {Number}  options.selectFields    Select which fields to return. Default only returns name
+ * @param {String}  options.stateCode   Filter results by stateCode
  */
 institutionSchema.query.query = function query(options) {
     const filter = options.filter || {};
@@ -68,6 +68,7 @@ institutionSchema.query.query = function query(options) {
         .sort({ name: sort })
         .skip(skip);
 };
+
 const Institution = mongoose.model('Institution', institutionSchema);
 
 module.exports = Institution;

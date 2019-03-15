@@ -1,15 +1,29 @@
 const router = require('express').Router();
 const Institution = require('../../models/Institution');
 
-/* --- POST(add) a new institution to db --- */
+/**
+ * @description
+ * Add an Institution to db.
+ * @param {String}  req.body.name   Name of the Institution
+ * @param {String}  req.body.address    Address of the Institution
+ * @param {String[]} req.body.cities    List of Cities
+ * @param {String} req.body.telephone   Telephone number
+ * @param {String}  req.body.websiteURL Website URL 
+ */
 router.post('/', (req, res) => {
+    const { name, address, cities, state, telephone, websiteURL } = req.body;
+
+    if (!name) {
+        return res.status(400).send({ errors: "Name field is empty" })
+    }
+
     const institution = new Institution({
-        name: req.body.name,
-        address: req.body.address,
-        cities: req.body.cities,
-        state: req.body.state,
-        telephone: req.body.telephone,
-        website: req.body.websiteURL,
+        name: name,
+        address: address,
+        cities: cities,
+        state: state,
+        telephone: telephone,
+        website: websiteURL,
     });
     institution.save()
         .then(() => {
@@ -24,18 +38,21 @@ router.post('/', (req, res) => {
  * @description
  * Find a subset of institutions according to parameters.
  * Also sends back the total # of matching documents as count.
- * @param {Object}  req
  * @param {String}  req.body.query  The find() query string
- * @param {String}  [req.body.show=10]   Num results to show. Default shows 10.
- * @param {String}  [req.body.skip=0]    First {skip} results to skip. Default skips 0.
- * @param {Number}  [req.body.sort=1]    Returns results in: 1: Ascending -1: Descending order. Default Ascending.
- * @param {Number}  [req.body.selectFields='name']    Select which fields to return. Default only returns name.
- * @param {String}  [req.body.stateCode]   Filter results by stateCode.
+ * @param {String}  [req.body.show=10]   Num results to show. Default shows 10
+ * @param {String}  [req.body.skip=0]    First {skip} results to skip. Default skips 0
+ * @param {Number}  [req.body.sort=1]    Returns results in: 1: Ascending -1: Descending order. Default Ascending
+ * @param {Number}  [req.body.selectFields='name']    Select which fields to return. Default only returns name
+ * @param {String}  [req.body.stateCode]   Filter results by stateCode
  * @return {Object} Return object has results key, which holds a number of matching institutions,
  *                  and count key, which hold the total number of matches
  */
 router.post('/search', (req, res, next) => {
     const { query, show, skip, sort, selectFields, stateCode } = req.body;
+
+    if (!query) {
+        return res.status(400).send({ errors: "Search query is empty!" })
+    }
 
     const filter = { $text: { $search: query } };
     const stateCodeFilter = stateCode || [null, /.*/];
@@ -66,7 +83,10 @@ router.post('/search', (req, res, next) => {
         })
 });
 
-/* --- GET all institutions from db --- */
+/**
+ * @description
+ * Returns all institutions from db
+ */
 router.get('/', (req, res) => {
     Institution.find().query({})
         .then(institutions => {
@@ -76,7 +96,10 @@ router.get('/', (req, res) => {
         });
 });
 
-/* --- GET one institution from db --- */
+/**
+ * @description
+ * Returns one institution from db by ID selection 
+ */
 router.get('/:id', (req, res) => {
     Institution.findById(req.params.id)
         .populate('programs')
