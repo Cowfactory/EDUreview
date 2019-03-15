@@ -48,7 +48,7 @@ router.post('/', (req, res) => {
  *                  and count key, which hold the total number of matches
  */
 router.post('/search', (req, res, next) => {
-    const { query, show, skip, sort, selectFields, stateCode } = req.body;
+    const { query, show, skip, ascending, selectFields, stateCode } = req.body;
 
     if (!query) {
         return res.status(400).send({ errors: "Search query is empty!" })
@@ -63,7 +63,7 @@ router.post('/search', (req, res, next) => {
                 filter: filter,
                 limit: show,
                 skip: skip,
-                sort: sort,
+                sort: ascending,
                 stateCode: stateCode,
                 selectFields: selectFields
             })
