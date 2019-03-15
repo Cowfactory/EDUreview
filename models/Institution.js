@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
+const DEFAULT_LIMIT = 10;
+const ASCENDING = 1;
+const DESCENDING = -1;
+const DEFAULT_SKIP = 0;
+
 const institutionSchema = new Schema(
     {
         programs: [
@@ -40,7 +45,7 @@ institutionSchema.index(
 
 /**
  * @description
- * Query helper function combining mongoose countDocuments() and find()
+ * Query helper function with default options for find()
  * @param {Object}  options
  * @param {String}  options.filter  The find() query filter
  * @param {String}  options.limit   Num results to show
@@ -49,10 +54,10 @@ institutionSchema.index(
  * @param {Function}    cb  Callback Function
  */
 institutionSchema.query.query = function query(options) {
-    const { filter } = options;
-    const { limit } = options || 10;
-    const { skip } = options || 0;
-    const { sort } = options || 1;
+    const { filter } = options || {};
+    const { limit } = options || DEFAULT_LIMIT;
+    const { skip } = options || DEFAULT_SKIP;
+    const { sort } = options || ASCENDING;
 
     return this.find(
         filter,

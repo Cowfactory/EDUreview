@@ -12,8 +12,10 @@ router.post('/', (req, res) => {
         website: req.body.websiteURL,
     });
     institution.save(err => {
-        if (err) return err;
-        res.status(201).send({
+        if (err) {
+            return res.status(422).send({ errors: err });
+        }
+        return res.status(201).send({
             msg: 'Institution Entry Added'
         });
     });
@@ -29,6 +31,7 @@ router.post('/search', (req, res, next) => {
         q = { $text: { $search: req.body.query } };
     }
 
+    // Also sending back the total matching document as count
     Institution.countDocuments(q, (err, count) => {
         Institution.find().query({
             filter: q,
@@ -51,20 +54,13 @@ router.post('/search', (req, res, next) => {
 
 /* --- GET all institutions from db --- */
 router.get('/', (req, res) => {
-    Institution.find({}, null, {
-        limit: 10,
-        skip: req.body.skip,
-        sort: {
-            name: 1
-        }
-    }, (err, result) => {
+    Institution.find().query({
+        skip: req.body.skip
+    }).exec((err, institutions) => {
         if (err) {
-            res.status(500).send({
-                msg: 'Internal Error'
-            });
-            return err;
+            return res.status(500).send({ errors: err });
         }
-        res.status(200).send(JSON.stringify(result));
+        return res.status(200).send(JSON.stringify(institutions));
     });
 });
 
@@ -72,14 +68,11 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Institution.findById(req.params.id)
         .populate('programs')
-        .exec((err, result) => {
+        .exec((err, institution) => {
             if (err) {
-                res.status(500).send({
-                    msg: 'Internal Error'
-                });
-                return err;
+                return res.status(500).send({ errors: err });
             }
-            res.status(200).send(JSON.stringify(result));
+            return res.status(200).send(JSON.stringify(institution));
         });
 });
 
