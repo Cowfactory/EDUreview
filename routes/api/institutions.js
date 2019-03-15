@@ -11,14 +11,13 @@ router.post('/', (req, res) => {
         telephone: req.body.telephone,
         website: req.body.websiteURL,
     });
-    institution.save(err => {
-        if (err) {
+    institution.save()
+        .then(() => {
+            return res.status(201).send({ msg: 'Institution Entry Added' })
+        })
+        .catch(err => {
             return res.status(422).send({ errors: err });
-        }
-        return res.status(201).send({
-            msg: 'Institution Entry Added'
-        });
-    });
+        })
 });
 
 /* --- Find institutions matching query string --- */
@@ -38,18 +37,17 @@ router.post('/search', (req, res, next) => {
             limit: req.body.show,
             skip: req.body.skip,
             sort: req.body.ascending,
-        }).exec((err, results) => {
-            if (err) {
-                return res.status(422).send({ errors: err });
-            }
-            return res.status(200).send(JSON.stringify({
-                results,
-                count
-            }))
         })
+            .then(results => {
+                return res.status(200).send(JSON.stringify({
+                    results,
+                    count
+                }))
+            })
+            .catch(err => {
+                return res.status(422).send({ errors: err });
+            })
     })
-
-
 });
 
 /* --- GET all institutions from db --- */
@@ -66,11 +64,12 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Institution.findById(req.params.id)
         .populate('programs')
-        .exec((err, institution) => {
-            if (err) {
-                return res.status(500).send({ errors: err });
-            }
+        .exec()
+        .then(institution => {
             return res.status(200).send(JSON.stringify(institution));
+        })
+        .catch(err => {
+            return res.status(500).send({ errors: err });
         });
 });
 
