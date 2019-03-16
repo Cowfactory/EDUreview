@@ -2,22 +2,16 @@ import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import { AppConsumer } from '../../App/AppContext';
 import { Redirect } from 'react-router-dom';
-
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button'
 class SignupPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            email: '',
-            password: '',
-            errors: [],
-            redirect: false
-        };
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleUsernameChange = this.handleUsernameChange.bind(this);
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    }
+    state = {
+        username: '',
+        email: '',
+        password: '',
+        errors: [],
+        redirect: false,
+    };
 
     handleSubmit(e, loginFromToken) {
         e.preventDefault();
@@ -47,14 +41,9 @@ class SignupPage extends React.Component {
                 this.setState({ errors: ['Error communicating with server'] });
             });
     }
-    handleUsernameChange(e) {
-        this.setState({ username: e.target.value });
-    }
-    handleEmailChange(e) {
-        this.setState({ email: e.target.value });
-    }
-    handlePasswordChange(e) {
-        this.setState({ password: e.target.value });
+
+    handleChange = e => {
+        this.setState({ [e.target.name]: e.target.value })
     }
 
     render() {
@@ -69,43 +58,27 @@ class SignupPage extends React.Component {
             <AppConsumer>
                 {({ loginFromToken }) => (
                     <PageTemplate>
-                        <div>
-                            <form onSubmit={e => this.handleSubmit(e, loginFromToken)}>
-                                <div>
-                                    <label htmlFor="username">Username:</label>
-                                    <input
-                                        name="username"
-                                        type="text"
-                                        value={this.state.username}
-                                        onChange={this.handleUsernameChange}
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="email">Email:</label>
-                                    <input
-                                        name="email"
-                                        type="email"
-                                        value={this.state.email}
-                                        onChange={this.handleEmailChange}
-                                    />
-                                </div>
-                                <div>
-                                    <label htmlFor="password">Password:</label>
-                                    <input
-                                        name="password"
-                                        type="password"
-                                        value={this.state.password}
-                                        onChange={this.handlePasswordChange}
-                                    />
-                                    <input type="submit" />
-                                </div>
-                                <div>{errMsg}</div>
-                            </form>
-                        </div>
+                        <Form onSubmit={e => this.handleSubmit(e, loginFromToken)}>
+                            <Form.Group controlId="formGroupUsername">
+                                <Form.Label>Username</Form.Label>
+                                <Form.Control type="text" placeholder="Enter Username" name="username" value={this.state.username} onChange={this.handleChange} />
+                            </Form.Group>
+
+                            <Form.Group controlId="formGroupEmail">
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control type="email" placeholder="Enter Email" name="email" value={this.state.email} onChange={this.handleChange} />
+                            </Form.Group>
+                            <Form.Group controlId="formGroupPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} />
+                            </Form.Group>
+                        </Form>
+                        <div>{errMsg}</div>
+                        <Button type="submit">Submit</Button>
                     </PageTemplate>
                 )}
             </AppConsumer>
-        );
+        )
     }
 }
 
