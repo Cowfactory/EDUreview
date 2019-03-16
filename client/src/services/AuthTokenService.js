@@ -1,13 +1,9 @@
 import decode from 'jwt-decode';
 
 class AuthTokenService {
-    constructor() {
-        this.domain = '/api/auth';
-    }
-
     login(email, password) {
         // Get token from server
-        return this.fetch(`${this.domain}/login`, {
+        return this.fetch('/api/auth/login', {
             method: 'POST',
             body: JSON.stringify({
                 email,
@@ -69,23 +65,23 @@ class AuthTokenService {
         }
     }
 
+    // Saves user token to localStorage
     setToken(token) {
-        // Saves user token to localStorage
         localStorage.setItem('jwt_token', token);
     }
 
+    // Retrieves the user token from localStorage
     getToken() {
-        // Retrieves the user token from localStorage
         return localStorage.getItem('jwt_token');
     }
 
+    // Clear user token and profile data from localStorage
     logout() {
-        // Clear user token and profile data from localStorage
         localStorage.removeItem('jwt_token');
     }
 
+    // Using jwt-decode npm package to decode the token
     getProfile() {
-        // Using jwt-decode npm package to decode the token
         return decode(this.getToken());
     }
 }
