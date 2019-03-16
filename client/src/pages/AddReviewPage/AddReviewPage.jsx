@@ -15,10 +15,8 @@ class AddReviewPage extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange = function (event) {
-        this.setState({
-            textValue: event.target.value
-        });
+    handleChange = input => e => {
+        this.setState({ [input]: e.target.value });
     };
 
     handleSubmit = function (event) {
@@ -57,6 +55,9 @@ class AddReviewPage extends Component {
                 .catch(err => {
                     console.log(err);
                 })
+        } else {
+            this.setState({ redirect: true })
+            // ToDo - Redirect to browse page?
         }
     }
 
@@ -69,6 +70,42 @@ class AddReviewPage extends Component {
                 <p>{this.state.name}</p>
                 <FormTemplate onSubmit={this.handleSubmit}>
                     <input type="text" value={this.state.textValue} onChange={this.handleChange} />
+                    <label>
+                        Course Location:
+                        <input type="text"
+                            value={this.state.location}
+                            name="location"
+                            onChange={this.handleLocationChange}
+                        />
+                    </label>
+                    <label>
+                        Rating
+                        <input></input>
+                    </label>
+                    <label>
+                        Enrollment Status:
+                        <input></input>
+                    </label>
+                    <label>
+                        Course Location:
+                        <input></input>
+                    </label>
+                    <label>
+                        Review Headline:
+                        <input></input>
+                    </label>
+                    <label>
+                        What are the most important takeaways from your time in the program?:
+                        <input></input>
+                    </label>
+                    <label>
+                        What aspects detracted from, or were missing from the program:
+                        <input></input>
+                    </label>
+                    <label>
+                        Advice to future students:
+                        <input></input>
+                    </label>
                 </FormTemplate>
             </PageTemplate>
         );

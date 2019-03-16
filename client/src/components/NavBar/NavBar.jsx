@@ -1,52 +1,53 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom'
 import { AppConsumer } from '../../App/AppContext';
-import './NavBar.css';
 
 function NavBar(props) {
     return (
-        <header className="NavBar">
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/programs">Browse Programs</Link>
-                </li>
-                <li>
-                    <Link to="/institutions">Browse Insitutions</Link>
-                </li>
-            </ul>
-            <ul>
+
+        <Navbar bg="dark" variant="dark">
+            <Nav className="mr-auto">
+                <Navbar.Brand as={Link} to="/">EDUreview</Navbar.Brand>
+                <Form inline>
+                    <FormControl type="text" placeholder="Search" className="mr-sm-4" />
+                    <Button variant="outline-info">Search</Button>
+                </Form>
+            </Nav>
+
+            <Nav>
                 <AppConsumer>
-                    {context =>
-                        context.user ? (
+                    {
+                        context => context.user ? (
                             <>
-                                <li>Hello, {context.user.username}</li>
-                                <li>
-                                    <Link to="/profile">Profile</Link>
-                                </li>
-                                <li>
-                                    <Link to="/" onClick={context.logout}>
-                                        Log out
-                                    </Link>
-                                </li>
+                                <Nav.Item>
+                                    <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link as={Link} to="/" onClick={context.logout}>
+                                        Logout
+                                    </Nav.Link>
+                                </Nav.Item>
                             </>
                         ) : (
                                 <>
-                                    <li>
-                                        <Link to="/signup">Sign Up</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/login">Log in</Link>
-                                    </li>
+                                    <Nav.Item>
+                                        <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
+                                    </Nav.Item>
+                                    <Nav.Item>
+                                        <Nav.Link as={Link} to="/login">Log In</Nav.Link>
+                                    </Nav.Item>
                                 </>
                             )
                     }
                 </AppConsumer>
-            </ul>
-        </header>
-    );
+            </Nav>
+        </Navbar>
+    )
 }
 
 export default NavBar;

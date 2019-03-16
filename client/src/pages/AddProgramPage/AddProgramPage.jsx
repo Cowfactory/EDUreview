@@ -4,94 +4,34 @@ import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 
 class AddProgramPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            institutionsList: [],
-            selectedInstitutionId: '',
-            programName: '',
-            programTypes: [],
-            programLocations: [],
-            redirect: false,
-            dropDownDisabled: false
-        };
-        this.handleProgramInstitutionNameChange = this.handleProgramInstitutionNameChange.bind(
-            this
-        );
-        this.handleSelectedInstitutionIdChange = this.handleSelectedInstitutionIdChange.bind(this);
-        this.handleProgramNameChange = this.handleProgramNameChange.bind(this);
-        this.handleProgramTypesChange = this.handleProgramTypesChange.bind(this);
-        this.handleProgramLocationsChange = this.handleProgramLocationsChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentDidMount() {
-        var IID, IName; //Institution ID/Name if routed from Institution Details page
-        try {
-            IID = this.props.location.state.IID;
-            IName = this.props.location.state.Name;
-        } catch {
-            IID = undefined;
-            IName = undefined;
-        }
-
-        fetch('/api/institutions')
-            .then(response => response.json())
-            .then(data => {
-                let reducedArr = data.map(item => {
-                    return {
-                        id: item._id,
-                        name: item.name
-                    };
-                });
-                if (IID && IName) {
-                    this.setState({
-                        institutionsList: reducedArr,
-                        selectedInstitutionId: IID,
-                        programInstitutionName: IName,
-                        dropDownDisabled: true
-                    });
-                } else {
-                    this.setState({
-                        institutionsList: reducedArr,
-                        selectedInstitutionId: reducedArr[0].id
-                    });
-                }
-            });
-    }
-
-    handleSelectedInstitutionIdChange = function(event) {
-        this.setState({
-            selectedInstitutionId: event.target.value
-        });
+    state = {
+        institutionsList: [],
+        selectedInstitutionId: '',
+        programName: '',
+        programTypes: [],
+        programLocations: [],
+        redirect: false,
+        dropDownDisabled: false
     };
 
-    handleProgramInstitutionNameChange = function(event) {
-        this.setState({
-            programInstitutionName: event.target.value
-        });
+    handleSelectedInstitutionIdChange = e => {
+        this.setState({ selectedInstitutionId: e.target.value });
+    };
+    handleProgramInstitutionNameChange = e => {
+        this.setState({ programInstitutionName: e.target.value });
+    };
+    handleProgramNameChange = e => {
+        this.setState({ programName: e.target.value });
+    };
+    handleProgramTypesChange = e => {
+        this.setState({ programTypes: e.target.value });
+    };
+    handleProgramLocationsChange = e => {
+        this.setState({ programLocations: e.target.value });
     };
 
-    handleProgramNameChange = function(event) {
-        this.setState({
-            programName: event.target.value
-        });
-    };
-    handleProgramTypesChange = function(event) {
-        this.setState({
-            programTypes: event.target.value
-        });
-    };
-    handleProgramLocationsChange = function(event) {
-        this.setState({
-            programLocations: event.target.value
-        });
-    };
-
-    handleSubmit = function(event) {
-        //AJAX send the form data to our API endpoint on our server
-        //POST some data - ie the data in the form
-        event.preventDefault();
+    handleSubmit = e => {
+        e.preventDefault();
 
         fetch('/api/programs', {
             method: 'POST',
@@ -105,14 +45,13 @@ class AddProgramPage extends React.Component {
                 'Content-Type': 'application/json'
             }
         }).then(() => {
-            this.setState({
-                redirect: true
-            });
+            this.setState({ redirect: true });
         });
-        // .then(res => res.json())
-        // .then(response => console.log('Success:', JSON.stringify(response)))
-        //.catch(error => console.error('Error:', error));
     };
+
+    componentDidMount() {
+
+    }
 
     render() {
         const redirect = this.state.redirect;

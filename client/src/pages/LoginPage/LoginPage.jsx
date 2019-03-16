@@ -38,6 +38,10 @@ class LoginPage extends React.Component {
         this.setState({ password: e.target.value });
     }
 
+    componentDidMount() {
+        document.title = "Login - EDUreview";
+    }
+
     render() {
         if (this.state.redirect) return <Redirect to="/" />;
         let errMsg = <div />;
