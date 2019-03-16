@@ -8,33 +8,35 @@ const Institution = require('../../models/Institution');
  * @param {String}  req.body.address    Address of the Institution
  * @param {String[]} req.body.cities    List of Cities
  * @param {String} req.body.telephone   Telephone number
- * @param {String}  req.body.websiteURL Website URL 
+ * @param {String}  req.body.websiteURL Website URL
  */
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const { name, address, cities, state, telephone, websiteURL } = req.body;
 
     if (!name) {
-        return res.status(400).send({ errors: "Name field is empty" })
+        return res.status(400).json({ errors: 'Name field is empty' });
     }
 
     const institution = new Institution({
-        name: name,
-        address: address,
-        cities: cities,
-        state: state,
-        telephone: telephone,
-        website: websiteURL,
+        name,
+        address,
+        cities,
+        state,
+        telephone,
+        website: websiteURL
     });
-    institution.save()
+
+    institution
+        .save()
         .then(() => {
-            return res.status(201).send({ msg: 'Institution Entry Added' })
+            return res.status(201).json({ msg: 'Institution Entry Added' });
         })
         .catch(err => {
-            return res.status(422).send({ errors: err });
-        })
+            return res.status(422).json({ errors: err });
+        });
 });
 
-/** 
+/**
  * @description
  * Find a subset of institutions according to parameters.
  * Also sends back the total # of matching documents as count.
@@ -51,7 +53,7 @@ router.post('/search', (req, res, next) => {
     const { query, show, skip, ascending, selectFields, stateCode } = req.body;
 
     if (!query) {
-        return res.status(400).send({ errors: "Search query is empty!" })
+        return res.status(400).json({ errors: 'Search query is empty!' });
     }
 
     const filter = { $text: { $search: query } };
@@ -60,27 +62,28 @@ router.post('/search', (req, res, next) => {
     Promise.all([
         Institution.find()
             .query({
-                filter: filter,
+                filter,
                 limit: show,
-                skip: skip,
+                skip,
                 sort: ascending,
-                stateCode: stateCode,
-                selectFields: selectFields
+                stateCode,
+                selectFields
             })
             .exec(),
         Institution.countDocuments(filter)
-            .where('state').in(stateCodeFilter)
+            .where('state')
+            .in(stateCodeFilter)
             .exec()
     ])
         .then(results => {
-            return res.status(200).send(JSON.stringify({
+            return res.status(200).json({
                 results: results[0],
                 count: results[1]
-            }))
+            });
         })
         .catch(err => {
-            return res.status(422).send({ errors: err });
-        })
+            return res.status(422).json({ errors: err });
+        });
 });
 
 /**
@@ -89,26 +92,28 @@ router.post('/search', (req, res, next) => {
  * TODO - come back and implement queryString count+skip
  */
 router.get('/', (req, res) => {
-    Institution.find().query({})
+    Institution.find()
+        .query({})
         .then(institutions => {
-            return res.status(200).send(JSON.stringify(institutions));
-        }).catch(err => {
-            return res.status(500).send({ errors: err });
+            return res.status(200).json(institutions);
+        })
+        .catch(err => {
+            return res.status(500).json({ errors: err });
         });
 });
 
 /**
  * @description
- * Returns one institution from db by ID selection 
+ * Returns one institution from db by ID selection
  */
 router.get('/:id', (req, res) => {
     Institution.findById(req.params.id)
         .populate('programs')
         .then(institution => {
-            return res.status(200).send(JSON.stringify(institution));
+            return res.status(200).json(institution);
         })
         .catch(err => {
-            return res.status(500).send({ errors: err });
+            return res.status(500).json({ errors: err });
         });
 });
 
