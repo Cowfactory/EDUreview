@@ -37,7 +37,6 @@ class SignupPage extends React.Component {
         })
             .then(res => res.json())
             .then(response => {
-                console.log(response);
                 if (response.errors) {
                     this.setState({ errors: response.errors });
                 } else {
@@ -61,11 +60,6 @@ class SignupPage extends React.Component {
         const { validated } = this.state;
         const { errors } = this.state;
 
-        let errMsg = <div />;
-        if (this.state.errors.length) {
-            errMsg = this.state.errors.map((err, key) => <p key={key}>Error: {err}</p>);
-        }
-
         return (
             <AppConsumer>
                 {({ loginFromToken }) => (
@@ -83,11 +77,12 @@ class SignupPage extends React.Component {
                                     placeholder="Enter Username"
                                     name="username"
                                     value={this.state.username}
+                                    isValid={this.isFieldValid}
                                     isInvalid={!!errors.username}
                                     onChange={this.handleChange}
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    {errors.username}
+                                    {errors.username || "Username is required"}
                                 </Form.Control.Feedback>
                             </Form.Group>
 
@@ -103,7 +98,7 @@ class SignupPage extends React.Component {
                                     onChange={this.handleChange}
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    {errors.email}
+                                    {errors.email || "Email is required"}
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group controlId="formGroupPassword">
@@ -118,12 +113,14 @@ class SignupPage extends React.Component {
                                     onChange={this.handleChange}
                                 />
                                 <Form.Control.Feedback type="invalid">
-                                    {errors.password}
+                                    {errors.password || "Password is required"}
                                 </Form.Control.Feedback>
                             </Form.Group>
+                            <Form.Control.Feedback type="invalid">
+                                {errors.generic}
+                            </Form.Control.Feedback>
                             <Button type="submit">Submit</Button>
                         </Form>
-                        <div>{errMsg}</div>
                     </PageTemplate>
                 )}
             </AppConsumer>
