@@ -3,7 +3,7 @@ import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import { AppConsumer } from '../../App/AppContext';
 import { Redirect } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
 class SignupPage extends React.Component {
     state = {
         username: '',
@@ -11,10 +11,19 @@ class SignupPage extends React.Component {
         password: '',
         errors: [],
         redirect: false,
+        validated: false
     };
 
     handleSubmit(e, loginFromToken) {
         e.preventDefault();
+
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            this.setState({ validated: true });
+            return;
+        }
+        this.setState({ validated: true });
+
         fetch('/api/users', {
             method: 'POST',
             body: JSON.stringify({
@@ -28,6 +37,7 @@ class SignupPage extends React.Component {
         })
             .then(res => res.json())
             .then(response => {
+                console.log(response);
                 if (response.errors) {
                     this.setState({ errors: response.errors });
                 } else {
@@ -43,11 +53,13 @@ class SignupPage extends React.Component {
     }
 
     handleChange = e => {
-        this.setState({ [e.target.name]: e.target.value })
-    }
+        this.setState({ [e.target.name]: e.target.value });
+    };
 
     render() {
         if (this.state.redirect) return <Redirect to="/" />;
+        const { validated } = this.state;
+        const { errors } = this.state;
 
         let errMsg = <div />;
         if (this.state.errors.length) {
@@ -58,27 +70,64 @@ class SignupPage extends React.Component {
             <AppConsumer>
                 {({ loginFromToken }) => (
                     <PageTemplate>
-                        <Form onSubmit={e => this.handleSubmit(e, loginFromToken)}>
+                        <Form
+                            noValidate
+                            validated={validated}
+                            onSubmit={e => this.handleSubmit(e, loginFromToken)}
+                        >
                             <Form.Group controlId="formGroupUsername">
                                 <Form.Label>Username</Form.Label>
-                                <Form.Control type="text" placeholder="Enter Username" name="username" value={this.state.username} onChange={this.handleChange} />
+                                <Form.Control
+                                    required
+                                    type="text"
+                                    placeholder="Enter Username"
+                                    name="username"
+                                    value={this.state.username}
+                                    isInvalid={!!errors.username}
+                                    onChange={this.handleChange}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.username}
+                                </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="formGroupEmail">
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control type="email" placeholder="Enter Email" name="email" value={this.state.email} onChange={this.handleChange} />
+                                <Form.Control
+                                    type="email"
+                                    required
+                                    placeholder="Enter Email"
+                                    name="email"
+                                    value={this.state.email}
+                                    isInvalid={!!errors.email}
+                                    onChange={this.handleChange}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.email}
+                                </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Group controlId="formGroupPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} />
+                                <Form.Control
+                                    type="password"
+                                    required
+                                    placeholder="Enter Password"
+                                    name="password"
+                                    value={this.state.password}
+                                    isInvalid={!!errors.password}
+                                    onChange={this.handleChange}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.password}
+                                </Form.Control.Feedback>
                             </Form.Group>
+                            <Button type="submit">Submit</Button>
                         </Form>
                         <div>{errMsg}</div>
-                        <Button type="submit">Submit</Button>
                     </PageTemplate>
                 )}
             </AppConsumer>
-        )
+        );
     }
 }
 
