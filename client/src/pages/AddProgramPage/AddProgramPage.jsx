@@ -5,29 +5,15 @@ import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 
 class AddProgramPage extends React.Component {
     state = {
-        institutionsList: [],
-        selectedInstitutionId: '',
+        institutionId: '',
         programName: '',
         programTypes: [],
         programLocations: [],
         redirect: false,
-        dropDownDisabled: false
     };
 
-    handleSelectedInstitutionIdChange = e => {
-        this.setState({ selectedInstitutionId: e.target.value });
-    };
-    handleProgramInstitutionNameChange = e => {
-        this.setState({ programInstitutionName: e.target.value });
-    };
-    handleProgramNameChange = e => {
-        this.setState({ programName: e.target.value });
-    };
-    handleProgramTypesChange = e => {
-        this.setState({ programTypes: e.target.value });
-    };
-    handleProgramLocationsChange = e => {
-        this.setState({ programLocations: e.target.value });
+    handleChange = e => {
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleSubmit = e => {
@@ -36,7 +22,7 @@ class AddProgramPage extends React.Component {
         fetch('/api/programs', {
             method: 'POST',
             body: JSON.stringify({
-                selectedInstitutionId: this.state.selectedInstitutionId,
+                institutionId: this.state.institutionId,
                 programName: this.state.programName,
                 programTypes: this.state.programTypes,
                 programLocations: this.state.programLocations
@@ -50,12 +36,24 @@ class AddProgramPage extends React.Component {
     };
 
     componentDidMount() {
+        document.title = "Add Program - EDUreview";
+        const { institutionId, name } = this.props.location.state;
+
+        if (institutionId == null) {
+            this.setState({ redirect: true });
+        }
+        else {
+            this.setState({
+                institutionId,
+                institutionName: name
+            })
+        }
 
     }
 
     render() {
         const redirect = this.state.redirect;
-        if (redirect) return <Redirect to="/programs" />;
+        if (redirect) return <Redirect to="/" />;
         return (
             <PageTemplate>
                 <h1>Add New Program to EDUreview</h1>
@@ -64,16 +62,11 @@ class AddProgramPage extends React.Component {
                     <label>
                         Institution:
                         <select
-                            value={this.state.selectedInstitutionId}
-                            onChange={this.handleSelectedInstitutionIdChange}
-                            disabled={this.state.dropDownDisabled}
+                            value={this.state.institutionName}
+                            onChange={this.handleChange}
+                            disabled={true}
                         >
-                            {this.state.institutionsList.map((inst, idx) => (
-                                <option key={idx} value={inst.id}>
-                                    {inst.name}
-                                </option>
-                            ))}
-                            ;
+                            <option value={this.state.institutionName}> {this.state.institutionName}</option>
                         </select>
                     </label>
 
@@ -83,7 +76,7 @@ class AddProgramPage extends React.Component {
                             type="text"
                             name="programName"
                             value={this.state.programName}
-                            onChange={this.handleProgramNameChange}
+                            onChange={this.handleChange}
                         />
                     </label>
 
@@ -93,7 +86,7 @@ class AddProgramPage extends React.Component {
                             type="text"
                             name="programTypes"
                             value={this.state.programTypes}
-                            onChange={this.handleProgramTypesChange}
+                            onChange={this.handleChange}
                         />
                     </label>
 
@@ -103,7 +96,7 @@ class AddProgramPage extends React.Component {
                             type="text"
                             name="programLocations"
                             value={this.state.programLocations}
-                            onChange={this.handleProgramLocationsChange}
+                            onChange={this.handleChange}
                         />
                     </label>
                 </FormTemplate>

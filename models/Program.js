@@ -38,7 +38,6 @@ programSchema.methods.updateCorrespondingInstitution = function updateCorrespond
 ) {
     Institution.findById(institutionId, (err, institution) => {
         if (err) {
-            console.log('Error: Failed to add new Program to Institution');
             return err;
         }
         institution.programs.push(this._id);

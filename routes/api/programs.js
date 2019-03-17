@@ -8,7 +8,7 @@ router.post('/', (req, res) => {
         types: req.body.programTypes,
         locations: req.body.programLocations
     });
-    program.updateCorrespondingInstitution(req.body.selectedInstitutionId);
+    program.updateCorrespondingInstitution(req.body.institutionId);
 
     program.save(err => {
         if (err) {

@@ -12,7 +12,7 @@ class BrowseProgramsPage extends React.Component {
         this.setPrograms = this.setPrograms.bind(this);
     }
 
-    setPrograms = function(data) {
+    setPrograms = function (data) {
         this.setState({ programs: data });
     };
 

@@ -55,7 +55,7 @@ class InstitutionDetailsPage extends React.Component {
                 <Link
                     to={{
                         pathname: '/add-program',
-                        state: { IID: this.state._id, Name: this.state.name }
+                        state: { institutionId: this.state._id, name: this.state.name }
                     }}
                 >
                     Add a Program to this Institution
