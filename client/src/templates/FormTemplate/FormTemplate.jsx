@@ -3,10 +3,9 @@ import './FormTemplate.css';
 
 function FormTemplate(props) {
     return (
-        <form className="FormTemplate" {...props} >
+        <div className="FormTemplate border border-secondary rounded" {...props} >
             {props.children}
-            <input type="submit" value="Submit" />
-        </form>
+        </div>
     )
 }
 

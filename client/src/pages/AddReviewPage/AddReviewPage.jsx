@@ -74,92 +74,95 @@ class AddReviewPage extends Component {
                     validated={validated}
                     onSubmit={this.handleSubmit}
                 >
-                    <Form.Group controlId="formGroupLocation">
-                        <Form.Label>Location</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="location"
-                            placeholder="Enter Location"
-                            value={this.state.location}
-                            onChange={this.handleChange}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Required Field
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                    <div className="form-row">
+                        <Form.Group className="col" controlId="formGroupLocation">
+                            <Form.Label>Location</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="location"
+                                placeholder="Enter Location"
+                                value={this.state.location}
+                                onChange={this.handleChange}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Required Field
+                            </Form.Control.Feedback>
+                        </Form.Group>
 
 
-                    <Form.Group controlId="formGroupRating">
-                        <Form.Label>Rating</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="rating"
-                            placeholder="Enter Rating"
-                            value={this.state.rating}
-                            onChange={this.handleChange}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Required Field
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                        <Form.Group className="col" controlId="formGroupRating">
+                            <Form.Label>Rating</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="rating"
+                                placeholder="Enter Rating"
+                                value={this.state.rating}
+                                onChange={this.handleChange}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Required Field
+                            </Form.Control.Feedback>
+                        </Form.Group>
 
-                    <Form.Group controlId="formGroupEnrollment">
-                        <Form.Label>Enrollment</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="enrollment"
-                            placeholder="Enter Enrollment Status"
-                            value={this.state.enrollment}
-                            onChange={this.handleChange}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Required Field
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                        <Form.Group className="col" controlId="formGroupEnrollment">
+                            <Form.Label>Enrollment</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="enrollment"
+                                placeholder="Enter Enrollment Status"
+                                value={this.state.enrollment}
+                                onChange={this.handleChange}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Required Field
+                            </Form.Control.Feedback>
+                        </Form.Group>
 
+                    </div>
                     <hr />
+                    <div className="form-row">
+                        <Form.Group className="col" controlId="formGroupTF1">
+                            <Form.Label>Did you enroll in the hopes of starting a career, or a career transition?</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="trueFalseQuestion1"
+                                placeholder="Enter Response"
+                                value={this.state.trueFalseQuestion1}
+                                onChange={this.handleChange}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Required Field
+                            </Form.Control.Feedback>
+                        </Form.Group>
 
-                    <Form.Group controlId="formGroupTF1">
-                        <Form.Label>Did you enroll in the program in the hopes of starting a new career, or a career transition?</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="trueFalseQuestion1"
-                            placeholder="Enter Response"
-                            value={this.state.trueFalseQuestion1}
-                            onChange={this.handleChange}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Required Field
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                        <Form.Group className="col" controlId="formGroupTF2">
+                            <Form.Label>Did the course match your expectations?</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="trueFalseQuestion2"
+                                placeholder="Enter Response"
+                                value={this.state.trueFalseQuestion2}
+                                onChange={this.handleChange}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Required Field
+                            </Form.Control.Feedback>
+                        </Form.Group>
 
-                    <Form.Group controlId="formGroupTF2">
-                        <Form.Label>Did the course match your expectations?</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="trueFalseQuestion2"
-                            placeholder="Enter Response"
-                            value={this.state.trueFalseQuestion2}
-                            onChange={this.handleChange}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Required Field
-                        </Form.Control.Feedback>
-                    </Form.Group>
-
-                    <Form.Group controlId="formGroupTF3">
-                        <Form.Label>Would you recommend this program to somebody with similar expectations as you?</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="trueFalseQuestion3"
-                            placeholder="Enter Response"
-                            value={this.state.trueFalseQuestion3}
-                            onChange={this.handleChange}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Required Field
-                        </Form.Control.Feedback>
-                    </Form.Group>
+                        <Form.Group className="col" controlId="formGroupTF3">
+                            <Form.Label>Would you recommend this program to somebody with similar expectations as you?</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="trueFalseQuestion3"
+                                placeholder="Enter Response"
+                                value={this.state.trueFalseQuestion3}
+                                onChange={this.handleChange}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Required Field
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                    </div>
 
                     <hr />
 

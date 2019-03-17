@@ -8,8 +8,8 @@ const userSchema = new Schema(
         username: {
             type: String,
             required: [true, 'You must enter a name'],
-            minlength: [3, 'Name must be between 3 and 16 characters'],
-            maxlength: [16, 'Name must be between 1 and 16 characters']
+            minlength: [3, 'Username must be between 3 and 16 characters'],
+            maxlength: [16, 'Username must be between 1 and 16 characters']
         },
         password: {
             type: String,

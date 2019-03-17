@@ -4,6 +4,8 @@ import { AppConsumer } from '../../App/AppContext';
 import { Redirect } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 class SignupPage extends React.Component {
     state = {
         username: '',
@@ -67,63 +69,82 @@ class SignupPage extends React.Component {
         return (
             <AppConsumer>
                 {({ loginFromToken }) => (
-                    <PageTemplate>
-                        <Form
-                            noValidate
-                            validated={validated}
-                            onSubmit={e => this.handleSubmit(e, loginFromToken)}
-                        >
-                            <Form.Group controlId="formGroupUsername">
-                                <Form.Label>Username</Form.Label>
-                                <Form.Control
-                                    required
-                                    type="text"
-                                    placeholder="Enter Username"
-                                    name="username"
-                                    value={this.state.username}
-                                    isInvalid={!!errors.username}
-                                    onChange={this.handleChange}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.username || "Username is required"}
-                                </Form.Control.Feedback>
-                            </Form.Group>
 
-                            <Form.Group controlId="formGroupEmail">
-                                <Form.Label>Email</Form.Label>
-                                <Form.Control
-                                    type="email"
-                                    required
-                                    placeholder="Enter Email"
-                                    name="email"
-                                    value={this.state.email}
-                                    isInvalid={!!errors.email}
-                                    onChange={this.handleChange}
-                                />
+                    <PageTemplate>
+                        <FormTemplate>
+                            <Form
+                                noValidate
+                                validated={validated}
+                                onSubmit={e => this.handleSubmit(e, loginFromToken)}
+                            >
+                                <Form.Group as={Form.Row} controlId="formGroupUsername">
+                                    <Form.Label column sm={1}>Username</Form.Label>
+                                    <Col sm={11}>
+                                        <Form.Control
+                                            required
+                                            type="text"
+                                            placeholder="Enter Username"
+                                            name="username"
+                                            value={this.state.username}
+                                            isInvalid={!!errors.username}
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Text className="text-muted">
+                                            Username must be between 3 and 16 characters
+                                        </Form.Text>
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.username || "Username is required"}
+                                        </Form.Control.Feedback>
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Form.Row} controlId="formGroupEmail">
+                                    <Form.Label column sm={1}>Email</Form.Label>
+                                    <Col sm={11}>
+                                        <Form.Control
+                                            type="email"
+                                            required
+                                            placeholder="Enter Email"
+                                            name="email"
+                                            value={this.state.email}
+                                            isInvalid={!!errors.email}
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Text className="text-muted">
+                                            Email address must be unique and be between 3 and 99 characters
+                                        </Form.Text>
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.email || "Email is required"}
+                                        </Form.Control.Feedback>
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Form.Row} controlId="formGroupPassword">
+                                    <Form.Label column sm={1}>Password</Form.Label>
+                                    <Col sm={11}>
+                                        <Form.Control
+                                            type="password"
+                                            required
+                                            placeholder="Enter Password"
+                                            name="password"
+                                            value={this.state.password}
+                                            isInvalid={!!errors.password}
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Text className="text-muted">
+                                            Password must be between 8 and 128 characters
+                                        </Form.Text>
+                                        <Form.Control.Feedback type="invalid">
+                                            {errors.password || "Password is required"}
+                                        </Form.Control.Feedback>
+                                    </Col>
+                                </Form.Group>
                                 <Form.Control.Feedback type="invalid">
-                                    {errors.email || "Email is required"}
+                                    {errors.msg || "One or more fields is invalid"}
                                 </Form.Control.Feedback>
-                            </Form.Group>
-                            <Form.Group controlId="formGroupPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control
-                                    type="password"
-                                    required
-                                    placeholder="Enter Password"
-                                    name="password"
-                                    value={this.state.password}
-                                    isInvalid={!!errors.password}
-                                    onChange={this.handleChange}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.password || "Password is required"}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                            <Form.Control.Feedback type="invalid">
-                                {errors.msg || "One or more fields is invalid"}
-                            </Form.Control.Feedback>
-                            <Button type="submit">Submit</Button>
-                        </Form>
+                                <Button type="submit">Submit</Button>
+                            </Form>
+                        </FormTemplate>
                     </PageTemplate>
                 )}
             </AppConsumer>
