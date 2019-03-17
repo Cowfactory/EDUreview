@@ -8,7 +8,7 @@ router.get('/:id', (req, res, next) => {
         .catch(err => {
             return res.status(500).json({
                 errors: {
-                    generic: err
+                    msg: err
                 }
             });
         });
@@ -45,7 +45,7 @@ router.post('/', async (req, res, next) => {
     } catch (err) {
         return res.status(500).json({
             errors: {
-                generic: 'Error in database lookup'
+                msg: 'Error in database lookup'
             }
         });
     }

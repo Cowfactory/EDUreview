@@ -2,40 +2,36 @@ import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import { AppConsumer } from '../../App/AppContext';
 import { Redirect } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 class LoginPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            password: '',
-            errors: [],
-            redirect: false
-        };
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    }
+    state = {
+        email: '',
+        password: '',
+        redirect: false,
+        validated: false,
+        errors: {}
+    };
 
-    handleSubmit(e, login) {
+    handleSubmit = (e, login) => {
         e.preventDefault();
+        this.setState({ validated: true });
+
         login(this.state.email, this.state.password)
-            .then(res => {
+            .then(() => {
                 this.setState({ redirect: true });
             })
             .catch(err => {
-                err.response.json().then(response => {
-                    this.setState({ errors: response.errors });
-                });
-            });
+                err.response.json()
+                    .then(res => {
+                        this.setState({ errors: res.errors });
+                    })
+            })
     }
 
-    handleEmailChange(e) {
-        this.setState({ email: e.target.value });
-    }
-
-    handlePasswordChange(e) {
-        this.setState({ password: e.target.value });
+    handleChange = e => {
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     componentDidMount() {
@@ -44,42 +40,51 @@ class LoginPage extends React.Component {
 
     render() {
         if (this.state.redirect) return <Redirect to="/" />;
-        let errMsg = <div />;
-        if (this.state.errors.length) {
-            errMsg = this.state.errors.map((err, key) => <p key={key}>Error: {err}</p>);
-        }
+        const { validated } = this.state;
+        const { errors } = this.state;
 
         return (
             <AppConsumer>
                 {({ login }) => {
                     return (
                         <PageTemplate>
-                            <div>
-                                {/* Extraordinarily strange way of passing AppConsumer's toggle func to handleSubmit() */}
-                                <form onSubmit={e => this.handleSubmit(e, login)}>
-                                    <div>
-                                        <label htmlFor="email">Email:</label>
-                                        <input
-                                            name="email"
-                                            type="email"
-                                            value={this.state.email}
-                                            onChange={this.handleEmailChange}
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="password">Password:</label>
-                                        <input
-                                            name="password"
-                                            type="password"
-                                            value={this.state.password}
-                                            onChange={this.handlePasswordChange}
-                                        />
-                                        <input type="submit" />
-                                    </div>
-                                    <div />
-                                </form>
-                                <div>{errMsg}</div>
-                            </div>
+                            <Form
+                                noValidate
+                                validated={validated}
+                                onSubmit={e => this.handleSubmit(e, login)}
+                            >
+                                <Form.Group controlId="formGroupEmail">
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control
+                                        type="email"
+                                        required
+                                        placeholder="Enter Email"
+                                        name="email"
+                                        value={this.state.email}
+                                        onChange={this.handleChange}
+                                    />
+                                </Form.Group>
+                                <Form.Control.Feedback type="invalid">
+                                    Required Field
+                                </Form.Control.Feedback>
+
+                                <Form.Group controlId="formGroupPassword">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type="password"
+                                        required
+                                        placeholder="Enter Password"
+                                        name="password"
+                                        value={this.state.password}
+                                        isInvalid={!!errors.msg}
+                                        onChange={this.handleChange}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        {errors.msg || "Username or Password was invalid"}
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                                <Button type="submit">Submit</Button>
+                            </Form>
                         </PageTemplate>
                     );
                 }}

@@ -10,7 +10,9 @@ router.post('/login', (req, res, next) => {
     passport.authenticate('local', { session: false }, (err, user, info) => {
         if (err || !user) {
             return res.status(403).json({
-                errors: ['Login or Password is Incorrect']
+                errors: {
+                    msg: 'Login or Password is Incorrect'
+                }
             });
         }
         req.login(user, { session: false }, err => {

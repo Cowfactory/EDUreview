@@ -9,20 +9,21 @@ class SignupPage extends React.Component {
         username: '',
         email: '',
         password: '',
-        errors: [],
+        errors: {},
         redirect: false,
-        validated: false
+        validated: false,
     };
 
     handleSubmit(e, loginFromToken) {
         e.preventDefault();
 
         const form = e.currentTarget;
+        this.setState({ validated: true });
+
+        // Don't fetch if form invalid
         if (form.checkValidity() === false) {
-            this.setState({ validated: true });
             return;
         }
-        this.setState({ validated: true });
 
         fetch('/api/users', {
             method: 'POST',
@@ -46,7 +47,6 @@ class SignupPage extends React.Component {
                 }
             })
             .catch(err => {
-                console.log(err);
                 this.setState({ errors: ['Error communicating with server'] });
             });
     }
@@ -77,7 +77,6 @@ class SignupPage extends React.Component {
                                     placeholder="Enter Username"
                                     name="username"
                                     value={this.state.username}
-                                    isValid={this.isFieldValid}
                                     isInvalid={!!errors.username}
                                     onChange={this.handleChange}
                                 />
@@ -117,7 +116,7 @@ class SignupPage extends React.Component {
                                 </Form.Control.Feedback>
                             </Form.Group>
                             <Form.Control.Feedback type="invalid">
-                                {errors.generic}
+                                {errors.msg || "One or more fields is invalid"}
                             </Form.Control.Feedback>
                             <Button type="submit">Submit</Button>
                         </Form>
