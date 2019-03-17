@@ -9,12 +9,13 @@ router.post('/', (req, res) => {
         if (err) {
             return res.status(422).json({ errors: err });
         }
-        let newReview = req.body.user
+        const newReview = req.body.user
             ? new Review({
                 user: req.body.user,
                 review: req.body.review
             })
-            : new Review({
+            :
+            new Review({
                 review: req.body.review
             });
 
@@ -53,7 +54,7 @@ router.get('/:id', (req, res) => {
             select: 'username'
         })
         .exec((err, review) => {
-            let reviewNoPass = review.toObject();
+            const reviewNoPass = review.toObject();
             if (err) {
                 return res.status(422).json({ errors: err });
             }
