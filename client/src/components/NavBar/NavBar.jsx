@@ -25,6 +25,11 @@ function NavBar(props) {
                         context => context.user ? (
                             <>
                                 <Nav.Item>
+                                    <Nav.Link eventKey="disabled" disabled>
+                                        {context.user.username}
+                                    </Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
                                     <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
