@@ -63,10 +63,10 @@ class LoginPage extends React.Component {
                                         value={this.state.email}
                                         onChange={this.handleChange}
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        Required Field
+                                    </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Control.Feedback type="invalid">
-                                    Required Field
-                                </Form.Control.Feedback>
 
                                 <Form.Group controlId="formGroupPassword">
                                     <Form.Label>Password</Form.Label>
