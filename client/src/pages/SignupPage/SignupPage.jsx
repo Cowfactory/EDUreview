@@ -55,6 +55,10 @@ class SignupPage extends React.Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
+    componentDidMount() {
+        document.title = "Signup - EDUreview";
+    }
+
     render() {
         if (this.state.redirect) return <Redirect to="/" />;
         const { validated } = this.state;
