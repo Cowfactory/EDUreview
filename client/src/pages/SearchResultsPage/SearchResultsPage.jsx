@@ -151,7 +151,6 @@ class SearchResultsPage extends React.Component {
                 </div>
                 <p>Don't see the result you're looking for?</p>
                 <Link to="add-institution">Add an institution listing here</Link>
-                <Link to="add-program">Add a program listing here</Link>
             </div>
             <div className={styles.page_tools}>
                 <div>

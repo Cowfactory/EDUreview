@@ -57,16 +57,14 @@ class AddProgramPage extends React.Component {
 
     componentDidMount() {
         document.title = "Add Program - EDUreview";
-        const { institutionId, name } = this.props.location.state;
-
-        if (institutionId == null) {
-            this.setState({ redirect: true });
-        }
-        else {
+        try {
+            const { institutionId, name } = this.props.location.state;
             this.setState({
                 institutionId,
                 institutionName: name
             })
+        } catch {
+            this.setState({ redirect: true })
         }
     }
 
