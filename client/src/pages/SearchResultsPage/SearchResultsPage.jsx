@@ -25,30 +25,26 @@ class SearchResultsPage extends React.Component {
 
     componentDidMount() {
         document.title = "Search Results - EDUreview";
+
+        let type, query;
         try {
-            let type = this.props.location.state.type;
+            type = this.props.location.state.type;
             let { q } = queryString.parse(this.props.location.search);
-            this.setState({
-                type,
-                query: q
-            })
+            query = q;
         } catch {
-            this.setState({
-                type: "programs",
-                query: ""
-            })
             return;
         }
-        this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP);
+        this.setState({ type, query }, () => {
+            this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP);
+        })
     }
 
     queryForResults = (show, skip, stateCode, ascending) => {
         let { type, query } = this.state;
-
         fetch(`/api/${type}/search`, {
             method: 'POST',
             body: JSON.stringify({
-                query,
+                query: query,
                 skip: Number(skip),
                 show: Number(show),
                 stateCode,

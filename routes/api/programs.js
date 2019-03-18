@@ -23,6 +23,7 @@ router.post('/', (req, res) => {
 /* --- Find programs matching query string --- */
 router.post('/search', (req, res, next) => {
     // If theres a query string, search for matches
+    console.log(req.body);
     if (req.body.query !== null) {
         // q is the key for the query string query
         Program.find({
