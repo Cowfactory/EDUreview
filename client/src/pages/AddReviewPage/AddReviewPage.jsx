@@ -10,6 +10,9 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 import RatingPicker from '../../components/RatingPicker/RatingPicker';
 import TrueFalsePicker from '../../components/TrueFalsePicker/TrueFalsePicker';
+import EnrollmentStatusPicker from './EnrollmentStatusPicker/EnrollmentStatusPicker';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 class AddReviewPage extends Component {
@@ -92,31 +95,25 @@ class AddReviewPage extends Component {
                         validated={validated}
                         onSubmit={this.handleSubmit}
                     >
-                        <div className="form-row">
-                            <Form.Group className="col" controlId="formGroupLocation">
-                                <Form.Label>City</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="city"
-                                    placeholder="Enter City"
-                                    value={this.state.city}
-                                    onChange={this.handleChange}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    Required Field
+                        <Row>
+                            <Col>
+                                <Form.Group controlId="formGroupLocation">
+                                    <Form.Label>City</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        name="city"
+                                        placeholder="Enter City"
+                                        value={this.state.city}
+                                        onChange={this.handleChange}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Required Field
                                 </Form.Control.Feedback>
-                            </Form.Group>
-
+                                </Form.Group>
+                            </Col>
 
                             <Form.Group className="col" controlId="formGroupRating">
                                 <Form.Label>Rating</Form.Label>
-                                {/* <Form.Control
-                                    type="text"
-                                    name="rating"
-                                    placeholder="Enter Rating"
-                                    value={this.state.rating}
-                                    onChange={this.handleChange}
-                                /> */}
                                 <InputGroup>
                                     <RatingPicker>
 
@@ -129,24 +126,20 @@ class AddReviewPage extends Component {
                             </Form.Group>
 
                             <Form.Group className="col" controlId="formGroupEnrollment">
-                                <Form.Label>Enrollment</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    name="enrollment"
-                                    placeholder="Enter Enrollment Status"
-                                    value={this.state.enrollment}
-                                    onChange={this.handleChange}
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    Required Field
-                                </Form.Control.Feedback>
+                                <Form.Label>Status</Form.Label>
+                                <EnrollmentStatusPicker></EnrollmentStatusPicker>
                             </Form.Group>
+                        </Row>
 
-                        </div>
+
+
                         <hr />
+
+
+
                         <div className="form-row">
                             <Form.Group className="col" controlId="formGroupTF1">
-                                <Form.Label>Did you enroll in the hopes of starting a career, or a career transition?</Form.Label>
+                                <Form.Label>Did you enroll in the hopes of starting a new career?</Form.Label>
                                 {/* <Form.Control
                                     type="text"
                                     name="trueFalseQuestion1"
@@ -176,7 +169,7 @@ class AddReviewPage extends Component {
                             </Form.Group>
 
                             <Form.Group className="col" controlId="formGroupTF3">
-                                <Form.Label>Would you recommend this program to somebody with similar expectations as you?</Form.Label>
+                                <Form.Label>Would you recommend the course to someone else?</Form.Label>
                                 {/* <Form.Control
                                     type="text"
                                     name="trueFalseQuestion3"

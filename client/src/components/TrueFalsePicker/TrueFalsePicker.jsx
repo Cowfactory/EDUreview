@@ -25,10 +25,10 @@ class TrueFalsePicker extends React.Component {
                     className="mr-3"
                     onChange={this.handleChange}
                 >
-                    <ToggleButton variant="secondary" value={true}>Yes</ToggleButton>
-                    <ToggleButton variant="secondary" value={false}>No</ToggleButton>
+                    <ToggleButton variant="primary" value={true}>Yes</ToggleButton>
+                    <ToggleButton variant="primary" value={false}>No</ToggleButton>
                 </ToggleButtonGroup>
-                <Button disabled variant="info">?</Button>
+                <Button disabled variant="secondary">?</Button>
             </ButtonToolbar>
         )
     }

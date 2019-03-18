@@ -25,11 +25,11 @@ class RatingPicker extends React.Component {
                     className="mr-3"
                     onChange={this.handleChange}
                 >
-                    <ToggleButton variant="secondary" value="Poor">1</ToggleButton>
-                    <ToggleButton variant="secondary" value="Fair">2</ToggleButton>
-                    <ToggleButton variant="secondary" value="Good">3</ToggleButton>
-                    <ToggleButton variant="secondary" value="Very Good">4</ToggleButton>
-                    <ToggleButton variant="secondary" value="Excellent">5</ToggleButton>
+                    <ToggleButton variant="primary" value="Poor">1</ToggleButton>
+                    <ToggleButton variant="primary" value="Fair">2</ToggleButton>
+                    <ToggleButton variant="primary" value="Good">3</ToggleButton>
+                    <ToggleButton variant="primary" value="Very Good">4</ToggleButton>
+                    <ToggleButton variant="primary" value="Excellent">5</ToggleButton>
                 </ToggleButtonGroup>
                 <Button disabled variant="info">{this.state.active || "?"}</Button>
             </ButtonToolbar>
