@@ -5,14 +5,14 @@ import { Redirect } from 'react-router-dom';
 import ReviewsListEntry from '../../components/ReviewsListEntry/ReviewsListEntry';
 
 class ProfilePage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            reviews: [],
-            redirect: false
-        };
-    }
+    state = {
+        reviews: [],
+        redirect: false
+    };
+
     componentDidMount() {
+        document.title = "Profile - EDUreview";
+
         if (!this.props.user) {
             this.setState({ redirect: true });
         } else {

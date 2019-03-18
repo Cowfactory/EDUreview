@@ -17,7 +17,12 @@ class LoginPage extends React.Component {
 
     handleSubmit = (e, login) => {
         e.preventDefault();
+        const form = e.currentTarget;
         this.setState({ validated: true });
+
+        if (form.checkValidity() === false) {
+            return;
+        }
 
         login(this.state.email, this.state.password)
             .then(() => {

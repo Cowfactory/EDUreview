@@ -5,8 +5,7 @@ const Program = require('../../models/Program');
 router.post('/', (req, res) => {
     const program = new Program({
         name: req.body.programName,
-        types: req.body.programTypes,
-        locations: req.body.programLocations
+        types: req.body.programTypes
     });
     program.updateCorrespondingInstitution(req.body.institutionId);
 

@@ -21,6 +21,7 @@ class SearchResultsPage extends React.Component {
     };
 
     componentDidMount() {
+        document.title = "Search Results - EDUreview";
         this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP);
     }
 
