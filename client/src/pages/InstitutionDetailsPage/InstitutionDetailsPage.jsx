@@ -2,6 +2,8 @@ import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import ProgramListEntry from '../../components/ProgramListEntry/ProgramListEntry';
 import { Link } from 'react-router-dom';
+import Breadcrumb from 'react-bootstrap/Breadcrumb'
+
 class InstitutionDetailsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +22,7 @@ class InstitutionDetailsPage extends React.Component {
         fetch(`/api/institutions/${this.props.match.params.id}`)
             .then(response => response.json())
             .then(data => {
+                document.title = `${data.name} - EDUreview`;
                 this.setState(data);
             });
     }
@@ -27,6 +30,16 @@ class InstitutionDetailsPage extends React.Component {
     render() {
         return (
             <PageTemplate>
+                <Breadcrumb>
+                    <Breadcrumb.Item>
+                        <Link to="/">Home</Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>
+                        <Link to="/search">Search</Link>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item active>{this.state.name}</Breadcrumb.Item>
+                </Breadcrumb>
+
                 <h1>{this.state.name}</h1>
                 <a href={`https://${this.state.website}`} target="_blank" rel="noopener noreferrer">{this.state.website}</a>
 

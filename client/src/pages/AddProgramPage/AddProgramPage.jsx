@@ -68,7 +68,6 @@ class AddProgramPage extends React.Component {
                 institutionName: name
             })
         }
-
     }
 
     render() {

@@ -4,7 +4,7 @@ import ProgramSearchResultsEntry from '../../components/ProgramSearchResultsEntr
 import InstitutionSearchResultsEntry from '../../components/InstitutionSearchResultsEntry/InstitutionSearchResultsEntry';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import styles from './SearchResultsPage.module.css';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { RegionDropdown } from 'react-country-region-selector';
 
 const DEFAULT_SHOW = 10;
@@ -18,20 +18,37 @@ class SearchResultsPage extends React.Component {
         count: 0,
         stateCode: '',
         ascending: 1,
+        redirect: false,
+        type: "programs",
+        query: ""
     };
 
     componentDidMount() {
         document.title = "Search Results - EDUreview";
+        try {
+            let type = this.props.location.state.type;
+            let { q } = queryString.parse(this.props.location.search);
+            this.setState({
+                type,
+                query: q
+            })
+        } catch {
+            this.setState({
+                type: "programs",
+                query: ""
+            })
+            return;
+        }
         this.queryForResults(DEFAULT_SHOW, DEFAULT_SKIP);
     }
 
     queryForResults = (show, skip, stateCode, ascending) => {
-        let { q } = queryString.parse(this.props.location.search);
-        let searchType = this.props.location.state.type;
-        fetch(`/api/${searchType}/search`, {
+        let { type, query } = this.state;
+
+        fetch(`/api/${type}/search`, {
             method: 'POST',
             body: JSON.stringify({
-                query: q,
+                query,
                 skip: Number(skip),
                 show: Number(show),
                 stateCode,
@@ -87,10 +104,11 @@ class SearchResultsPage extends React.Component {
         this.queryForResults(this.state.show, this.state.skip, this.state.stateCode, e.target.value);
     }
     render() {
-        let resultsList = [];
-        let type = this.props.location.state.type;
+        if (this.state.redirect) return <Redirect to="/" />
+        let { type, query } = this.state;
+
         let haveResults = this.state.results.length > 0 ? true : false;
-        let { q } = queryString.parse(this.props.location.search);
+        let resultsList = [];
 
         if (type === 'programs' && haveResults) {
             resultsList = this.state.results.map((item, key) => (
@@ -152,7 +170,7 @@ class SearchResultsPage extends React.Component {
                 </div>
             </div>
             <div className={styles.reviews}>
-                <p>Querying {this.props.location.state.type} for: "{q}"</p>
+                <p>Querying {this.state.type} for: "{query}"</p>
                 <p>Showing results
                     {` ${this.state.skip + 1} - ${Number(this.state.skip) + Number(this.state.show) + 1}`}
                     {" "}of {this.state.count}
