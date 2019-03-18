@@ -5,6 +5,10 @@ import {
 } from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+import { RegionDropdown } from 'react-country-region-selector';
 
 class AddInstitutionPage extends React.Component {
     state = {
@@ -15,40 +19,39 @@ class AddInstitutionPage extends React.Component {
         state: '',
         telephone: '',
         websiteURL: '',
-        redirect: false
+        redirect: false,
+        validated: false
     }
 
-    handleNameChange = (e) => {
-        this.setState({ name: e.target.value })
+    handleChange = e => {
+        this.setState({ [e.target.name]: e.target.value });
     }
-    handleAddressChange = (e) => {
-        this.setState({ address: e.target.value })
+
+    selectstateCode = e => {
+        this.setState({ state: e });
     }
-    handleCityChange = (e) => {
-        this.setState({ city: e.target.value })
-    }
-    handleStateChange = (e) => {
-        this.setState({ state: e.target.value })
-    }
-    handleTelephoneChange = (e) => {
-        this.setState({ telephone: e.target.value })
-    }
-    handleURLChange = (e) => {
-        this.setState({ websiteURL: e.target.value })
-    }
+
     addCity = (e) => {
         this.setState(({ cities }) => {
             this.setState(cities.push(e.target.value))
         })
     }
+
     handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        const form = e.currentTarget;
+        this.setState({ validated: true });
+
+        if (form.checkValidity() === false) {
+            return;
+        }
+
         fetch('/api/institutions', {
             method: 'POST',
             body: JSON.stringify({
                 name: this.state.name,
                 address: this.state.address,
-                city: this.state.city,
+                cities: this.state.cities,
                 telephone: this.state.telephone,
                 website: this.state.websiteURL,
                 skip: 0
@@ -57,7 +60,7 @@ class AddInstitutionPage extends React.Component {
                 'Content-Type': 'application/json'
             }
         })
-            .then(_ => {
+            .then(() => {
                 this.setState({
                     redirect: true
                 })
@@ -66,67 +69,96 @@ class AddInstitutionPage extends React.Component {
 
     render() {
         if (this.state.redirect) return <Redirect to="/institutions"></Redirect>
+
+        const { validated } = this.state.validated;
+
         return (
             <PageTemplate>
                 <h1>Add New Institution to EDUreview</h1>
                 <Link to="/institutions">Browse all institutions</Link>
-                <FormTemplate onSubmit={this.handleSubmit}>
-                    <label>
-                        Institution Name:
-                        <input
-                            type="text"
-                            name="name"
-                            value={this.state.name}
-                            onChange={this.handleNameChange} >
-                        </input>
-                    </label>
-                    <label>
-                        Address:
-                        <input
-                            type="text"
-                            name="address"
-                            value={this.state.address}
-                            onChange={this.handleAddressChange} >
-                        </input>
-                    </label>
-                    <label>
-                        City:
-                        <input
-                            type="text"
-                            name="city"
-                            value={this.state.city}
-                            onChange={this.handleCityChange} >
-                            {/* // onSubmit={this.addCity}>  */}
-                        </input>
-                    </label>
-                    <label>
-                        State:
-                        <input
-                            type="text"
-                            name="city"
-                            value={this.state.state}
-                            onChange={this.handleStateChange}>
-                        </input>
-                    </label>
-                    <label>
-                        Telephone:
-                        <input
-                            type="text"
-                            name="telephone"
-                            value={this.state.telephone}
-                            onChange={this.handleTelephoneChange} >
-                        </input>
-                    </label>
-                    <label>
-                        Website:
-                        <input
-                            type="url"
-                            name="website"
-                            placeholder="https://example.com"
-                            value={this.state.websiteURL}
-                            onChange={this.handleURLChange} >
-                        </input>
-                    </label>
+                <FormTemplate>
+
+
+                    <Form
+                        noValidate
+                        validated={validated}
+                        onSubmit={e => this.handleSubmit(e)}
+                    >
+                        <Form.Group as={Form.Row} controlId="formGroupName">
+                            <Form.Label>Institution Name</Form.Label>
+                            <Form.Control
+                                required
+                                type="text"
+                                placeholder="Enter Institution Name"
+                                name="name"
+                                value={this.state.name}
+                                onChange={this.handleChange}
+                            />
+                        </Form.Group>
+
+                        <Form.Group as={Form.Row} controlId="formGroupAddress">
+                            <Form.Label>Address</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Enter Address"
+                                name="address"
+                                value={this.state.address}
+                                onChange={this.handleChange}
+                            />
+                        </Form.Group>
+                        <Form.Row>
+                            <Col>
+                                <Form.Group controlId="formGroupCity">
+                                    <Form.Label>City</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Enter City"
+                                        name="cities"
+                                        value={this.state.cities}
+                                        onChange={this.handleChange}
+                                    />
+                                </Form.Group>
+
+                            </Col>
+                            <Col>
+                                <Form.Group controlId="formGroupState">
+                                    <Form.Label>State</Form.Label>
+                                    <Col sm="9">
+                                        <RegionDropdown
+                                            country={"United States"}
+                                            value={this.state.state}
+                                            name="state"
+                                            onChange={this.selectstateCode}
+                                            valueType="short"
+                                        />
+                                    </Col>
+                                    <Form.Control
+                                        className="d-none"
+                                        isInvalid={!this.state.state}
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Required Field
+                                    </Form.Control.Feedback>
+
+
+                                </Form.Group>
+                            </Col>
+                        </Form.Row>
+
+                        <Form.Group as={Form.Row} controlId="formGroupWebsite">
+                            <Form.Label>Website</Form.Label>
+                            <Form.Control
+                                required
+                                type="text"
+                                placeholder="https://example.com"
+                                name="websiteURL"
+                                value={this.state.websiteURL}
+                                onChange={this.handleChange}
+                            />
+                        </Form.Group>
+                        <Button type="submit">Submit</Button>
+                    </Form>
+
                 </FormTemplate>
             </PageTemplate>
         )

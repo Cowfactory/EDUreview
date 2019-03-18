@@ -19,6 +19,7 @@ class InstitutionDetailsPage extends React.Component {
     }
 
     componentDidMount() {
+
         fetch(`/api/institutions/${this.props.match.params.id}`)
             .then(response => response.json())
             .then(data => {
@@ -31,7 +32,7 @@ class InstitutionDetailsPage extends React.Component {
         return (
             <PageTemplate>
                 <Breadcrumb>
-                    <Breadcrumb.Item>
+                    <Breadcrumb.Item as="div">
                         <Link to="/">Home</Link>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>
@@ -73,7 +74,6 @@ class InstitutionDetailsPage extends React.Component {
                 >
                     Add a Program to this Institution
                 </Link>
-                {/* All programs down here */}
                 {this.state.programs.map((program, idx) => (
                     <ProgramListEntry
                         key={idx}
