@@ -9,6 +9,7 @@ class EnrollmentStatusPicker extends React.Component {
 
     handleChange = (value, e) => {
         e.preventDefault();
+        this.props.handleChange(e);
         this.setState({
             active: e.target.value
         })
@@ -22,6 +23,7 @@ class EnrollmentStatusPicker extends React.Component {
                     as="button"
                     value="Current Student"
                     onSelect={this.handleChange}
+                    name={this.props.name}
                 >
                     Current Student
                 </Dropdown.Item>
@@ -29,13 +31,15 @@ class EnrollmentStatusPicker extends React.Component {
                     as="button"
                     value="Graduated"
                     onSelect={this.handleChange}
+                    name={this.props.name}
                 >
                     Graduated
                 </Dropdown.Item>
                 <Dropdown.Item
                     as="button"
-                    value="Current Student"
+                    value="Formerly Enrolled"
                     onSelect={this.handleChange}
+                    name={this.props.name}
                 >
                     Formerly Enrolled
                 </Dropdown.Item>

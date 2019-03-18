@@ -3,17 +3,13 @@ import { Redirect } from 'react-router-dom';
 import withAuth from '../../components/withAuth/withAuth';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import InputGroup from 'react-bootstrap/InputGroup';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 import RatingPicker from '../../components/RatingPicker/RatingPicker';
 import TrueFalsePicker from '../../components/TrueFalsePicker/TrueFalsePicker';
 import EnrollmentStatusPicker from './EnrollmentStatusPicker/EnrollmentStatusPicker';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
 
 class AddReviewPage extends Component {
     state = {
@@ -39,13 +35,31 @@ class AddReviewPage extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
+        const form = e.currentTarget;
+        this.setState({ validated: true });
+
+        // Don't fetch if form invalid
+        if (form.checkValidity() === false) {
+            return;
+        }
+        const {
+            city, rating, enrollment, trueFalseQuestion1,
+            trueFalseQuestion2, trueFalseQuestion3, headline,
+            freeformQuestion1, freeformQuestion2, freeformQuestion3 } = this.state;
+
         let payload = {
-            // review: this.state.textValue,
+            review: {
+                city, rating, enrollment, trueFalseQuestion1,
+                trueFalseQuestion2, trueFalseQuestion3, headline,
+                freeformQuestion1, freeformQuestion2, freeformQuestion3
+            },
             programId: this.props.match.params.id
         };
+
         if (this.props.user) {
             payload.user = this.props.user._id;
         }
+
         fetch('/api/reviews/', {
             method: 'POST',
             body: JSON.stringify(payload),
@@ -57,7 +71,7 @@ class AddReviewPage extends Component {
                 this.setState({ redirect: true });
             })
             .catch(err => {
-                console.log(err);
+                this.setState({ errors: err })
             });
     };
 
@@ -82,72 +96,78 @@ class AddReviewPage extends Component {
         if (this.state.redirect) return <Redirect to={`/programs/${this.props.match.params.id}`} />;
 
         const { validated } = this.state;
-        const { errors } = this.state.errors;
-
+        // const { errors } = this.state.errors;
 
         return (
             <PageTemplate>
                 <h1>Write your review for {this.state.name}</h1>
                 <FormTemplate>
-
                     <Form
                         noValidate
                         validated={validated}
-                        onSubmit={this.handleSubmit}
+                        onSubmit={e => this.handleSubmit(e)}
                     >
                         <Row>
-                            <Col>
-                                <Form.Group controlId="formGroupLocation">
-                                    <Form.Label>City</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        name="city"
-                                        placeholder="Enter City"
-                                        value={this.state.city}
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Control.Feedback type="invalid">
-                                        Required Field
+                            <Form.Group className="col" controlId="formGroupLocation">
+                                <Form.Label>City:</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    name="city"
+                                    placeholder="Enter City"
+                                    value={this.state.city}
+                                    onChange={this.handleChange}
+                                    required
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Required Field
                                 </Form.Control.Feedback>
-                                </Form.Group>
-                            </Col>
+                            </Form.Group>
 
                             <Form.Group className="col" controlId="formGroupRating">
-                                <Form.Label>Rating</Form.Label>
-                                <InputGroup>
-                                    <RatingPicker>
-
-                                    </RatingPicker>
-                                </InputGroup>
-
+                                <Form.Label>Rating:</Form.Label>
+                                <RatingPicker
+                                    name="rating"
+                                    handleChange={this.handleChange}
+                                    isValid={false}
+                                />
+                                <FormControl
+                                    className="d-none"
+                                    isInvalid={!this.state.rating}
+                                />
                                 <Form.Control.Feedback type="invalid">
                                     Required Field
                                 </Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group className="col" controlId="formGroupEnrollment">
-                                <Form.Label>Status</Form.Label>
-                                <EnrollmentStatusPicker></EnrollmentStatusPicker>
+                                <Form.Label>Enrollment Status:</Form.Label>
+                                <EnrollmentStatusPicker
+                                    name="enrollment"
+                                    handleChange={this.handleChange}
+                                />
+                                <FormControl
+                                    className="d-none"
+                                    isInvalid={!this.state.enrollment}
+                                />
+                                <Form.Control.Feedback type="invalid">
+                                    Required Field
+                                </Form.Control.Feedback>
                             </Form.Group>
                         </Row>
 
-
-
                         <hr />
 
-
-
-                        <div className="form-row">
+                        <Row>
                             <Form.Group className="col" controlId="formGroupTF1">
                                 <Form.Label>Did you enroll in the hopes of starting a new career?</Form.Label>
-                                {/* <Form.Control
-                                    type="text"
+                                <TrueFalsePicker
                                     name="trueFalseQuestion1"
-                                    placeholder="Enter Response"
-                                    value={this.state.trueFalseQuestion1}
-                                    onChange={this.handleChange}
-                                /> */}
-                                <TrueFalsePicker></TrueFalsePicker>
+                                    handleChange={this.handleChange}
+                                />
+                                <FormControl
+                                    className="d-none"
+                                    isInvalid={!this.state.trueFalseQuestion1}
+                                />
                                 <Form.Control.Feedback type="invalid">
                                     Required Field
                                 </Form.Control.Feedback>
@@ -155,14 +175,14 @@ class AddReviewPage extends Component {
 
                             <Form.Group className="col" controlId="formGroupTF2">
                                 <Form.Label>Did the course match your expectations?</Form.Label>
-                                {/* <Form.Control
-                                    type="text"
+                                <TrueFalsePicker
                                     name="trueFalseQuestion2"
-                                    placeholder="Enter Response"
-                                    value={this.state.trueFalseQuestion2}
-                                    onChange={this.handleChange}
-                                /> */}
-                                <TrueFalsePicker></TrueFalsePicker>
+                                    handleChange={this.handleChange}
+                                />
+                                <FormControl
+                                    className="d-none"
+                                    isInvalid={!this.state.trueFalseQuestion2}
+                                />
                                 <Form.Control.Feedback type="invalid">
                                     Required Field
                                 </Form.Control.Feedback>
@@ -170,30 +190,31 @@ class AddReviewPage extends Component {
 
                             <Form.Group className="col" controlId="formGroupTF3">
                                 <Form.Label>Would you recommend the course to someone else?</Form.Label>
-                                {/* <Form.Control
-                                    type="text"
+                                <TrueFalsePicker
                                     name="trueFalseQuestion3"
-                                    placeholder="Enter Response"
-                                    value={this.state.trueFalseQuestion3}
-                                    onChange={this.handleChange}
-                                /> */}
-                                <TrueFalsePicker></TrueFalsePicker>
+                                    handleChange={this.handleChange}
+                                />
+                                <FormControl
+                                    className="d-none"
+                                    isInvalid={!this.state.trueFalseQuestion3}
+                                />
                                 <Form.Control.Feedback type="invalid">
                                     Required Field
                                 </Form.Control.Feedback>
                             </Form.Group>
-                        </div>
+                        </Row>
 
                         <hr />
 
                         <Form.Group controlId="formGroupHeadline">
-                            <Form.Label>Review Headline</Form.Label>
+                            <Form.Label>Review Headline:</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="headline"
                                 placeholder="Enter Review Headline"
                                 value={this.state.headline}
                                 onChange={this.handleChange}
+                                required
                             />
                             <Form.Control.Feedback type="invalid">
                                 Required Field
@@ -203,11 +224,13 @@ class AddReviewPage extends Component {
                         <Form.Group controlId="formGroupQ1">
                             <Form.Label>What are the most important takeaways from your time in the program?</Form.Label>
                             <Form.Control
-                                type="text"
+                                as="textarea"
+                                rows="3"
                                 name="freeformQuestion1"
                                 placeholder="Enter Response"
                                 value={this.state.freeformQuestion1}
                                 onChange={this.handleChange}
+                                required
                             />
                             <Form.Control.Feedback type="invalid">
                                 Required Field
@@ -215,13 +238,15 @@ class AddReviewPage extends Component {
                         </Form.Group>
 
                         <Form.Group controlId="formGroupQ2">
-                            <Form.Label>What things detracted from, or were missing from the program</Form.Label>
+                            <Form.Label>What things detracted from, or were missing from the program?</Form.Label>
                             <Form.Control
-                                type="text"
+                                as="textarea"
+                                rows="3"
                                 name="freeformQuestion2"
                                 placeholder="Enter Response"
                                 value={this.state.freeformQuestion2}
                                 onChange={this.handleChange}
+                                required
                             />
                             <Form.Control.Feedback type="invalid">
                                 Required Field
@@ -231,11 +256,13 @@ class AddReviewPage extends Component {
                         <Form.Group controlId="formGroupQ3">
                             <Form.Label>Advice to future students:</Form.Label>
                             <Form.Control
-                                type="text"
+                                as="textarea"
+                                rows="3"
                                 name="freeformQuestion3"
                                 placeholder="Enter Response"
                                 value={this.state.freeformQuestion3}
                                 onChange={this.handleChange}
+                                required
                             />
                             <Form.Control.Feedback type="invalid">
                                 Required Field

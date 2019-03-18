@@ -15,7 +15,7 @@ router.post('/', (req, res) => {
             return res.status(422).json({ errors: err });
         }
 
-        return res.status(201).send({
+        return res.status(201).json({
             msg: 'Program Entry Added'
         });
     });
@@ -30,10 +30,10 @@ router.post('/search', (req, res, next) => {
             $text: { $search: req.body.query }
         })
             .then(results => {
-                res.status(200).send(JSON.stringify(results));
+                res.status(200).json(results);
             })
             .catch(err => {
-                res.status(422).send(JSON.stringify(err));
+                res.status(422).json(err);
             });
     }
     // Otherwise, search query is empty -> return nothing
@@ -41,7 +41,7 @@ router.post('/search', (req, res, next) => {
         const response = {
             msg: 'bad query'
         };
-        res.status(400).send(JSON.stringify(response));
+        res.status(400).json(response);
     }
 });
 
@@ -56,7 +56,7 @@ router.get('/', (req, res) => {
                 });
                 return err;
             }
-            return res.status(200).send(JSON.stringify(result));
+            return res.status(200).json(result);
         });
 });
 

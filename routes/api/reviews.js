@@ -4,34 +4,64 @@ const Review = require('../../models/Review');
 
 /* --- POST(add) a review to a program in db --- */
 router.post('/', (req, res) => {
-    Program.findById(req.body.programId).exec((err, program) => {
-        // No program of this Id found, or db error
-        if (err) {
-            return res.status(422).json({ errors: err });
-        }
-        const newReview = req.body.user
-            ? new Review({
-                user: req.body.user,
-                review: req.body.review
-            })
-            :
-            new Review({
-                review: req.body.review
-            });
-
-        program.addReview(newReview);
-        newReview.save(err => {
-            if (err) {
-                return res.status(422).json({ errors: err });
-            }
-            program.save(err => {
-                if (err) {
-                    return res.status(422).json({ errors: err });
-                }
-                return res.status(201).json({ msg: 'Review successfully added to program' });
-            });
+    let newReview;
+    if (req.body.user) {
+        newReview = new Review({
+            user: req.body.user,
+            review: req.body.review
         });
-    });
+    } else {
+        newReview = new Review({
+            review: req.body.review
+        });
+    }
+
+    Program.findById(req.body.programId)
+        .exec()
+        .then(program => {
+            return program.addReview(newReview);
+        })
+        .then(program => {
+            console.log(program);
+            newReview.save();
+            program.save();
+            return res.status(201).json({ msg: 'Review successfully added to program' });
+        })
+        .catch(err => {
+            return res.status(422).json({ errors: err });
+        });
+
+    // (err, program) => {
+    // // No program of this Id found, or db error
+    // if (err) {
+    //     return res.status(422).json({ errors: err });
+    // }
+
+    // let newReview;
+    // if (req.body.user) {
+    //     newReview = new Review({
+    //         user: req.body.user,
+    //         review: req.body.review
+    //     });
+    // } else {
+    //     newReview = new Review({
+    //         review: req.body.review
+    //     });
+    // }
+
+    // program.addReview(newReview);
+    // newReview.save(err => {
+    //     if (err) {
+    //         return res.status(422).json({ errors: err });
+    //     }
+    //     program.save(err => {
+    //         if (err) {
+    //             return res.status(422).json({ errors: err });
+    //         }
+    //         return res.status(201).json({ msg: 'Review successfully added to program' });
+    //     });
+    // });
+    // });
 });
 
 router.get('/search', (req, res) => {

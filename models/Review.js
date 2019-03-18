@@ -8,7 +8,18 @@ const reviewSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: 'User'
         },
-        review: String
+        review: {
+            city: String,
+            rating: String,
+            enrollment: String,
+            trueFalseQuestion1: String,
+            trueFalseQuestion2: String,
+            trueFalseQuestion3: String,
+            headline: String,
+            freeformQuestion1: String,
+            freeformQuestion2: String,
+            freeformQuestion3: String
+        }
     },
     {
         timestamps: true

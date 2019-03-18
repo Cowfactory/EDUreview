@@ -1,13 +1,13 @@
 import React from 'react';
 import './ReviewsListEntry.css';
 
-function ReviewsListEntry({ review }) {
+function ReviewsListEntry({ review, user }) {
     return (
         <div className="ReviewsListEntry">
-            <p>Review: {review.review} </p>
+            <p>Review: {review.headline} </p>
             {
-                review.user ?
-                    <p>By: {review.user.username}</p>
+                user ?
+                    <p>By: {user.username}</p>
                     :
                     <p>By: Anonymous User</p>
             }

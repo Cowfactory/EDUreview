@@ -4,23 +4,25 @@ import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import ReviewsListEntry from '../../components/ReviewsListEntry/ReviewsListEntry';
 
 class ProgramDetailsPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: '',
-            institutionName: '',
-            types: [],
-            locations: [],
-            reviews: []
-        };
-        this.fetchUsername = this.fetchUsername.bind(this);
-    }
+    state = {
+        name: '',
+        institutionName: '',
+        types: [],
+        locations: [],
+        reviews: []
+    };
 
     componentDidMount() {
         fetch(`/api/programs/${this.props.match.params.id}`)
             .then(response => response.json()) // fetch program from API
             .then(data => {
-                this.setState(data);
+                const { name, types, reviews, locations } = data;
+                this.setState({
+                    name,
+                    types,
+                    locations,
+                    reviews
+                });
                 return data;
             })
             .then(data => {
@@ -31,6 +33,7 @@ class ProgramDetailsPage extends React.Component {
                 return Promise.all(promises);
             })
             .then(reviews => {
+                console.log(reviews);
                 this.setState({ reviews });
             })
             .catch(err => {
@@ -74,7 +77,7 @@ class ProgramDetailsPage extends React.Component {
                 </Link>
                 <h2>Reviews: </h2>
                 {this.state.reviews.map((review, idx) => (
-                    <ReviewsListEntry key={idx} review={review} />
+                    <ReviewsListEntry key={idx} user={review.user} review={review.review} />
                 ))}
             </PageTemplate>
         );

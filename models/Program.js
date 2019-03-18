@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
 const Institution = require('./Institution');
-const Review = require('./Review');
 
 const { Schema } = mongoose;
 
 /* --- Program Schema --- */
-var programSchema = new Schema(
+const programSchema = new Schema(
     {
         reviews: [
             {
@@ -31,6 +30,7 @@ programSchema.index({
 // Do not change the function to arrow function (this binding)
 programSchema.methods.addReview = function addReview(review) {
     this.reviews.push(review);
+    return this;
 };
 
 programSchema.methods.updateCorrespondingInstitution = function updateCorrespondingInstitution(

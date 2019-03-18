@@ -10,6 +10,7 @@ class RatingPicker extends React.Component {
     }
 
     handleChange = (value, e) => {
+        this.props.handleChange(e);
         this.setState({
             active: e.target.value
         })
@@ -20,7 +21,7 @@ class RatingPicker extends React.Component {
             <ButtonToolbar>
                 <ToggleButtonGroup
                     type="radio"
-                    name="options"
+                    name={this.props.name}
                     value={this.state.value}
                     className="mr-3"
                     onChange={this.handleChange}

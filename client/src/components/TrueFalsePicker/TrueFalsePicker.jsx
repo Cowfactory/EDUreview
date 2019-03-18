@@ -5,14 +5,8 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 
 class TrueFalsePicker extends React.Component {
-    state = {
-        active: null
-    }
-
     handleChange = (value, e) => {
-        this.setState({
-            active: e.target.value
-        })
+        this.props.handleChange(e);
     }
 
     render() {
@@ -20,13 +14,12 @@ class TrueFalsePicker extends React.Component {
             <ButtonToolbar>
                 <ToggleButtonGroup
                     type="radio"
-                    name="options"
-                    value={this.state.value}
+                    name={this.props.name}
                     className="mr-3"
                     onChange={this.handleChange}
                 >
-                    <ToggleButton variant="primary" value={true}>Yes</ToggleButton>
-                    <ToggleButton variant="primary" value={false}>No</ToggleButton>
+                    <ToggleButton variant="primary" value={"Yes"}>Yes</ToggleButton>
+                    <ToggleButton variant="primary" value={"No"}>No</ToggleButton>
                 </ToggleButtonGroup>
                 <Button disabled variant="secondary">?</Button>
             </ButtonToolbar>
