@@ -91,11 +91,7 @@ class ProgramDetailsPage extends React.Component {
                 <Link to={{
                     pathname: `/programs/${this.props.match.params.id}/addreview`,
                     state: {
-                        program: {
-                            name: this.state.name,
-                            institutionName: this.state.institutionName,
-                            types: this.state.types,
-                        }
+                        institutionName,
                     }
                 }}>
                     Add a review for this program

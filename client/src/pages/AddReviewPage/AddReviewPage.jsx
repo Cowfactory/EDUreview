@@ -10,6 +10,7 @@ import RatingPicker from '../../components/RatingPicker/RatingPicker';
 import TrueFalsePicker from '../../components/TrueFalsePicker/TrueFalsePicker';
 import EnrollmentStatusPicker from './EnrollmentStatusPicker/EnrollmentStatusPicker';
 import Row from 'react-bootstrap/Row';
+import { Link } from 'react-router-dom';
 
 class AddReviewPage extends Component {
     state = {
@@ -77,11 +78,19 @@ class AddReviewPage extends Component {
 
     componentDidMount() {
         // Did we <Link> to this page? ie. the program data is passed via props.location
+        let institutionName
+        try {
+            institutionName = this.props.location.state.institutionName;
+        } catch { }
+
         if (!this.props.location.program) {
             fetch(`/api/programs/${this.props.match.params.id}`)
                 .then(response => response.json())
-                .then(review => {
-                    this.setState(review)
+                .then(program => {
+                    this.setState({
+                        program,
+                        institutionName,
+                    })
                 })
                 .catch(err => {
                     console.log(err);
@@ -95,12 +104,26 @@ class AddReviewPage extends Component {
     render() {
         if (this.state.redirect) return <Redirect to={`/programs/${this.props.match.params.id}`} />;
 
-        const { validated } = this.state;
+        const { validated, institutionName } = this.state;
+        let name, institutionId, programId;
+        if (this.state.program) {
+            name = this.state.program.name;
+            institutionId = this.state.program.institutionId;
+            programId = this.state.program._id;
+        }
         // const { errors } = this.state.errors;
 
         return (
             <PageTemplate>
-                <h1>Write your review for {this.state.name}</h1>
+                <h1>Write your review for:</h1>
+                <h2>
+                    <Link to={{
+                        pathname: `/programs/${programId}`,
+                        state: { institutionName, institutionId }
+                    }}>{name}</Link>
+                    &nbsp; At &nbsp;
+                    <Link to={`/institutions/${institutionId}`}>{institutionName}</Link>
+                </h2>
                 <FormTemplate>
                     <Form
                         noValidate
