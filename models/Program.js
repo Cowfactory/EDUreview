@@ -18,7 +18,11 @@ const programSchema = new Schema(
         ],
         name: String,
         types: [String],
-        locations: [String]
+        locations: [String],
+        institutionId: {
+            type: Schema.Types.ObjectId,
+            ref: 'Institution'
+        }
     },
     {
         timestamps: true

@@ -7,12 +7,19 @@ class ProgramDetailsPage extends React.Component {
     state = {
         name: '',
         institutionName: '',
+        institutionId: '',
         types: [],
         locations: [],
         reviews: []
     };
 
     componentDidMount() {
+        let institutionName, institutionId;
+        try {
+            institutionName = this.props.location.state.institutionName;
+            institutionId = this.props.location.state.institutionId;
+        } catch { }
+
         fetch(`/api/programs/${this.props.match.params.id}`)
             .then(response => response.json()) // fetch program from API
             .then(data => {
@@ -33,7 +40,11 @@ class ProgramDetailsPage extends React.Component {
                 return Promise.all(promises);
             })
             .then(reviews => {
-                this.setState({ reviews });
+                this.setState({
+                    reviews,
+                    institutionName,
+                    institutionId
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -54,12 +65,27 @@ class ProgramDetailsPage extends React.Component {
     };
 
     render() {
+        const { name, institutionName, types, locations, institutionId } = this.state;
         return (
             <PageTemplate>
-                <h1>{this.state.name}</h1>
-                <h2>{this.state.institutionName}</h2>
-                <h3>Type(s): {this.state.types}</h3>
-                <h3>Location(s): {this.state.locations}</h3>
+                <h1>{name}</h1>
+                {institutionName ?
+                    <h2>At &nbsp;
+                        <Link to={`/institutions/${institutionId}`}>
+                            {institutionName}
+                        </Link>
+                    </h2>
+                    :
+                    <></>
+                }
+                <h3>Type(s): {types.map((type, key) => {
+                    if (key === types.length - 1) {
+                        return <span key={key}>{type} </span>
+                    } else {
+                        return <span key={key}>{type}, </span>
+                    }
+                })}</h3>
+                <h3>Location(s): {locations}</h3>
 
                 <br />
                 <Link to={{

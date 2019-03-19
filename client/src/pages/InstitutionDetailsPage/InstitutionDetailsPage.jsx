@@ -2,7 +2,6 @@ import React from "react";
 import PageTemplate from "../../templates/PageTemplate/PageTemplate";
 import ProgramListEntry from "../../components/ProgramListEntry/ProgramListEntry";
 import { Link } from "react-router-dom";
-import ListGroup from 'react-bootstrap/ListGroup';
 
 class InstitutionDetailsPage extends React.Component {
     constructor(props) {
@@ -54,24 +53,13 @@ class InstitutionDetailsPage extends React.Component {
                 <hr />
                 <h2>This Institution's programs:</h2>
 
-                <ListGroup variant="flush">
-                    {this.state.programs.map((program, idx) => (
-                        <ListGroup.Item
-                            key={idx}
-                            variant="dark"
-                        >
-                            {program.name}
-                        </ListGroup.Item>
-                    ))}
-                </ListGroup>
-
                 {this.state.programs.map((program, idx) => (
                     <ProgramListEntry
                         key={idx}
-                        institutionName={program.institutionName}
                         name={program.name}
+                        institutionName={this.state.name}
+                        institutionId={this.state._id}
                         types={program.types}
-                        locations={program.locations}
                         programId={program._id}
                     />
                 ))}

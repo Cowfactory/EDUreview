@@ -30,38 +30,6 @@ router.post('/', (req, res) => {
         .catch(err => {
             return res.status(422).json({ errors: err });
         });
-
-    // (err, program) => {
-    // // No program of this Id found, or db error
-    // if (err) {
-    //     return res.status(422).json({ errors: err });
-    // }
-
-    // let newReview;
-    // if (req.body.user) {
-    //     newReview = new Review({
-    //         user: req.body.user,
-    //         review: req.body.review
-    //     });
-    // } else {
-    //     newReview = new Review({
-    //         review: req.body.review
-    //     });
-    // }
-
-    // program.addReview(newReview);
-    // newReview.save(err => {
-    //     if (err) {
-    //         return res.status(422).json({ errors: err });
-    //     }
-    //     program.save(err => {
-    //         if (err) {
-    //             return res.status(422).json({ errors: err });
-    //         }
-    //         return res.status(201).json({ msg: 'Review successfully added to program' });
-    //     });
-    // });
-    // });
 });
 
 router.get('/search', (req, res) => {
