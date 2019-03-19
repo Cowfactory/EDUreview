@@ -15,6 +15,7 @@ router.post('/', (req, res) => {
         }
 
         return res.status(201).json({
+            programId: program._id,
             msg: 'Program Entry Added'
         });
     });

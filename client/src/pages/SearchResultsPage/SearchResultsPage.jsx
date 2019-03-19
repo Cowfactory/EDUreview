@@ -56,7 +56,6 @@ class SearchResultsPage extends React.Component {
         })
             .then(response => response.json())
             .then(res => {
-                console.log(res);
                 this.setState({
                     results: res.results || [],
                     skip: Number(skip),

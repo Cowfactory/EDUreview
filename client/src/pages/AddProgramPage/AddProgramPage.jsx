@@ -12,7 +12,8 @@ class AddProgramPage extends React.Component {
         institutionName: '',
         programName: '',
         redirect: false,
-        validated: false
+        validated: false,
+        redirectId: ""
     };
 
     handleChange = e => {
@@ -38,9 +39,14 @@ class AddProgramPage extends React.Component {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(() => {
-            this.setState({ redirect: true });
-        });
+        })
+            .then(res => res.json())
+            .then(program => {
+                this.setState({
+                    redirectId: program.programId,
+                    redirect: true
+                });
+            });
     };
 
     getProgramTypes = () => {
@@ -69,7 +75,7 @@ class AddProgramPage extends React.Component {
     }
 
     render() {
-        if (this.state.redirect) return <Redirect to="/" />;
+        if (this.state.redirect) return <Redirect to={`/programs/${this.state.redirectId}`} />;
 
         const { validated } = this.state.validated;
 

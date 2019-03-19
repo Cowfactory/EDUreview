@@ -33,7 +33,6 @@ class ProgramDetailsPage extends React.Component {
                 return Promise.all(promises);
             })
             .then(reviews => {
-                console.log(reviews);
                 this.setState({ reviews });
             })
             .catch(err => {

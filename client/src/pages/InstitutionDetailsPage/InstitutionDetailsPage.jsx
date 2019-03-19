@@ -2,8 +2,6 @@ import React from "react";
 import PageTemplate from "../../templates/PageTemplate/PageTemplate";
 import ProgramListEntry from "../../components/ProgramListEntry/ProgramListEntry";
 import { Link } from "react-router-dom";
-import Breadcrumb from "react-bootstrap/Breadcrumb";
-import BreadcrumbItem from "react-bootstrap/BreadcrumbItem";
 
 class InstitutionDetailsPage extends React.Component {
   constructor(props) {
