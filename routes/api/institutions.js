@@ -107,6 +107,7 @@ router.get('/', (req, res) => {
  * Returns one institution from db by ID selection
  */
 router.get('/:id', (req, res) => {
+    const { fields } = req.query //ToDo - implement field selector
     Institution.findById(req.params.id)
         .populate('programs')
         .then(institution => {

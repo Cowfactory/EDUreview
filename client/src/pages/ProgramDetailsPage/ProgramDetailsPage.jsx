@@ -15,12 +15,6 @@ class ProgramDetailsPage extends React.Component {
     };
 
     componentDidMount() {
-        let institutionName, institutionId;
-        try {
-            institutionName = this.props.location.state.institutionName;
-            institutionId = this.props.location.state.institutionId;
-        } catch { }
-
         fetch(`/api/programs/${this.props.match.params.id}`)
             .then(response => response.json()) // fetch program from API
             .then(data => {
@@ -35,16 +29,19 @@ class ProgramDetailsPage extends React.Component {
             })
             .then(data => {
                 // Acquire username for each review from API
-                return data.reviews.map(review => this.fetchUsername(review._id));
+                let promises = data.reviews.map(review => this.fetchUsername(review._id));
+                promises.push(this.fetchInstitutionName(data.institutionId))
+                return promises;
             })
             .then(promises => {
                 return Promise.all(promises);
             })
-            .then(reviews => {
+            .then(response => {
+                let institution = response.pop();
                 this.setState({
-                    reviews,
-                    institutionName,
-                    institutionId
+                    reviews: response,
+                    institutionName: institution.name,
+                    institutionId: institution._id
                 });
             })
             .catch(err => {
@@ -64,6 +61,19 @@ class ProgramDetailsPage extends React.Component {
                 });
         });
     };
+
+    fetchInstitutionName = id => {
+        return new Promise((resolve, reject) => {
+            fetch(`/api/institutions/${id}?fields=name`)
+                .then(res => res.json())
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+        });
+    }
 
     render() {
         const { name, institutionName, types, locations, institutionId } = this.state;
