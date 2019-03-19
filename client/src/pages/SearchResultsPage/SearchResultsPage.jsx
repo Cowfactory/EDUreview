@@ -1,7 +1,7 @@
 import React from 'react';
 import queryString from 'query-string';
-import ProgramSearchResultsEntry from '../../components/ProgramSearchResultsEntry/ProgramSearchResultsEntry';
-import InstitutionSearchResultsEntry from '../../components/InstitutionSearchResultsEntry/InstitutionSearchResultsEntry';
+import ProgramSearchResultsEntry from './ProgramSearchResultsEntry/ProgramSearchResultsEntry';
+import InstitutionSearchResultsEntry from './InstitutionSearchResultsEntry/InstitutionSearchResultsEntry';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import styles from './SearchResultsPage.module.css';
 import { Link, Redirect } from 'react-router-dom';
@@ -144,15 +144,20 @@ class SearchResultsPage extends React.Component {
                 <div className={styles.filter_toolbox}>
                     Filter Tools:
                     <div>
-                        <p>
+                        <div>
                             Show Only:
-                            <RegionDropdown
-                                country={'United States'}
-                                value={this.state.stateCode}
-                                onChange={this.selectstateCode}
-                                valueType="short"
-                            />
-                        </p>
+                            {this.state.type === 'institutions' ?
+                                <RegionDropdown
+                                    country={'United States'}
+                                    value={this.state.stateCode}
+                                    onChange={this.selectstateCode}
+                                    valueType="short"
+                                /> :
+                                <div>
+
+                                </div>
+                            }
+                        </div>
                     </div>
                     <div>
                         <p>

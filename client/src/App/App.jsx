@@ -7,8 +7,6 @@ import PageNotFoundPage from '../pages/PageNotFoundPage/PageNotFoundPage';
 import { AppProvider } from './AppContext';
 import AddProgramPage from '../pages/AddProgramPage/AddProgramPage';
 import AddInstitutionPage from '../pages/AddInstitutionPage/AddInstitutionPage';
-import BrowseProgramsPage from '../pages/BrowseProgramsPage/BrowseProgramsPage';
-import BrowseInstitutionsPage from '../pages/BrowseInstitutionsPage/BrowseInstitutionsPage';
 import ProgramDetailsPage from '../pages/ProgramDetailsPage/ProgramDetailsPage';
 import InstitutionDetailsPage from '../pages/InstitutionDetailsPage/InstitutionDetailsPage';
 import SearchResultsPage from '../pages/SearchResultsPage/SearchResultsPage';
@@ -84,11 +82,9 @@ class App extends Component {
                         <Switch>
                             <Route exact path="/" component={HomePage} />
                             <Route path="/search" component={SearchResultsPage} />
-                            <Route exact path="/programs" component={BrowseProgramsPage} />
                             <Route exact path="/programs/:id" component={ProgramDetailsPage} />
                             <Route path="/programs/:id/addreview" component={AddReviewPage} />
                             <Route path="/add-program" component={AddProgramPage} />
-                            <Route exact path="/institutions" component={BrowseInstitutionsPage} />
                             <Route path="/institutions/:id" component={InstitutionDetailsPage} />
                             <Route path="/add-institution" component={AddInstitutionPage} />
                             <Route path="/login" component={LoginPage} />

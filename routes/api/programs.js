@@ -22,27 +22,34 @@ router.post('/', (req, res) => {
 
 /* --- Find programs matching query string --- */
 router.post('/search', (req, res, next) => {
-    // If theres a query string, search for matches
-    console.log(req.body);
-    if (req.body.query !== null) {
-        // q is the key for the query string query
-        Program.find({
-            $text: { $search: req.body.query }
-        })
-            .then(results => {
-                res.status(200).json(results);
+    const { query, skip, show, ascending, selectFields } = req.body;
+    if (!query) {
+        return res.status(400).json({ errors: 'Search query is empty!' });
+    }
+
+    const filter = { $text: { $search: query } };
+
+    Promise.all([
+        Program.find()
+            .query({
+                filter,
+                limit: show,
+                skip,
+                sort: ascending,
+                selectFields
             })
-            .catch(err => {
-                res.status(422).json(err);
+            .exec(),
+        Program.countDocuments(filter).exec()
+    ])
+        .then(results => {
+            return res.status(200).json({
+                results: results[0],
+                count: results[1]
             });
-    }
-    // Otherwise, search query is empty -> return nothing
-    else {
-        const response = {
-            msg: 'bad query'
-        };
-        res.status(400).json(response);
-    }
+        })
+        .catch(err => {
+            return res.status(422).json({ errors: err });
+        });
 });
 
 /* --- GET all programs from db --- */
