@@ -2,6 +2,7 @@ import React from "react";
 import PageTemplate from "../../templates/PageTemplate/PageTemplate";
 import ProgramListEntry from "../../components/ProgramListEntry/ProgramListEntry";
 import { Link } from "react-router-dom";
+import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 
 class InstitutionDetailsPage extends React.Component {
     constructor(props) {
@@ -29,6 +30,11 @@ class InstitutionDetailsPage extends React.Component {
     render() {
         return (
             <PageTemplate>
+                <BreadCrumb>
+                    <Link to="/">Home</Link>
+                    Search
+                    {this.state.name}
+                </BreadCrumb>
                 <h1>{this.state.name}</h1>
                 <a
                     href={`https://${this.state.website}`}

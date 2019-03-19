@@ -6,6 +6,7 @@ import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import styles from './SearchResultsPage.module.css';
 import { Link, Redirect } from 'react-router-dom';
 import { RegionDropdown } from 'react-country-region-selector';
+import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 
 const DEFAULT_SHOW = 10;
 const DEFAULT_SKIP = 0;
@@ -132,7 +133,10 @@ class SearchResultsPage extends React.Component {
             ));
         } else if (type === 'institutions' && haveResults) {
             resultsList = this.state.results.map((item, key) => (
-                <InstitutionSearchResultsEntry key={key} institution={item} />
+                <InstitutionSearchResultsEntry
+                    key={key}
+                    institution={item}
+                />
             ));
         } else {
             resultsList = <p>No Results Found</p>;
@@ -140,6 +144,10 @@ class SearchResultsPage extends React.Component {
 
         return (
             <PageTemplate>
+                <BreadCrumb>
+                    <Link to="/">Home</Link>
+                    Search
+                </BreadCrumb>
                 <div className={styles.filter_toolbox}>
                     Filter Tools:
                     <div>
@@ -152,9 +160,7 @@ class SearchResultsPage extends React.Component {
                                     onChange={this.selectstateCode}
                                     valueType="short"
                                 /> :
-                                <div>
-
-                                </div>
+                                <div></div>
                             }
                         </div>
                     </div>

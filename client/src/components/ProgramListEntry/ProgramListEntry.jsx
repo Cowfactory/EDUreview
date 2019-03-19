@@ -4,7 +4,6 @@ import './ProgramListEntry.css';
 
 function ProgramListEntry(props) {
     const { name, types, programId, institutionName, institutionId } = props;
-    console.log(institutionName)
     return (
         <Link to={{
             pathname: `/programs/${programId}`,

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import ReviewsListEntry from '../../components/ReviewsListEntry/ReviewsListEntry';
+import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 
 class ProgramDetailsPage extends React.Component {
     state = {
@@ -68,6 +69,12 @@ class ProgramDetailsPage extends React.Component {
         const { name, institutionName, types, locations, institutionId } = this.state;
         return (
             <PageTemplate>
+                <BreadCrumb>
+                    <Link to="/">Home</Link>
+                    Search
+                    <Link to={`/institutions/${institutionId}`}>{institutionName}</Link>
+                    {this.state.name}
+                </BreadCrumb>
                 <h1>{name}</h1>
                 {institutionName ?
                     <h2>At &nbsp;
