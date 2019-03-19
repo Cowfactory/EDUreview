@@ -142,16 +142,16 @@ class AddProgramPage extends React.Component {
                                 />
                                 <Form.Check
                                     inline
-                                    label="Accredited (Degree)"
+                                    label="Accredited (Degrees)"
                                     name="degree"
-                                    value="Accredited (Degree)"
+                                    value="Accredited (Degrees)"
                                     onChange={this.handleChange}
                                 />
                                 <Form.Check
                                     inline
-                                    label="Accredited (Certification)"
+                                    label="Accredited (Certifications)"
                                     name="certification"
-                                    value="Accredited (Certification)"
+                                    value="Accredited (Certifications)"
                                     onChange={this.handleChange}
                                 />
                             </Col>
