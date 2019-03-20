@@ -1,11 +1,9 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom'
 import { AppConsumer } from '../../App/AppContext';
+import NavSearchField from './NavSearchField/NavSearchField';
 
 function NavBar(props) {
     return (
@@ -13,10 +11,7 @@ function NavBar(props) {
         <Navbar bg="dark" variant="dark">
             <Nav className="mr-auto">
                 <Navbar.Brand as={Link} to="/">EDUreview</Navbar.Brand>
-                <Form inline>
-                    <FormControl type="text" placeholder="Search" className="mr-sm-4" />
-                    <Button variant="outline-info">Search</Button>
-                </Form>
+                <NavSearchField></NavSearchField>
             </Nav>
 
             <Nav>

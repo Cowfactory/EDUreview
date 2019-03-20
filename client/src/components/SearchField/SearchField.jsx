@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
-// This Program Selector const helps with being consistent w/ the state management of
-// the dropdown selector for the serach box
 const SEARCH_TYPE = ['programs', 'institutions'];
 const PROGRAM = 0;
 const INSTITUTION = 1;
