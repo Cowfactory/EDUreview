@@ -82,7 +82,6 @@ class AddProgramPage extends React.Component {
         return (
             <PageTemplate>
                 <h1>Add New Program to {this.state.institutionName}</h1>
-                <Link to="/programs">Browse all programs</Link>
 
                 <FormTemplate>
                     <Form
