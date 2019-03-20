@@ -9,7 +9,7 @@ function FilterTools(props) {
             <ListGroup.Item variant="dark">
                 Filter Tools:
                 <div>
-                    Show Only:
+                    Show Only:&nbsp;
                     {props.type === 'institutions' ?
                         <RegionDropdown
                             country={'United States'}
@@ -23,7 +23,7 @@ function FilterTools(props) {
                 </div>
                 <div>
                     <p>
-                        Sort By Names:
+                        Sort By Names:&nbsp;
                         <select onChange={props.handleSortChange}>
                             <option value={1}>Ascending</option>
                             <option value={-1}>Descending</option>

@@ -8,7 +8,7 @@ function NavigationTools(props) {
             <ListGroup.Item variant="dark">
                 <div className="page_tools">
                     <div>
-                        Num Results:
+                        Num Results:&nbsp;
                         <select value={props.show} onChange={props.handleShowChange}>
                             <option value={10}>10</option>
                             <option value={25}>25</option>

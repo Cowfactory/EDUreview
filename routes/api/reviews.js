@@ -37,6 +37,7 @@ router.get('/search', (req, res) => {
         return res.status(400).json({ errors: 'Please specifiy a user ID' });
     }
     Review.find({ user: req.query.uid })
+        .populate('user')
         .then(reviews => {
             return res.status(200).json(reviews);
         })

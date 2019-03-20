@@ -3,7 +3,6 @@ import queryString from 'query-string';
 import ProgramSearchResultsEntry from './ProgramSearchResultsEntry/ProgramSearchResultsEntry';
 import InstitutionSearchResultsEntry from './InstitutionSearchResultsEntry/InstitutionSearchResultsEntry';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
-import styles from './SearchResultsPage.module.css';
 import { Link, Redirect } from 'react-router-dom';
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -129,6 +128,7 @@ class SearchResultsPage extends React.Component {
             resultsList = this.state.results.map((program, key) => (
                 <ProgramSearchResultsEntry
                     key={key}
+                    idx={key}
                     program={program}
                     institution={this.state.institution}
                 />
@@ -137,6 +137,7 @@ class SearchResultsPage extends React.Component {
             resultsList = this.state.results.map((institution, key) => (
                 <InstitutionSearchResultsEntry
                     key={key}
+                    idx={key}
                     institution={institution}
                 />
             ));
@@ -169,7 +170,7 @@ class SearchResultsPage extends React.Component {
 
                 <ListGroup>
                     <ListGroup.Item >
-                        <div className={styles.reviews}>
+                        <div >
                             <p>
                                 Querying {this.state.type} for: "{query}"
                             </p>

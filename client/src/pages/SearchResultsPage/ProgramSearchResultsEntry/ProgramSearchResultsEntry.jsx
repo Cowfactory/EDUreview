@@ -1,24 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./ProgramSearchResultsEntry.css";
+import ListGroup from 'react-bootstrap/ListGroup';
 
 function ProgramSearchResultsEntry(props) {
     let { name, _id } = props.program;
     let { state, website } = props.institution;
-
     let linkUrl = `/programs/${_id}`;
+
+    let variant;
+    if (props.idx % 2 === 0) {
+        variant = "primary"
+    } else {
+        variant = "secondary"
+    }
+
     return (
         <Link to={linkUrl}>
-            <div className="ProgramSearchResultsEntry">
-                <p>{name}
-                    {state ?
-                        <>, {state}</>
-                        : <></>
-                    }
-                </p>
-                <p>{props.institution.name}</p>
-                <p>{website}</p>
-            </div>
+            <ListGroup>
+                <ListGroup.Item variant={variant}>
+                    <h4>{name}
+                        {state ?
+                            <>, {state}</>
+                            : <></>
+                        }
+                    </h4>
+                    {props.institution.name}
+                    <br />
+                    {website}
+                </ListGroup.Item>
+            </ListGroup>
         </Link>
     );
 }

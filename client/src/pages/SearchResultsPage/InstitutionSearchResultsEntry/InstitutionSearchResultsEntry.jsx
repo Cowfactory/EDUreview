@@ -1,26 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './InstitutionSearchResultsEntry.css';
+import ListGroup from 'react-bootstrap/ListGroup';
 
-function InstitutionSearchResultsEntry({ institution }) {
-    let { name, _id, website, state } = institution;
+function InstitutionSearchResultsEntry(props) {
+    let { name, _id, website, state } = props.institution;
     let linkUrl = `/institutions/${_id}`;
+
+    let variant;
+    if (props.idx % 2 === 0) {
+        variant = "primary"
+    } else {
+        variant = "secondary"
+    }
+
     return (
         <Link to={linkUrl}>
-            <div className="InstitutionSearchResultsEntry">
-                <p>{name}
-                    {state ?
-                        <>, {state}</>
-                        :
-                        <></>
-                    }
-                </p>
-                {website ?
-                    <p>{website}</p>
-                    :
-                    <></>
-                }
-            </div>
+            <ListGroup>
+                <ListGroup.Item variant={variant}>
+                    <div className="InstitutionSearchResultsEntry">
+                        <h4>{name}
+                            {state ?
+                                <>, {state}</>
+                                :
+                                <></>
+                            }
+                        </h4>
+                        {website ?
+                            <>{website}</>
+                            :
+                            <></>
+                        }
+                    </div>
+                </ListGroup.Item>
+            </ListGroup>
         </Link>
     );
 }

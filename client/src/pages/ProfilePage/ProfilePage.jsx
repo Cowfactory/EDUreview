@@ -19,6 +19,7 @@ class ProfilePage extends React.Component {
             fetch(`/api/reviews/search?uid=${this.props.user._id}`)
                 .then(result => result.json())
                 .then(reviews => {
+                    console.log(reviews);
                     this.setState({ reviews });
                 });
         }
@@ -28,9 +29,9 @@ class ProfilePage extends React.Component {
         return (
             <PageTemplate>
                 <div>
-                    Reviews:
+                    <h1>My reviews:</h1>
                     {this.state.reviews.map((review, key) => (
-                        <ReviewsListEntry key={key} review={review}></ReviewsListEntry>
+                        <ReviewsListEntry key={key} review={review.review} user={review.user}></ReviewsListEntry>
                     ))}
                 </div>
             </PageTemplate>
