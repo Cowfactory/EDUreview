@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./ProgramSearchResultsEntry.css";
 
 function ProgramSearchResultsEntry(props) {
-    let { name, _id, types } = props.program;
+    let { name, _id } = props.program;
     let { state, website } = props.institution;
 
     let linkUrl = `/programs/${_id}`;

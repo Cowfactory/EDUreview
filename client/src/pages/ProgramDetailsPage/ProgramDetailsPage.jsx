@@ -113,6 +113,7 @@ class ProgramDetailsPage extends React.Component {
                 }}>
                     Add a review for this program
                 </Link>
+                <hr />
                 <h2>Reviews: </h2>
                 {this.state.reviews.map((review, idx) => (
                     <ReviewsListEntry key={idx} user={review.user} review={review.review} />

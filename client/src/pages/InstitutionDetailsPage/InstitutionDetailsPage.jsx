@@ -1,6 +1,6 @@
 import React from "react";
 import PageTemplate from "../../templates/PageTemplate/PageTemplate";
-import ProgramListEntry from "../../components/ProgramListEntry/ProgramListEntry";
+import ProgramListEntry from "./ProgramListEntry/ProgramListEntry";
 import { Link } from "react-router-dom";
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 
