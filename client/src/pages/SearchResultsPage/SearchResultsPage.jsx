@@ -5,8 +5,10 @@ import InstitutionSearchResultsEntry from './InstitutionSearchResultsEntry/Insti
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import styles from './SearchResultsPage.module.css';
 import { Link, Redirect } from 'react-router-dom';
-import { RegionDropdown } from 'react-country-region-selector';
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
+import ListGroup from 'react-bootstrap/ListGroup';
+import FilterTools from './FilterTools/FilterTools';
+import NavigationTools from './NavigationTools/NavigationTools';
 
 const DEFAULT_SHOW = 10;
 const DEFAULT_SKIP = 0;
@@ -148,102 +150,47 @@ class SearchResultsPage extends React.Component {
                     <Link to="/">Home</Link>
                     Search
                 </BreadCrumb>
-                <div className={styles.filter_toolbox}>
-                    Filter Tools:
-                    <div>
-                        <div>
-                            Show Only:
-                            {this.state.type === 'institutions' ?
-                                <RegionDropdown
-                                    country={'United States'}
-                                    value={this.state.stateCode}
-                                    onChange={this.selectstateCode}
-                                    valueType="short"
-                                /> :
-                                <div></div>
-                            }
+
+                <FilterTools
+                    stateCode={this.state.stateCode}
+                    selectstateCode={this.selectstateCode}
+                    handleSortChange={this.handleSortChange}
+                    type={this.state.type}
+                />
+
+                <NavigationTools
+                    handleShowChange={this.handleShowChange}
+                    showPreviousPage={this.showPreviousPage}
+                    showNextPage={this.showNextPage}
+                    resetControls={this.resetControls}
+                    show={this.state.show}
+                    skip={this.state.skip}
+                />
+
+                <ListGroup>
+                    <ListGroup.Item >
+                        <div className={styles.reviews}>
+                            <p>
+                                Querying {this.state.type} for: "{query}"
+                            </p>
+                            <p>
+                                Showing results
+                                {` ${this.state.skip + 1} - ${Number(this.state.skip) + Number(this.state.show) + 1}`}
+                                &nbsp; of {this.state.count}
+                            </p>
+                            {resultsList}
                         </div>
-                    </div>
-                    <div>
-                        <p>
-                            Sort By Names:
-                            <select onChange={this.handleSortChange}>
-                                <option value={1}>Ascending</option>
-                                <option value={-1}>Descending</option>
-                            </select>
-                        </p>
-                    </div>
-                    <p>Don't see the result you're looking for?</p>
-                    <Link to="add-institution">Add an institution listing here</Link>
-                </div>
-                <div className={styles.page_tools}>
-                    <div>
-                        Num Results:
-                        <select value={this.state.show} onChange={this.handleShowChange}>
-                            <option value={10}>10</option>
-                            <option value={25}>25</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                        </select>
-                    </div>
-                    <div>
-                        <span
-                            className={`${styles.page_nav} ${'noselect'}`}
-                            onClick={this.showPreviousPage}
-                        >{`< Previous ${this.state.show}`}</span>
-                        <span
-                            className={`${styles.page_nav} ${'noselect'}`}
-                            onClick={this.showNextPage}
-                        >{`Next ${this.state.show} >`}</span>
-                        <span
-                            className={`${styles.page_nav} ${'noselect'}`}
-                            onClick={this.resetControls}
-                        >
-                            Reset
-                        </span>
-                    </div>
-                </div>
-                <div className={styles.reviews}>
-                    <p>
-                        Querying {this.state.type} for: "{query}"
-                    </p>
-                    <p>
-                        Showing results
-                        {` ${this.state.skip + 1} - ${Number(this.state.skip) +
-                            Number(this.state.show) +
-                            1}`}{' '}
-                        of {this.state.count}
-                    </p>
-                    {resultsList} {/* List of Reviews go here */}
-                </div>
-                <div className={styles.page_tools}>
-                    <div>
-                        Num Results:
-                        <select value={this.state.show} onChange={this.handleShowChange}>
-                            <option value={10}>10</option>
-                            <option value={25}>25</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                        </select>
-                    </div>
-                    <div>
-                        <span
-                            className={`${styles.page_nav} ${'noselect'}`}
-                            onClick={this.showPreviousPage}
-                        >{`< Previous ${this.state.show}`}</span>
-                        <span
-                            className={`${styles.page_nav} ${'noselect'}`}
-                            onClick={this.showNextPage}
-                        >{`Next ${this.state.show} >`}</span>
-                        <span
-                            className={`${styles.page_nav} ${'noselect'}`}
-                            onClick={this.resetControls}
-                        >
-                            Reset
-                        </span>
-                    </div>
-                </div>
-            </PageTemplate>
+                    </ListGroup.Item>
+                </ListGroup>
+
+                <NavigationTools
+                    handleShowChange={this.handleShowChange}
+                    showPreviousPage={this.showPreviousPage}
+                    showNextPage={this.showNextPage}
+                    resetControls={this.resetControls}
+                    show={this.state.show}
+                />
+            </PageTemplate >
         );
     }
 }

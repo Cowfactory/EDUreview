@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import FormTemplate from '../../templates/FormTemplate/FormTemplate';
 import Form from 'react-bootstrap/Form';
