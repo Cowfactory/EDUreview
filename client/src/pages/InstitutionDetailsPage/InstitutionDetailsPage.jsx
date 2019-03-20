@@ -62,11 +62,10 @@ class InstitutionDetailsPage extends React.Component {
                 {this.state.programs.map((program, idx) => (
                     <ProgramListEntry
                         key={idx}
-                        name={program.name}
+                        idx={idx}
+                        program={program}
                         institutionName={this.state.name}
                         institutionId={this.state._id}
-                        types={program.types}
-                        programId={program._id}
                     />
                 ))}
             </PageTemplate>
