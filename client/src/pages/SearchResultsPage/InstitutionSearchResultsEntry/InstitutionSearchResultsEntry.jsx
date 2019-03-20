@@ -14,8 +14,8 @@ function InstitutionSearchResultsEntry(props) {
     }
 
     return (
-        <Link to={linkUrl}>
-            <ListGroup>
+        <Link to={linkUrl} >
+            <ListGroup style={{ marginBottom: '3px' }}>
                 <ListGroup.Item variant={variant}>
                     <div className="InstitutionSearchResultsEntry">
                         <h4>{name}

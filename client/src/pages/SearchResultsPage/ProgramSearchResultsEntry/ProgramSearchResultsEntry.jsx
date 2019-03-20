@@ -16,7 +16,7 @@ function ProgramSearchResultsEntry(props) {
 
     return (
         <Link to={linkUrl}>
-            <ListGroup>
+            <ListGroup style={{ marginBottom: '3px' }}>
                 <ListGroup.Item variant={variant}>
                     <h4>{name}
                         {state ?
@@ -29,7 +29,7 @@ function ProgramSearchResultsEntry(props) {
                     {website}
                 </ListGroup.Item>
             </ListGroup>
-        </Link>
+        </Link >
     );
 }
 

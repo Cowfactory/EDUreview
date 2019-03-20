@@ -173,11 +173,10 @@ class SearchResultsPage extends React.Component {
                         <div >
                             <p>
                                 Querying {this.state.type} for: "{query}"
-                            </p>
-                            <p>
+                                <br />
                                 Showing results
                                 {` ${this.state.skip + 1} - ${Number(this.state.skip) + Number(this.state.show) + 1}`}
-                                &nbsp; of {this.state.count}
+                                &nbsp;of {this.state.count}
                             </p>
                             {resultsList}
                         </div>

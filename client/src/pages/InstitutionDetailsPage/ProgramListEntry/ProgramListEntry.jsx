@@ -20,7 +20,7 @@ function ProgramListEntry(props) {
             pathname: `/programs/${_id}`,
             state: { institutionName, institutionId }
         }}>
-            <ListGroup>
+            <ListGroup style={{ marginBottom: '3px' }}>
                 <ListGroup.Item variant={variant}>
                     <h3>{name}</h3>
                     <p>
@@ -40,18 +40,5 @@ function ProgramListEntry(props) {
         </Link >
     )
 }
-// <div className='ProgramListEntry'>
-//     <h1>{name}</h1>
-//     <p>
-//         Program Type(s): &nbsp;
-//         {types.map((type, key) => {
-//             if (key === types.length - 1) {
-//                 return <span key={key}>{type} </span>
-//             } else {
-//                 return <span key={key}>{type}, </span>
-//             }
-//         })}
-//     </p>
-// </div>
 
 export default ProgramListEntry;
