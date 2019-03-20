@@ -35,7 +35,8 @@ router.post('/search', (req, res, next) => {
     const filter = { $text: { $search: query } };
 
     Promise.all([
-        Program.find()
+        Program.find({})
+            .populate('institutionId')
             .query({
                 filter,
                 limit: show,
@@ -47,12 +48,18 @@ router.post('/search', (req, res, next) => {
         Program.countDocuments(filter).exec()
     ])
         .then(results => {
-            return res.status(200).json({
+            const ret = {
                 results: results[0],
                 count: results[1]
-            });
+            }
+            if (results[0].length !== 0) {
+                ret.institution = results[0][0].institutionId;
+            }
+
+            return res.status(200).json(ret);
         })
         .catch(err => {
+            console.log(err);
             return res.status(422).json({ errors: err });
         });
 });

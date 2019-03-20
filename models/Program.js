@@ -56,7 +56,7 @@ programSchema.query.query = function query(options) {
     const limit = options.limit || DEFAULT_LIMIT;
     const skip = options.skip || DEFAULT_SKIP;
     const sort = options.sort || ASCENDING;
-    const selectFields = options.selectFields || 'name';
+    const selectFields = options.selectFields || '';
 
     return this.find(filter)
         .select(selectFields)

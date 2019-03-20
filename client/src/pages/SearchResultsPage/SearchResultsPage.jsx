@@ -59,6 +59,7 @@ class SearchResultsPage extends React.Component {
             .then(res => {
                 this.setState({
                     results: res.results || [],
+                    institution: res.institution || [],
                     skip: Number(skip),
                     show: Number(show),
                     count: res.count,
@@ -123,19 +124,18 @@ class SearchResultsPage extends React.Component {
         let resultsList = [];
 
         if (type === 'programs' && haveResults) {
-            resultsList = this.state.results.map((item, key) => (
+            resultsList = this.state.results.map((program, key) => (
                 <ProgramSearchResultsEntry
                     key={key}
-                    name={item.name}
-                    id={item._id}
-                    types={item.types}
+                    program={program}
+                    institution={this.state.institution}
                 />
             ));
         } else if (type === 'institutions' && haveResults) {
-            resultsList = this.state.results.map((item, key) => (
+            resultsList = this.state.results.map((institution, key) => (
                 <InstitutionSearchResultsEntry
                     key={key}
-                    institution={item}
+                    institution={institution}
                 />
             ));
         } else {

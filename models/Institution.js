@@ -50,7 +50,7 @@ institutionSchema.index(
  * @param {String}  options.limit   Num results to show. Default shows 10
  * @param {String}  options.skip    First {skip} results to skip. Default skips 0
  * @param {Number}  options.sort    Returns results in: 1: Ascending -1: Descending order. Default Ascending
- * @param {Number}  options.selectFields    Select which fields to return. Default only returns name
+ * @param {Number}  options.selectFields    Select which fields to return.
  * @param {String}  options.stateCode   Filter results by stateCode
  */
 institutionSchema.query.query = function query(options) {
@@ -58,7 +58,7 @@ institutionSchema.query.query = function query(options) {
     const limit = options.limit || DEFAULT_LIMIT;
     const skip = options.skip || DEFAULT_SKIP;
     const sort = options.sort || ASCENDING;
-    const selectFields = options.selectFields || 'name';
+    const selectFields = options.selectFields || '';
     const stateCodeFilter = options.stateCode || [null, /.*/];
 
     return this.find(filter)

@@ -3,19 +3,21 @@ import { Link } from "react-router-dom";
 import "./ProgramSearchResultsEntry.css";
 
 function ProgramSearchResultsEntry(props) {
-    let { name, id, types } = props;
+    let { name, _id, types } = props.program;
+    let { state, website } = props.institution;
 
-    let typeList;
-    if (types) {
-        typeList = types.map((type, key) => <span key={key}>{type}</span>);
-    }
-
-    let linkUrl = `/programs/${id}`;
+    let linkUrl = `/programs/${_id}`;
     return (
         <Link to={linkUrl}>
             <div className="ProgramSearchResultsEntry">
-                <span>Name: {name}</span>
-                <div>Types: {typeList}</div>
+                <p>{name}
+                    {state ?
+                        <>, {state}</>
+                        : <></>
+                    }
+                </p>
+                <p>{props.institution.name}</p>
+                <p>{website}</p>
             </div>
         </Link>
     );
