@@ -34,6 +34,14 @@ class AddReviewPage extends Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
+    checkHeadlineValidity = () => {
+        let length = this.state.headline.length;
+        if (length > 0 && length < 32) {
+            return true;
+        }
+        return false;
+    }
+
     handleSubmit = e => {
         e.preventDefault();
 
@@ -243,12 +251,13 @@ class AddReviewPage extends Component {
                                 type="text"
                                 name="headline"
                                 placeholder="Enter Review Headline"
+                                isInvalid={!this.checkHeadlineValidity()}
                                 value={this.state.headline}
                                 onChange={this.handleChange}
                                 required
                             />
                             <Form.Control.Feedback type="invalid">
-                                Required Field
+                                {"Required Field, Length < 32 characters"}
                             </Form.Control.Feedback>
                         </Form.Group>
 

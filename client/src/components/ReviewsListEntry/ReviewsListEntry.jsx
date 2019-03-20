@@ -1,9 +1,8 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
-import './ReviewsListEntry.css';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';
+import './ReviewsListEntry.css';
 
 const ratings = {
     "Excellent": 5,
@@ -48,51 +47,52 @@ function ReviewsListEntry(props) {
             break;
     }
 
-    console.log(review);
     return (
-        <Col md={"auto"}>
+        <Col md={"auto"} className="ReviewsListEntry">
             <ListGroup.Item variant={variant}>
                 <Col>
                     <Row>
-                        <h4>“{review.headline}” - {ratings[review.rating]} / 5</h4>
-                    </Row>
-                    <Row>
-                        {user ?
-                            <p>- {user.username}, {review.enrollment}</p>
-                            :
-                            <p>- Anonymous User, {review.enrollment}</p>
-                        }
-                    </Row>
-                </Col>
-                <hr />
-                <Col>
-                    <Row>
-                        <Col>
+                        <Col md={4}>
                             <Row>
-                                <i>{tfQuestions.trueFalseQuestion1}</i>
+                                <h3>“{review.headline}” - {ratings[review.rating]} / 5</h3>
                             </Row>
-                            <ListGroup.Item>
-                                <p>{review.trueFalseQuestion1}</p>
-                            </ListGroup.Item>
-                        </Col>
-                        <Col>
                             <Row>
-                                <i>{tfQuestions.trueFalseQuestion2}</i>
+                                {user ?
+                                    <h5>- {user.username}, {review.enrollment}</h5>
+                                    :
+                                    <h5>- Anonymous User, {review.enrollment}</h5>
+                                }
                             </Row>
-                            <ListGroup.Item>
-                                <p>{review.trueFalseQuestion2}</p>
-                            </ListGroup.Item>
                         </Col>
-                        <Col>
+                        <Col md={8}>
                             <Row>
-                                <i>{tfQuestions.trueFalseQuestion3}</i>
+                                <Col>
+                                    <Row>
+                                        <i>{tfQuestions.trueFalseQuestion1}</i>
+                                    </Row>
+                                    <ListGroup.Item>
+                                        <p>{review.trueFalseQuestion1}</p>
+                                    </ListGroup.Item>
+                                </Col>
+                                <Col>
+                                    <Row>
+                                        <i>{tfQuestions.trueFalseQuestion2}</i>
+                                    </Row>
+                                    <ListGroup.Item>
+                                        <p>{review.trueFalseQuestion2}</p>
+                                    </ListGroup.Item>
+                                </Col>
+                                <Col>
+                                    <Row>
+                                        <i>{tfQuestions.trueFalseQuestion3}</i>
+                                    </Row>
+                                    <ListGroup.Item>
+                                        <p>{review.trueFalseQuestion3}</p>
+                                    </ListGroup.Item>
+                                </Col>
                             </Row>
-                            <ListGroup.Item>
-                                <p>{review.trueFalseQuestion3}</p>
-                            </ListGroup.Item>
                         </Col>
                     </Row>
-                    <hr />
                     <Row>
                         <Col>
                             <Row>
