@@ -38,6 +38,7 @@ class ProgramDetailsPage extends React.Component {
             })
             .then(response => {
                 let institution = response.pop();
+                document.title = `${institution.name} - EDUreview`;
                 this.setState({
                     reviews: response,
                     institutionName: institution.name,

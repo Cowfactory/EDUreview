@@ -86,6 +86,7 @@ class AddReviewPage extends Component {
     };
 
     componentDidMount() {
+        document.title = 'Add Review - EDUreview';
         // Did we <Link> to this page? ie. the program data is passed via props.location
         let institutionName
         try {

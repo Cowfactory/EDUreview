@@ -1,7 +1,7 @@
 import React from 'react';
 import PageTemplate from '../../templates/PageTemplate/PageTemplate';
 import SearchField from '../../components/SearchField/SearchField';
-
+import Jumbotron from 'react-bootstrap/Jumbotron';
 class HomePage extends React.Component {
     componentDidMount() {
         document.title = 'EDUreview';
@@ -10,11 +10,12 @@ class HomePage extends React.Component {
     render() {
         return (
             <PageTemplate >
-                <h1>EDUreview</h1>
-                <div>
-                    <span>Find me the</span>
-                    <SearchField />
-                </div>
+                <Jumbotron>
+                    <h1>EDUreview</h1>
+                    <div>
+                        <SearchField />
+                    </div>
+                </Jumbotron>
             </PageTemplate >
         )
     }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import ProgramInstitutionSelector from '../ProgramInsitutionSelector/ProgramInstitutionSelector';
+import Button from 'react-bootstrap/Button'
 
 const SEARCH_TYPE = ['programs', 'institutions'];
 const PROGRAM = 0;
@@ -51,19 +53,27 @@ class SearchField extends Component {
         }
         return (
             <div>
-                <select value={this.state.programSelector} onChange={this.handleSelectionChange}>
-                    <option value={SEARCH_TYPE[PROGRAM]}>Program</option>
-                    <option value={SEARCH_TYPE[INSTITUTION]}>Institution</option>
-                </select>
-                <form onSubmit={this.handleSubmit}>
-                    <input
-                        value={this.state.textValue}
-                        onChange={this.handleChange}
-                        type="text"
-                        name="search"
+                <h3>
+                    Find me a &nbsp;
+                    <ProgramInstitutionSelector
+                        programSelector={this.state.programSelector}
+                        handleSelectionChange={this.handleSelectionChange}
                     />
-                    <input type="submit" />
-                </form>
+                    <br /> <br />
+                    <span>
+                        <form onSubmit={this.handleSubmit}>
+                            <input
+                                value={this.state.textValue}
+                                onChange={this.handleChange}
+                                type="text"
+                                name="search"
+                            />
+                            &nbsp;
+                            <Button onClick={this.handleSubmit}>Submit</Button>
+                        </form>
+                    </span>
+                </h3>
+
             </div>
         );
     }
