@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 
 const SEARCH_TYPE = ['programs', 'institutions'];
 const PROGRAM = 0;
-const INSTITUTION = 1;
+// const INSTITUTION = 1;
 
 class SearchField extends Component {
     constructor(props) {
