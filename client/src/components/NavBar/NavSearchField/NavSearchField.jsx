@@ -19,7 +19,7 @@ class NavSearchField extends React.Component {
 
     onClick = e => {
         this.setState({
-            programSelector: e.target.name,
+            programSelector: e.target.name || this.state.programSelector,
             redirect: true
         })
     }
@@ -37,7 +37,7 @@ class NavSearchField extends React.Component {
             );
         }
         return (
-            <Form inline>
+            <Form inline onSubmit={this.onClick}>
                 <FormControl
                     value={this.state.value}
                     type="text"
